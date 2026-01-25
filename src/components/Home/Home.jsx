@@ -1,5 +1,5 @@
 import HomeSlider from "../HomeSlider/HomeSlider";
-import "./home.css";
+import "./Home.css";
 function Home() {
   return (
     <>
