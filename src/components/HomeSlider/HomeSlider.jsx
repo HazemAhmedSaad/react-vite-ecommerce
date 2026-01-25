@@ -5,9 +5,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./HomeSlider.css";
-import slider1 from "../../assets/homeImages/slider1.jpg";
-import slider2 from "../../assets/homeImages/slider2.jpg";
-import slider3 from "../../assets/homeImages/slider3.jpg";
+import slider1 from "../../assets/images/slider1.jpg";
+import slider2 from "../../assets/images/slider2.jpg";
+import slider3 from "../../assets/images/slider3.jpg";
 
 export default function HomeSlider() {
   return (

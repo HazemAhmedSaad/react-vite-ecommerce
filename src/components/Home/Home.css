@@ -35,7 +35,7 @@
 
 
 .bg-light-blue {
-  background-image: url(./src/assets/homeimages/bg-01.png);
+  background-image: url(./src/assets/images/bg-01.png);
   background-position: top center;
   background-repeat: no-repeat;
   height: 100vh;
@@ -145,7 +145,7 @@
 
 .headphone {
   height: 100vh;
-  background-image: url(./src/assets/homeimages/headphone-bg.jpg);
+  background-image: url(./src/assets/images/headphone-bg.jpg);
   background-repeat: no-repeat;
   background-position: top right;
   background-size: cover;

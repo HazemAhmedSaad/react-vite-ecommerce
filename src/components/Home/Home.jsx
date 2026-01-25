@@ -13,7 +13,7 @@ function Home() {
           <div className="col-lg-6 col-md-12 d-flex">
             <div className="card  me-3 earphone">
               <img
-                src="./src/assets/homeimages/earphone.png"
+                src="./src/assets/images/earphone.png"
                 className="card-img "
                 alt="earphone"
               />
@@ -26,7 +26,7 @@ function Home() {
             </div>
             <div className="card ms-3 gadgets">
               <img
-                src="./src/assets/homeimages/gadgests.png"
+                src="./src/assets/images/gadgests.png"
                 className="card-img"
                 alt="GADGETS"
               />
@@ -41,7 +41,7 @@ function Home() {
           <div className="col-lg-6 col-md-12">
             <div className="card  laptop">
               <img
-                src="./src/assets/homeimages/Laptop.png"
+                src="./src/assets/images/Laptop.png"
                 className="card-img"
                 alt="laptop"
               />
@@ -56,7 +56,7 @@ function Home() {
           <div className="col-lg-6 col-md-12 mb-5">
             <div className="card console">
               <img
-                src="./src/assets/homeimages/console.png"
+                src="./src/assets/images/console.png"
                 className="card-img"
                 alt="console"
               />
@@ -71,7 +71,7 @@ function Home() {
           <div className="col-lg-6 col-md-12 d-flex m-0">
             <div className="card  me-3 oculus">
               <img
-                src="./src/assets/homeimages/oculus.png"
+                src="./src/assets/images/oculus.png"
                 className="card-img"
                 alt="oculus"
               />
@@ -84,7 +84,7 @@ function Home() {
             </div>
             <div className="card ms-3 speaker">
               <img
-                src="./src/assets/homeimages/speaker.png"
+                src="./src/assets/images/speaker.png"
                 className="card-img"
                 alt="speaker"
               />
@@ -126,7 +126,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/homeimages/card1.jpg"
+                src="./src/assets/images/card1.jpg"
                 className="card-img-top"
                 alt="product"
               />
@@ -135,7 +135,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/homeimages/card3.jpg"
+                src="./src/assets/images/card3.jpg"
                 className="card-img-top"
                 alt="product"
               />
@@ -144,7 +144,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/homeimages/card2.jpg"
+                src="./src/assets/images/card2.jpg"
                 className="card-img-top"
                 alt="product"
               />
@@ -158,7 +158,7 @@ function Home() {
         <div className="container">
           <div className="headphone-card">
             <img
-              src="./src/assets/homeimages/headphone.png"
+              src="./src/assets/images/headphone.png"
               className=""
               alt="headphone"
             />
@@ -176,7 +176,7 @@ function Home() {
       <div className="container">
         <div className="card bg-light-blue my-5">
           <img
-            src="./src/assets/homeimages/scooter-01.png"
+            src="./src/assets/images/scooter-01.png"
             className="card-img "
             alt="scoter"
           />
@@ -221,7 +221,7 @@ function Home() {
           <div className="col">
             <div className="card px-3">
               <img
-                src="./src/assets/homeimages/card5.jpg"
+                src="./src/assets/images/card5.jpg"
                 className="card-img-top"
                 alt="offer"
               />
@@ -230,7 +230,7 @@ function Home() {
           <div className="col">
             <div className="card px-3">
               <img
-                src="./src/assets/homeimages/card4.jpg"
+                src="./src/assets/images/card4.jpg"
                 className="card-img-top"
                 alt="offer"
               />
