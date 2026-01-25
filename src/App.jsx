@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="overflow-hidden">
       <Navbar />
-      {/* <Home /> */}
+      <Home />
       <h1>hi</h1>
     </div>
   );
