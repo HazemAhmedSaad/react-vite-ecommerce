@@ -4,7 +4,7 @@ import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-import "./homeSlider.css";
+import "./HomeSlider.css";
 import slider1 from "../../assets/homeImages/slider1.jpg";
 import slider2 from "../../assets/homeImages/slider2.jpg";
 import slider3 from "../../assets/homeImages/slider3.jpg";
