@@ -1,5 +1,18 @@
 import HomeSlider from "../HomeSlider/HomeSlider";
 import "./Home.css";
+import earphone from "../../assets/images/earphone.png";
+import gadgests from "../../assets/images/gadgests.png";
+import Laptop from "../../assets/images/Laptop.png";
+import console from "../../assets/images/console.png";
+import oculus from "../../assets/images/oculus.png";
+import speaker from "../../assets/images/speaker.png";
+import card1 from "../../assets/images/card1.jpg";
+import card2 from "../../assets/images/card2.jpg";
+import card3 from "../../assets/images/card3.jpg";
+import headphone from "../../assets/images/headphone.png";
+import scooter from "../../assets/images/scooter-01.png";
+import card4 from "../../assets/images/card4.jpg";
+import card5 from "../../assets/images/card5.jpg";
 function Home() {
   return (
     <>
@@ -12,11 +25,7 @@ function Home() {
         <div className="row row-cols-1 row-cols-md-2 mt-5 g-4">
           <div className="col-lg-6 col-md-12 d-flex">
             <div className="card  me-3 earphone">
-              <img
-                src="./src/assets/images/earphone.png"
-                className="card-img "
-                alt="earphone"
-              />
+              <img src={earphone} className="card-img " alt="earphone" />
               <div className="card-body">
                 <p className="card-title">Enjoy</p>
                 <h4>With</h4>
@@ -25,11 +34,7 @@ function Home() {
               </div>
             </div>
             <div className="card ms-3 gadgets">
-              <img
-                src="./src/assets/images/gadgests.png"
-                className="card-img"
-                alt="GADGETS"
-              />
+              <img src={gadgests} className="card-img" alt="GADGETS" />
               <div className="card-body">
                 <p className="card-title">New</p>
                 <h4>Wear</h4>
@@ -40,11 +45,7 @@ function Home() {
           </div>
           <div className="col-lg-6 col-md-12">
             <div className="card  laptop">
-              <img
-                src="./src/assets/images/Laptop.png"
-                className="card-img"
-                alt="laptop"
-              />
+              <img src={Laptop} className="card-img" alt="laptop" />
               <div className="card-body">
                 <p className="card-title">Trend</p>
                 <h4>Devices</h4>
@@ -55,11 +56,7 @@ function Home() {
           </div>
           <div className="col-lg-6 col-md-12 mb-5">
             <div className="card console">
-              <img
-                src="./src/assets/images/console.png"
-                className="card-img"
-                alt="console"
-              />
+              <img src={console} className="card-img" alt="console" />
               <div className="card-body">
                 <p className="card-title">Best</p>
                 <h4>Gaming</h4>
@@ -70,11 +67,7 @@ function Home() {
           </div>
           <div className="col-lg-6 col-md-12 d-flex m-0">
             <div className="card  me-3 oculus">
-              <img
-                src="./src/assets/images/oculus.png"
-                className="card-img"
-                alt="oculus"
-              />
+              <img src={oculus} className="card-img" alt="oculus" />
               <div className="card-body">
                 <p className="card-title">Play</p>
                 <h4>Game</h4>
@@ -83,11 +76,7 @@ function Home() {
               </div>
             </div>
             <div className="card ms-3 speaker">
-              <img
-                src="./src/assets/images/speaker.png"
-                className="card-img"
-                alt="speaker"
-              />
+              <img src={speaker} className="card-img" alt="speaker" />
               <div className="card-body">
                 <p className="card-title">New</p>
                 <h4>Amazon</h4>
@@ -126,7 +115,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/images/card1.jpg"
+                src={card1}
                 className="card-img-top"
                 alt="product"
               />
@@ -135,7 +124,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/images/card3.jpg"
+                src={card2}
                 className="card-img-top"
                 alt="product"
               />
@@ -144,7 +133,7 @@ function Home() {
           <div className="col">
             <div className="card">
               <img
-                src="./src/assets/images/card2.jpg"
+                src={card3}
                 className="card-img-top"
                 alt="product"
               />
@@ -158,7 +147,7 @@ function Home() {
         <div className="container">
           <div className="headphone-card">
             <img
-              src="./src/assets/images/headphone.png"
+              src={headphone}
               className=""
               alt="headphone"
             />
@@ -176,7 +165,7 @@ function Home() {
       <div className="container">
         <div className="card bg-light-blue my-5">
           <img
-            src="./src/assets/images/scooter-01.png"
+            src={scooter}
             className="card-img "
             alt="scoter"
           />
@@ -221,7 +210,7 @@ function Home() {
           <div className="col">
             <div className="card px-3">
               <img
-                src="./src/assets/images/card5.jpg"
+                src={card5}
                 className="card-img-top"
                 alt="offer"
               />
@@ -230,7 +219,7 @@ function Home() {
           <div className="col">
             <div className="card px-3">
               <img
-                src="./src/assets/images/card4.jpg"
+                src={card4}
                 className="card-img-top"
                 alt="offer"
               />
