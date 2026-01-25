@@ -1,13 +1,14 @@
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
-import Home from './components/Home/Home';
+// import Home from './components/Home/Home';
 
 function App() {
 
   return (
     <div className="overflow-hidden">
       <Navbar />
-      <Home />
+      {/* <Home /> */}
+      <h1>hi</h1>
     </div>
   );
 }
