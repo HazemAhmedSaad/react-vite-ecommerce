@@ -43,7 +43,7 @@ function NavScrollExample() {
           </Form>
           <Nav>
             <NavLink className={"nav-link  "} to="/register">
-              Register
+              login
             </NavLink>
           </Nav>
         </Navbar.Collapse>
