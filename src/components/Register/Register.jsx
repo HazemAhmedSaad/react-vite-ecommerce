@@ -7,7 +7,7 @@ import "./Register.css";
     exit: { opacity: 0, x: -80 },
   };
 
-export default function AuthPage() {
+ function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
@@ -78,3 +78,5 @@ export default function AuthPage() {
     </motion.div>
   );
 }
+
+export default AuthPage;

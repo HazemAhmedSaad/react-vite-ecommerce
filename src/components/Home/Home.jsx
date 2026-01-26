@@ -13,9 +13,15 @@ import headphone from "../../assets/images/headphone.png";
 import scooter from "../../assets/images/scooter-01.png";
 import card4 from "../../assets/images/card4.jpg";
 import card5 from "../../assets/images/card5.jpg";
-function Home() {
+import { motion } from 'framer-motion';
+function Home(props) {  
   return (
-    <>
+    
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}>
       {/* start slider  */}
       <HomeSlider />
       {/* <!-- end slider --> */}
@@ -227,9 +233,7 @@ function Home() {
           </div>
         </div>
       </div>
-
-      {/* <!-- end offer --> */}
-    </>
+    </motion.div>
   );
 }
 
