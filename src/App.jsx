@@ -1,14 +1,11 @@
-import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
-import Home from './components/Home/Home';
+import {  RouterProvider } from "react-router-dom";
+import { router } from "./components/Router/Router";
 
 function App() {
-
   return (
-    <div className="overflow-hidden">
-      <Navbar />
-      <Home />
-      <h1>hi</h1>
+    <div>
+      <RouterProvider router={router} />
     </div>
   );
 }
