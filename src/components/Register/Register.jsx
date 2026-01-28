@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import TextField from "@mui/material/TextField";
-
+import { TextField } from "@mui/material";
 import "./Register.css";
 import { Box } from "@mui/material";
+import { useFormik } from "formik";
 
 const formVariants = {
   hidden: { opacity: 0, x: 80 },
@@ -14,6 +14,22 @@ const formVariants = {
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+
+  const formikSignUp = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      console.log(JSON.stringify(values, null, 2));
+    },
+  });
   return (
     <motion.div className="auth-container">
       <Box
@@ -25,7 +41,7 @@ function AuthPage() {
           className="auth-box"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.01 }}
         >
           <motion.div
             className="tabs"
@@ -36,15 +52,17 @@ function AuthPage() {
             <motion.button
               className={isLogin ? "active" : ""}
               onClick={() => setIsLogin(true)}
-              transition={{ ease: "easeOut", duration: 2 }}
-              whileTap={{ scale: 2 }}
+              transition={{ ease: "easeOut", duration: 1 }}
+              whileTap={{ scale: 1.2 }}
             >
               Login
             </motion.button>
             <motion.button
               className={!isLogin ? "active" : ""}
               onClick={() => setIsLogin(false)}
-              transition={{ ease: "easeOut", duration: 2 }}
+              transition={{ ease: "easeOut", duration: 1 }}
+              whileTap={{ scale: 1.2 }}
+
             >
               Sign Up
             </motion.button>
@@ -64,7 +82,9 @@ function AuthPage() {
                 <h2>Login</h2>
                 <TextField id="email" label="Email" variant="standard" />{" "}
                 <TextField id="password" label="Password" variant="standard" />{" "}
-                <button className="mt-3">Login</button>
+                <button type="submit" className="mt-3">
+                  Login
+                </button>
               </motion.form>
             ) : (
               <motion.form
@@ -75,18 +95,84 @@ function AuthPage() {
                 exit="exit"
                 transition={{ duration: 0.4 }}
                 className="form-content"
+                onSubmit={formikSignUp.handleSubmit}
               >
                 <h2 className="mt-3">Sign Up</h2>
-                <TextField id="name" label="Name" variant="standard" />
-                <TextField id="email" label="Email" variant="standard" />{" "}
-                <TextField id="password" label="Password" variant="standard" />{" "}
                 <TextField
-                  id="confirmPassword"
-                  label="Confirm Password"
+                  id="name"
+                  label="Name"
                   variant="standard"
+                  name="name"
+                  value={formikSignUp.values.name}
+                  onChange={formikSignUp.handleChange}
+                />
+                <TextField
+                  id="email"
+                  label="Email"
+                  variant="standard"
+                  name="email"
+                  value={formikSignUp.values.email}
+                  onChange={formikSignUp.handleChange}
                 />{" "}
-                <TextField id="phone" label="Phone" variant="standard" />
-                <button className="mt-3">Create Account</button>
+                <div className="position-relative d-flex align-items-center">
+                  <TextField
+                    id="password"
+                    label="Password"
+                    variant="standard"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formikSignUp.values.password}
+                    onChange={formikSignUp.handleChange}
+                    className="w-100"
+                  />
+                  <button
+                    className="position-absolute end-0 btn btn-sm btn-outline-secondary mt-2"
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    edge="end"
+                  >
+                    <i
+                      className={
+                        showPassword ? "fas fa-eye-slash" : "fas fa-eye"
+                      }
+                    ></i>
+                  </button>
+                </div>
+                <div className="position-relative d-flex align-items-center">
+                  <TextField
+                    id="rePassword"
+                    label="Confirm Password"
+                    variant="standard"
+                    type={showRePassword ? "text" : "password"}
+                    name="rePassword"
+                    value={formikSignUp.values.rePassword}
+                    onChange={formikSignUp.handleChange}
+                    className="w-100"
+                  />
+                  <button
+                    className="position-absolute end-0 btn btn-sm btn-outline-secondary mt-2"
+                    type="button"
+                    onClick={() => setShowRePassword((prev) => !prev)}
+                    edge="end"
+                  >
+                    <i
+                      className={
+                        showRePassword ? "fas fa-eye-slash" : "fas fa-eye"
+                      }
+                    ></i>
+                  </button>
+                </div>
+                <TextField
+                  id="phone"
+                  label="Phone"
+                  variant="standard"
+                  name="phone"
+                  value={formikSignUp.values.phone}
+                  onChange={formikSignUp.handleChange}
+                />
+                <button type="submit" className="mt-3">
+                  Create Account
+                </button>
               </motion.form>
             )}
           </AnimatePresence>
