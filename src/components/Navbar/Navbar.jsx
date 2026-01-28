@@ -42,7 +42,7 @@ function NavScrollExample() {
             <Button variant="outline-success">Search</Button>
           </Form>
           <Nav>
-            <NavLink className={"nav-link  "} to="/register">
+            <NavLink className={"nav-link  "} to="/authentication">
               login
             </NavLink>
           </Nav>

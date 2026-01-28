@@ -1,0 +1,181 @@
+body.dark {
+  --bg-main: radial-gradient(circle, rgba(3, 24, 45, 1), rgba(8, 12, 18, 1));
+  --box-bg: rgba(8, 12, 20, 0.65);
+  --text-main: #fff;
+  --text-muted: #94a0b8;
+  --border-color: #333b4d99;
+  --accent: #9fa8ff;
+  --btn-gradient: linear-gradient(135deg, #667eea, #764ba2);
+  --taps-bg: rgba(255, 255, 255, 0.05);
+}
+
+body.light {
+  --bg-main: radial-gradient(circle, #f5f7fa, #e4e8f0);
+  --box-bg: rgba(255, 255, 255, 0.85);
+  --text-main: #1a1a1a;
+  --text-muted: #1a1a1a;
+  --border-color: #ccc;
+  --accent: #667eea;
+  --btn-gradient: linear-gradient(135deg, #667eea, #5a67d8);
+ --taps-bg: #d6d6d6cb;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease, color 0.3s ease;
+  -moz-transition: background-color 0.3s ease, color 0.3s ease;
+  -ms-transition: background-color 0.3s ease, color 0.3s ease;
+  -o-transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ================= LAYOUT ================= */
+
+.auth-container {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-main);
+
+}
+
+.auth-box {
+  background: var(--box-bg);
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  color: var(--text-main);
+  position: relative;
+  backdrop-filter: blur(10px);
+  margin: 30px 0;
+
+}
+
+/* ================= TOGGLE ================= */
+
+.theme-toggle {
+  position: relative;
+  top: 12px;
+  right: 12px;
+  background: var(--btn-gradient);
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+/* ================= TABS ================= */
+
+.tabs {
+  display: flex;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  margin-bottom: 24px;
+  background-color: var(--taps-bg);
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  -ms-border-radius: 8px !important;
+  -o-border-radius: 8px !important;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px;
+  background: var(--btn-normal);
+  border: none;
+  color: var(--text-muted);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  background: var(--btn-gradient);
+  color: #fff;
+}
+
+/* ================= FORM ================= */
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-content h2 {
+  text-align: center;
+}
+
+.form-content button {
+  padding: 12px;
+  background: var(--btn-gradient);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ================= PASSWORD ================= */
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field span {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+/* ================= MUI OVERRIDES ================= */
+
+.MuiInputBase-input {
+  color: var(--text-main) !important;
+}
+
+.MuiInputLabel-root {
+  color: var(--text-muted) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: var(--accent) !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: 2px solid var(--accent) !important;
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: 1px solid var(--accent) !important;
+}
+
+/* ================= ERROR STATE ================= */
+/* Default error underline */
+.MuiInput-underline.Mui-error:before {
+  border-bottom: 1px solid #d32f2f88 !important;
+}
+
+/* Focused error underline */
+.MuiInput-underline.Mui-error:after {
+  border-bottom: 2px solid #d32f2f !important;
+}
+
+/* Hover error underline */
+.MuiInput-underline.Mui-error:hover:not(.Mui-disabled):before {
+  border-bottom: 1px solid #d32f2f !important;
+}
+
+/* Error */
+.MuiInputLabel-root.Mui-error {
+  color: #d32f2f88 !important;
+}
+
+/* Focused + Error */
+.MuiInputLabel-root.Mui-error.Mui-focused {
+  color: #d32f2f !important;
+}

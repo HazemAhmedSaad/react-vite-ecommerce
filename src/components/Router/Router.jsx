@@ -1,7 +1,7 @@
 import { createBrowserRouter,  } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import Home from "./../Home/Home";
-import Register from "./../Register/Register";
+import AuthPage from '../authentication/AuthPage';
 export const router = createBrowserRouter([
   {
 
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "home", element: <Home /> },
-      { path: "register", element: <Register /> },
+      { path: "authentication", element: <AuthPage /> },
       { path: "*", element: <Home /> },
     ],
   },
