@@ -62,7 +62,6 @@ function AuthPage() {
               onClick={() => setIsLogin(false)}
               transition={{ ease: "easeOut", duration: 1 }}
               whileTap={{ scale: 1.2 }}
-
             >
               Sign Up
             </motion.button>
@@ -126,7 +125,7 @@ function AuthPage() {
                     className="w-100"
                   />
                   <button
-                    className="position-absolute end-0 btn btn-sm btn-outline-secondary mt-2"
+                    className="position-absolute end-0 btn btn-sm "
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
                     edge="end"
@@ -150,7 +149,7 @@ function AuthPage() {
                     className="w-100"
                   />
                   <button
-                    className="position-absolute end-0 btn btn-sm btn-outline-secondary mt-2"
+                    className="position-absolute end-0 btn btn-sm mt-2"
                     type="button"
                     onClick={() => setShowRePassword((prev) => !prev)}
                     edge="end"
@@ -167,6 +166,7 @@ function AuthPage() {
                   label="Phone"
                   variant="standard"
                   name="phone"
+                  className="dark"
                   value={formikSignUp.values.phone}
                   onChange={formikSignUp.handleChange}
                 />
