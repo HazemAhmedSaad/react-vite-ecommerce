@@ -17,7 +17,7 @@ body.light {
   --border-color: #ccc;
   --accent: #667eea;
   --btn-gradient: linear-gradient(135deg, #667eea, #5a67d8);
- --taps-bg: #d6d6d6cb;
+  --taps-bg: #EEF1F6;
 }
 
 * {
@@ -97,7 +97,7 @@ body.light {
 .form-content {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
 }
 
 .form-content h2 {
@@ -112,6 +112,12 @@ body.light {
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+
+.form-content button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ================= PASSWORD ================= */
