@@ -157,7 +157,10 @@ export default function SignUpForm({
       <button
         type="submit"
         disabled={Boolean(
-          !formik.isValid || !formik.dirty || formik.isSubmitting,
+          !formik.isValid ||
+          !formik.dirty ||
+          formik.isSubmitting ||
+          successSign,
         )}
         className="mt-3"
       >
