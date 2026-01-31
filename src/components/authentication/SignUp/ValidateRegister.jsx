@@ -1,4 +1,4 @@
-const validateRegister = (values) => {
+const validateRegister = (values, errorSign, setErrorSign) => {
   const errors = {};
 
   const name = values.name?.trim();
@@ -13,7 +13,10 @@ const validateRegister = (values) => {
   }
 
   // EMAIL
-  if (!email) {
+  if (errorSign) {
+    setErrorSign(null);
+  }
+  else if (!email) {
     errors.email = "Email is required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
     errors.email = "Invalid email address";
@@ -39,8 +42,6 @@ const validateRegister = (values) => {
   } else if (!/^01[0-2,5]{1}[0-9]{8}$/.test(phone)) {
     errors.phone = "Invalid Egyptian phone number";
   }
-  console.log(errors);
-
   return errors;
 };
 

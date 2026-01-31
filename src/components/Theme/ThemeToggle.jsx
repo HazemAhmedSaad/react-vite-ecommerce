@@ -65,7 +65,7 @@ export default function ThemeToggle({ theme, setTheme }) {
   // تغيير body class و حفظ localStorage
   useEffect(() => {
     document.body.className = theme;
-    localStorage.setItem("theme", theme);
+    localStorage.setItem("theme", theme);    
   }, [theme]);
 
   return (

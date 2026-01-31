@@ -1,8 +1,6 @@
 import { motion } from "motion/react";
 import { TextField } from "@mui/material";
 
-
-
 export default function LoginForm({formVariants}) {
   return (
     <motion.form

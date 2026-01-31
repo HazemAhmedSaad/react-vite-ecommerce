@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Box } from "@mui/material";
-import { useFormik } from "formik";
 import "./AuthPage.css";
 import ThemeToggle from "../Theme/ThemeToggle";
-import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+import LoginForm from "./LogIn/LoginForm";
+import SignUpForm from "./SignUp/SignUpForm";
 
 const formVariants = {
   hidden: { opacity: 0, x: 80 },
@@ -15,23 +14,12 @@ const formVariants = {
 
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light";
-  });
-
-  const formikSignUp = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      rePassword: "",
-      phone: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || (prefersDark ? "dark" : "light"),
+  );
+  const [errorSign, setErrorSign] = useState(null);
+  const [successSign, setSuccessSign] = useState(null);
   return (
     <motion.div className="auth-container">
       <Box sx={{ width: { xs: 350, sm: 420, md: 480 } }}>
@@ -64,7 +52,15 @@ function AuthPage() {
             {isLogin ? (
               <LoginForm formVariants={formVariants} />
             ) : (
-              <SignUpForm formVariants={formVariants} />
+              <SignUpForm
+                formVariants={formVariants}
+                errorSign={errorSign}
+                setErrorSign={setErrorSign}
+                successSign={successSign}
+                setSuccessSign={setSuccessSign}
+                isLogin = {isLogin}
+                setIsLogin={setIsLogin}
+              />
             )}
           </AnimatePresence>
         </motion.div>
