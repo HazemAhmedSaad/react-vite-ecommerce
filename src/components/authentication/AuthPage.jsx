@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Box } from "@mui/material";
 import "./AuthPage.css";
@@ -18,13 +18,16 @@ function AuthPage() {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || (prefersDark ? "dark" : "light"),
   );
-  const [errorSign, setErrorSign] = useState(null);
-  const [successSign, setSuccessSign] = useState(null);
+  const [errorSignUp, setErrorSignUp] = useState(null);
+  const [successSignUp, setSuccessSignUp] = useState(null);
+  const [errorLogIn, setErrorLogIn] = useState(null);
+  const [successLogIn, setSuccessLogIn] = useState(null);
+
   return (
     <motion.div className="auth-container">
       <Box sx={{ width: { xs: 350, sm: 420, md: 480 } }}>
         <motion.div
-          className="auth-box"
+          className="auth-box overflow-hidden"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
         >
@@ -50,16 +53,28 @@ function AuthPage() {
 
           <AnimatePresence mode="wait">
             {isLogin ? (
-              <LoginForm formVariants={formVariants} />
+              <LoginForm
+                key={"login"}
+                {...{
+                  formVariants,
+                  errorLogIn,
+                  setErrorLogIn,
+                  successLogIn,
+                  setSuccessLogIn,
+                }}
+              />
             ) : (
               <SignUpForm
-                formVariants={formVariants}
-                errorSign={errorSign}
-                setErrorSign={setErrorSign}
-                successSign={successSign}
-                setSuccessSign={setSuccessSign}
-                isLogin = {isLogin}
-                setIsLogin={setIsLogin}
+                key={"sginup"}
+                {...{
+                  formVariants,
+                  errorSignUp,
+                  setErrorSignUp,
+                  successSignUp,
+                  setSuccessSignUp,
+                  setIsLogin,
+                  isLogin,
+                }}
               />
             )}
           </AnimatePresence>
