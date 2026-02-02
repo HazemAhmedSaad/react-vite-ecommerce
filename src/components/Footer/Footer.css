@@ -1,0 +1,7 @@
+.footer-container{
+  background-color: rgba(0, 0, 0, 0.9); /* dark background on sticky */
+  color: white;
+}
+footer{
+  border-left: 5px solid #f3a909;
+}

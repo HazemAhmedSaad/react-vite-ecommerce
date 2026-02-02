@@ -14,7 +14,7 @@ export default function HomeSlider() {
     <Swiper
       modules={[Autoplay, Pagination, EffectFade]}
       effect="fade"
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
       pagination={{ clickable: true }}
       loop
       className="home-slider"

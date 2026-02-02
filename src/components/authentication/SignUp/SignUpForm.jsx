@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useFormik } from "formik";
-import validateRegister from "./ValidateRegister";
+import validateRegister from "./validateRegister";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 export default function SignUpForm({

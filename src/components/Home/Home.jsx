@@ -199,7 +199,7 @@ function Home(props) {
             </div>
             <div className="description">
               <h3 className="card-title text-center">Description:</h3>
-              <p className="card-text text-muted text-center px-5 ">
+              <p className="card-text text-center px-5 ">
                 The Fully Loaded Libero x250 is a High Performance, Extremely
                 Durable, High Speed, Lightweight Electric Scooter with a Huge
                 Battery
