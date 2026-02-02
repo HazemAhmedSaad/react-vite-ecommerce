@@ -12,7 +12,6 @@ export default function SignUpForm({
   successSignUp,
   setSuccessSignUp,
   setIsLogin,
-  isLogin,
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);

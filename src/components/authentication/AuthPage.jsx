@@ -65,7 +65,6 @@ function AuthPage() {
                   successSignUp,
                   setSuccessSignUp,
                   setIsLogin,
-                  isLogin,
                 }}
               />
             )}
