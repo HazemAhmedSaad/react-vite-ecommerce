@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import validateRegister from './validateRegister';
+import validateSignUp from './validateSignUp';
 export default function SignUpForm({
   formVariants,
   errorSignUp,
@@ -47,7 +47,7 @@ export default function SignUpForm({
     },
     onSubmit: registerNewUser,
 
-    validate: (values) => validateRegister(values, errorSignUp, setErrorSignUp),
+    validate: (values) => validateSignUp(values, errorSignUp, setErrorSignUp),
   });
 
   return (

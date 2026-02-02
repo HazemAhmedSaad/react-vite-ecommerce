@@ -1,4 +1,4 @@
-const validateRegister = (values, errorSign, setErrorSign) => {
+const validateSignUp = (values, errorSign, setErrorSign) => {
   const errors = {};
 
   const name = values.name?.trim();
@@ -45,4 +45,4 @@ const validateRegister = (values, errorSign, setErrorSign) => {
   return errors;
 };
 
-export default validateRegister;
+export default validateSignUp;
