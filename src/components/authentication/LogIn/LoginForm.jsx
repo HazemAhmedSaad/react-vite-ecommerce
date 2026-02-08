@@ -1,11 +1,12 @@
 import { motion } from "motion/react";
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import validateLogIn from "./validateLogIn";
+import { autContext } from "../../../context/AuthenticationToken";
 export default function LogInForm({
   formVariants,
   errorLogIn,
@@ -13,25 +14,37 @@ export default function LogInForm({
   successLogIn,
   setSuccessLogIn,
 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { setToken } = useContext(autContext);
   const [showPassword, setShowPassword] = useState(false);
-  const navigateFunc = useNavigate();
-  const loginToAccount = async (values, {setSubmitting}) => {
+  const timeoutRef = useRef(null);
+
+  const loginToAccount = async (values, { setSubmitting }) => {
     try {
       const { data } = await axios.post(
         "https://ecommerce.routemisr.com/api/v1/auth/signin",
         values,
       );
-      if (data.message == "success") {
+      if (data.message === "success") {
         setSuccessLogIn("Logged in successfully");
-        setTimeout(() => {
-          navigateFunc("/");
+        localStorage.setItem("token", data.token);
+        const from = location.state?.from?.pathname || "/";
+         timeoutRef.current  = setTimeout(() => {
+           navigate(from, { replace: true });
+          setToken(data.token);
         }, 1000);
       }
     } catch (error) {
-      setErrorLogIn(error.response.data.message);
-    }
-    finally{
-      setSubmitting(false)
+      if (error.response?.status === 401) {
+        setErrorLogIn(error.response.data.message);
+      } else {
+        setErrorLogIn(
+          "Server is temporarily unavailable. Please try again later.",
+        );
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
   const formikLog = useFormik({
@@ -43,6 +56,14 @@ export default function LogInForm({
 
     validate: (values) => validateLogIn(values, errorLogIn, setErrorLogIn),
   });
+useEffect(() => {
+  return () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+}, []);
+
 
   return (
     <>
@@ -115,14 +136,11 @@ export default function LogInForm({
           <button
             type="submit"
             disabled={Boolean(
-              !formikLog.isValid ||
-              !formikLog.dirty ||
-              formikLog.isSubmitting
-              
+              !formikLog.isValid || !formikLog.dirty || formikLog.isSubmitting,
             )}
             className="mt-3"
           >
-            {formikLog.isSubmitting?  (
+            {formikLog.isSubmitting ? (
               <div className="d-flex justify-content-center">
                 <ThreeDots
                   visible={true}
@@ -136,7 +154,7 @@ export default function LogInForm({
                 />
               </div>
             ) : (
-              " Create Account"
+              " Login"
             )}
           </button>
           <div></div>

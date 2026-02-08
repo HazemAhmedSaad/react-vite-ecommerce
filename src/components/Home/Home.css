@@ -1,46 +1,24 @@
-.slider {
-  position: relative;
-}
-
-.slider img {
-  height: 95vh;
-  object-fit: cover;
-  object-position: center;
-  filter: blur(1px);
-  border: 0;
-
-}
-
-.slider .carousel-caption {
-  position: absolute;
-  background-color: rgb(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  left: 0;
-  bottom: 0;
-}
-
-.slider .carousel-caption h1 {
-  font-size: 5rem;
-  font-weight: 700;
-  color: var(--text-main);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-}
-
-
 
 .bg-light-blue {
-  /* background-image: url(../../assets/images/bg-01.png);
-  background-position: top center;
-  background-repeat: no-repeat; */
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 100px;
+}
+
+body[class="light"] .bg-light-blue {
+  background-image: url("../../assets/images/bg-01.png");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+background-position: top center;
+
+}
+
+
+body[class="dark"] .bg-light-blue {
+  background-image: none;
 }
 
 .bg-light-blue img {
@@ -443,13 +421,14 @@
   }
 
   .digital .gadgets img {
-  top: -30px;
-  right: -50px;
-}
-.digital .laptop img {
-  bottom: -35px;
-  right: -90px;
-}
+    top: -30px;
+    right: -50px;
+  }
+
+  .digital .laptop img {
+    bottom: -35px;
+    right: -90px;
+  }
 
   .bg-light-blue {
     height: 85vh;
@@ -517,7 +496,7 @@
 }
 
 .description .card-text {
-  color: var(--text-muted ) !important;
+  color: var(--text-muted) !important;
 }
 
 body {

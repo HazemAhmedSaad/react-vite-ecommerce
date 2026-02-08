@@ -1,9 +1,9 @@
-import HomeSlider from "../HomeSlider/HomeSlider";
+import HomeSlider from "./HomeSlider/HomeSlider";
 import "./Home.css";
 import earphone from "../../assets/images/earphone.png";
 import gadgests from "../../assets/images/gadgests.png";
 import Laptop from "../../assets/images/Laptop.png";
-import console from "../../assets/images/console.png";
+import consoleImage from "../../assets/images/console.png";
 import oculus from "../../assets/images/oculus.png";
 import speaker from "../../assets/images/speaker.png";
 import card1 from "../../assets/images/card1.jpg";
@@ -13,25 +13,36 @@ import headphone from "../../assets/images/headphone.png";
 import scooter from "../../assets/images/scooter-01.png";
 import card4 from "../../assets/images/card4.jpg";
 import card5 from "../../assets/images/card5.jpg";
-import { motion } from 'framer-motion';
-function Home(props) {  
+import { motion } from "framer-motion";
+import React, { useContext } from "react";
+import { autContext } from "../../context/AuthenticationToken";
+const MemoHomeSlider = React.memo(HomeSlider);
+function Home() {
+  const { token } = useContext(autContext);
+
   return (
-    
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}>
+      transition={{ duration: 1 }}
+    >
       {/* start slider  */}
-      <HomeSlider />
+      <MemoHomeSlider />
       {/* <!-- end slider --> */}
 
       {/* <!-- start digital --> */}
       <div className="digital my-5 py-5 container">
-        <div className="row row-cols-1 row-cols-md-2 mt-5 g-4">
-          <div className="col-lg-6 col-md-12 d-flex">
+        <div className="row row-cols-1 row-cols-lg-2 mt-5 g-4">
+          <div className="col order-lg-0 d-flex">
             <div className="card  me-3 earphone">
-              <img src={earphone} className="card-img " alt="earphone" />
+              <img
+                src={earphone}
+                className="card-img "
+                alt="earphone"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="card-body">
                 <p className="card-title">Enjoy</p>
                 <h4>With</h4>
@@ -40,7 +51,13 @@ function Home(props) {
               </div>
             </div>
             <div className="card ms-3 gadgets">
-              <img src={gadgests} className="card-img" alt="GADGETS" />
+              <img
+                src={gadgests}
+                className="card-img"
+                alt="GADGETS"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="card-body">
                 <p className="card-title">New</p>
                 <h4>Wear</h4>
@@ -49,9 +66,15 @@ function Home(props) {
               </div>
             </div>
           </div>
-          <div className="col-lg-6 col-md-12">
+          <div className="col order-lg-1">
             <div className="card  laptop">
-              <img src={Laptop} className="card-img" alt="laptop" />
+              <img
+                src={Laptop}
+                className="card-img"
+                alt="laptop"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="card-body">
                 <p className="card-title">Trend</p>
                 <h4>Devices</h4>
@@ -60,20 +83,15 @@ function Home(props) {
               </div>
             </div>
           </div>
-          <div className="col-lg-6 col-md-12 mb-5">
-            <div className="card console">
-              <img src={console} className="card-img" alt="console" />
-              <div className="card-body">
-                <p className="card-title">Best</p>
-                <h4>Gaming</h4>
-                <h2> CONSOLE </h2>
-                <button className="btn">Browse</button>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-6 col-md-12 d-flex m-0">
-            <div className="card  me-3 oculus">
-              <img src={oculus} className="card-img" alt="oculus" />
+          <div className="col order-lg-3 d-flex ">
+            <div className="card   me-3 oculus">
+              <img
+                src={oculus}
+                className="card-img"
+                alt="oculus"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="card-body">
                 <p className="card-title">Play</p>
                 <h4>Game</h4>
@@ -82,11 +100,34 @@ function Home(props) {
               </div>
             </div>
             <div className="card ms-3 speaker">
-              <img src={speaker} className="card-img" alt="speaker" />
+              <img
+                src={speaker}
+                className="card-img"
+                alt="speaker"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="card-body">
                 <p className="card-title">New</p>
                 <h4>Amazon</h4>
                 <h2>SPEAKER</h2>
+                <button className="btn">Browse</button>
+              </div>
+            </div>
+          </div>
+          <div className="col order-lg-2  ">
+            <div className="card console">
+              <img
+                src={consoleImage}
+                className="card-img"
+                alt="console"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="card-body">
+                <p className="card-title">Best</p>
+                <h4>Gaming</h4>
+                <h2> CONSOLE </h2>
                 <button className="btn">Browse</button>
               </div>
             </div>
@@ -124,6 +165,8 @@ function Home(props) {
                 src={card1}
                 className="card-img-top"
                 alt="product"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -133,6 +176,8 @@ function Home(props) {
                 src={card2}
                 className="card-img-top"
                 alt="product"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -142,6 +187,8 @@ function Home(props) {
                 src={card3}
                 className="card-img-top"
                 alt="product"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -156,6 +203,8 @@ function Home(props) {
               src={headphone}
               className=""
               alt="headphone"
+              loading="lazy"
+              decoding="async"
             />
             <div className="headphone-text">
               <p className="">Headphone</p>
@@ -174,6 +223,8 @@ function Home(props) {
             src={scooter}
             className="card-img "
             alt="scoter"
+            loading="lazy"
+            decoding="async"
           />
           <div className="card-img-overlay">
             <h1 className="elementor-heading-title elementor-size-default">
@@ -219,6 +270,8 @@ function Home(props) {
                 src={card5}
                 className="card-img-top"
                 alt="offer"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -228,6 +281,8 @@ function Home(props) {
                 src={card4}
                 className="card-img-top"
                 alt="offer"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

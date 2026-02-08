@@ -1,10 +1,18 @@
-const sections = ["Home", "Features", "Pricing", "FAQs", "About"];
 import "./Footer.css";
+import { NavLink } from "react-router-dom";
+
 export default function Footer() {
+  const sections = ["Home", "Features", "Pricing", "FAQs", "About"];
+  const footerSections = [
+    { title: "Section 1", items: sections },
+    { title: "Section 2", items: sections },
+    { title: "Section 3", items: sections },
+  ];
+
   return (
     <div className="footer-container" data-bs-theme="dark">
       <div className="container">
-        <div className=" py-5">
+        <div className="py-5">
           <footer className="row row-cols-1 row-cols-sm-2 row-cols-md-5 ">
             <div className="col ">
               <a
@@ -25,16 +33,18 @@ export default function Footer() {
             </div>
 
             <div className="col "></div>
-
-            {[1, 2, 3].map((_, idx) => (
+            {footerSections.map((section, idx) => (
               <div key={idx} className="col">
-                <h5>Section</h5>
+                <h5>{section.title}</h5>
                 <ul className="nav flex-column">
-                  {sections.map((item, i) => (
-                    <li key={i} className="nav-item ">
-                      <a href="#" className="nav-link p-0 text-body-secondary">
+                  {section.items.map((item, i) => (
+                    <li key={i} className="nav-item">
+                      <NavLink
+                        to="/"
+                        className="nav-link p-0 text-body-secondary"
+                      >
                         {item}
-                      </a>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>

@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import "./ThemeToggle.css";
+import { useContext } from 'react';
+import { themeContext } from "../../context/ThemeContext";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -61,12 +62,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function ThemeToggle({ theme, setTheme }) {
-  useEffect(() => {
-    document.body.className = theme;
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
+export default function ThemeToggle() {
+  const { theme, setTheme } = useContext(themeContext)
   return (
     <FormGroup>
       <FormControlLabel

@@ -1,11 +1,17 @@
 import "./App.css";
-import {  RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { router } from "./components/Router/Router";
+import { AuthProvider } from './context/AuthenticationToken';
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
     <div>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <ThemeProvider>
+        <RouterProvider router={router} />
+        </ThemeProvider>
+      </AuthProvider>
     </div>
   );
 }

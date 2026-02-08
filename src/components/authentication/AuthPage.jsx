@@ -12,7 +12,6 @@ const formVariants = {
 };
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
-
   const [errorSignUp, setErrorSignUp] = useState(null);
   const [successSignUp, setSuccessSignUp] = useState(null);
   const [errorLogIn, setErrorLogIn] = useState(null);

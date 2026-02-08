@@ -26,49 +26,54 @@
 
 }
 
-/* Transition for smooth sticky effect */
 .navbar,
 .navbar-transition {
     transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
 }
 
 
-/* Sticky Navbar */
 .sticky-navbar {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0.856);
-    /* dark background on sticky */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 15px 20px;
 }
 
-.nav-link {
+.header-link {
     transition: color 0.3s ease;
-    padding: 15px !important;
+    padding: 15px 0 !important;
+    margin: 0 10px;
 
 }
 
-.active {
-    background-color: #f3a909 !important;
-    color: black !important;
-}
-
-.nav-link:hover {
+.header-link.active {
     color: #f3a909 !important;
-    background-color: transparent !important;
+    border-bottom: #f3a909 solid 2px !important;
+}
+
+.header-link:hover {
+    color: #fff !important;
+    border-bottom: #fff solid 2px !important;
     transition: background-color 0.3s ease;
     -webkit-transition: background-color 0.3s ease;
     -moz-transition: background-color 0.3s ease;
     -ms-transition: background-color 0.3s ease;
     -o-transition: background-color 0.3s ease;
 }
-.header-brand{
+
+.header-brand {
     background-color: transparent !important;
     color: white !important;
+    border: none !important;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 
 @media (max-width: 992px) {
     .nav-link {
@@ -80,7 +85,7 @@
         padding: 10px 0 !important;
     }
 
-    .theme-toggle-wrapper {
+    /* .theme-toggle-wrapper {
         position: absolute;
         top: 0;
         right: 65px;
@@ -89,5 +94,5 @@
         -moz-transform: translateY(50%);
         -ms-transform: translateY(50%);
         -o-transform: translateY(50%);
-    }
+    } */
 }
