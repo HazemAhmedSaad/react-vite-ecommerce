@@ -1,4 +1,3 @@
-
 .bg-light-blue {
   height: 100vh;
   display: flex;
@@ -12,7 +11,7 @@ body[class="light"] .bg-light-blue {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
-background-position: top center;
+  background-position: top center;
 
 }
 
@@ -413,6 +412,11 @@ body[class="dark"] .bg-light-blue {
   .about-text p {
     padding: 0 150px;
   }
+
+  .type-title {
+    font-size: 28px !important;
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -462,6 +466,10 @@ body[class="dark"] .bg-light-blue {
 
   .headphone-text h5 {
     font-size: 18px;
+  }
+
+  .type-title {
+    font-size: 22px !important;
   }
 
 }

@@ -59,7 +59,7 @@ function NavScrollExample() {
             </NavLink>
 
             <NavLink className="nav-link header-link" to="/products">
-              Products
+              Shop
             </NavLink>
             {token && (
               <NavLink className="nav-link header-link" to="/profile">

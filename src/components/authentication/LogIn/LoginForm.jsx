@@ -30,8 +30,8 @@ export default function LogInForm({
         setSuccessLogIn("Logged in successfully");
         localStorage.setItem("token", data.token);
         const from = location.state?.from?.pathname || "/";
-         timeoutRef.current  = setTimeout(() => {
-           navigate(from, { replace: true });
+        timeoutRef.current = setTimeout(() => {
+          navigate(from, { replace: true });
           setToken(data.token);
         }, 1000);
       }
@@ -56,14 +56,13 @@ export default function LogInForm({
 
     validate: (values) => validateLogIn(values, errorLogIn, setErrorLogIn),
   });
-useEffect(() => {
-  return () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
-}, []);
-
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>

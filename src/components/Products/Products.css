@@ -1,0 +1,59 @@
+/* Layout */
+.products-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.products-content {
+  display: flex;
+  flex: 1;
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  background: #f8f9fa;
+  padding-top: 20px;
+
+}
+
+.sidebar.open {
+  width: 240px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar-inner {
+  padding: 15px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: fixed;
+  left: -1px;
+  top: 50%;
+  font-size: 20px;
+  background-color: #f3a909;
+  padding: 0 ;
+  cursor: pointer;
+  transform: translateY(-50%);
+  border-radius: 0 90% 90% 0;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -webkit-border-radius: 0 90% 90% 0;
+  -moz-border-radius: 0 90% 90% 0;
+  -ms-border-radius: 0 90% 90% 0;
+  -o-border-radius: 0 90% 90% 0;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
