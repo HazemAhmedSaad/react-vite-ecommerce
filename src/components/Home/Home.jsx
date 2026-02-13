@@ -15,7 +15,6 @@ import headphone from "../../assets/images/headphone.png";
 import scooter from "../../assets/images/scooter-01.png";
 import card4 from "../../assets/images/card4.jpg";
 import card5 from "../../assets/images/card5.jpg";
-import { delay } from "motion";
 
 const MemoHomeSlider = React.memo(HomeSlider);
 
@@ -34,7 +33,7 @@ const itemLeft = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut", delay: 0.5 },
+    transition: { duration: 0.6, ease: "easeOut", delay: 0.3 },
   },
 };
 

@@ -11,68 +11,54 @@ export default function Products() {
 
   return (
     <div className="products-wrapper">
-
       <div className="products-content">
-
         {/* Sidebar */}
-        <div className={`sidebar ${open ? "open" : ""}`}>
-          {open && (
-            <div className="sidebar-inner">
-              <Button
-                variant="light"
-                onClick={handleToggle}
-                className="mb-3"
-              >
-                <i className="fa-solid fa-angles-left"></i>
-              </Button>
+        <div className={`  sidebar ${open ? "open" : ""}`}>
+          <div className="side-fixed">
+            {open && (
+              <div className="sidebar-inner">
+                <Button variant="light" onClick={handleToggle} className="mb-3">
+                  <i className="fa-solid fa-angles-left"></i>
+                </Button>
+                <hr />
 
-              <ListGroup variant="flush">
-                {["Inbox", "Starred", "Send email", "Drafts"].map((item) => (
-                  <ListGroup.Item action key={item}>
-                    {item}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+                <ListGroup variant="flush">
+                  {["Inbox", "Starred", "Send email", "Drafts"].map((item) => (
+                    <ListGroup.Item action key={item}>
+                      {item}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
 
-              <hr />
+                <hr />
 
-              <ListGroup variant="flush">
-                {["All mail", "Trash", "Spam", "More"].map((item) => (
-                  <ListGroup.Item action key={item}>
-                    {item}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </div>
-          )}
+                <ListGroup variant="flush">
+                  {["All mail", "Trash", "Spam", "More", "Trash", "Spam"].map((item) => (
+                    <ListGroup.Item action key={item}>
+                      {item}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Main Content */}
-        <Container fluid className="main-content">
-
+        <Container fluid className="main-content container">
           {!open && (
-            <span
-              variant=""
-              onClick={handleToggle}
-              className="toggle-btn "
-            >
+            <span variant="" onClick={handleToggle} className="toggle-btn ">
               <i className="fa-solid fa-angles-right"></i>
             </span>
           )}
-
           <h1>Hazem</h1>
           <p>Welcome to Products Page</p>
-
-          <div style={{ height: "800px" }}>
-            Scroll Content Example
-          </div>
+          <div>Scroll Content Example</div> <h1>Hazem</h1>
+          <p>Welcome to Products Page</p>
+          <div>Scroll Content Example</div> <h1>Hazem</h1>
 
         </Container>
-
       </div>
-
-      {/* Footer */}
-
     </div>
   );
 }
