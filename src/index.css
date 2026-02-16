@@ -16,7 +16,6 @@ body.light {
   --box-bg: rgba(255, 255, 255, 0.85);
   --text-main: #1a1a1a;
   --text-muted: rgba(0, 0, 0, 0.66);
-  ;
   --border-color: #ccc;
   --accent: #667eea;
   --btn-gradient: linear-gradient(135deg, #667eea, #5a67d8);
@@ -34,21 +33,20 @@ body {
   background-size: cover;
   overflow: auto;
 }
+
 @media (prefers-reduced-motion: no-preference) {
   body.theme-transition {
     transition: background-color 300ms ease, color 300ms ease;
   }
 
-  body.theme-transition :where(
-    header,
+  body.theme-transition :where(header,
     main,
     footer,
     section,
     article,
     div,
     button,
-    a
-  ) {
+    a) {
     transition:
       background-color 300ms ease,
       color 300ms ease,
@@ -56,4 +54,3 @@ body {
       box-shadow 300ms ease;
   }
 }
-
