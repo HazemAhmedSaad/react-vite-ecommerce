@@ -1,0 +1,16 @@
+.brand-item {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.brand-item:hover {
+    transform: scale(1.05);
+}
+
+.brand-img {
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+}

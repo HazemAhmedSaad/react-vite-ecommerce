@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ListGroup, Container } from "react-bootstrap";
 import "./Products.css";
-import product from "../../assets/images/product.jpg";
 import HashLoader from "./../../../node_modules/react-spinners/esm/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import CategorySlider from "../Caregories/CategorySlider/CategorySlider";
+import BrandSlider from "../Brands/BrandSlider/BrandSlider";
 export default function Products() {
   const [open, setOpen] = useState(false);
   const getAllProducts = () =>
@@ -13,9 +13,8 @@ export default function Products() {
   const { data, isLoading, isError, isFetching } = useQuery({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
+    refetchOnMount: false,
   });
-
-  console.log(data?.data.data);
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -30,39 +29,51 @@ export default function Products() {
   }
 
   if (isError) {
-    return <p>Error loading products</p>;
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100 flex-column">
+        <p className="text-center mb-3">
+          Error fetching data. Please refresh the page to try again.
+        </p>
+        <button
+          className="btn btn-warning"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   return (
     <div className="products-wrapper">
       <div className="products-content">
         {/* Sidebar */}
-        <div className={`  sidebar ${open ? "open" : ""}`}>
-          <div className="">
-            {open && (
-              <div className="sidebar-inner">
-                <span
-                  variant="light"
-                  onClick={handleToggle}
-                  className="mb-3 tog-close-btn "
-                >
-                  <i className="fa-solid fa-angles-left"></i>
-                </span>
-                <h2>heloooooo</h2>
-                <hr />
-                <ul>
-                  <li>fffffffffffffff</li>
-                  <li>fffffffffffffff</li>
-                  <li>fffffffffffffff</li>
-                  <li>fffffffffffffffffffffffffffffffffffffff</li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
+        <aside className={`sidebar ${open ? "open" : ""} `}>
+          {open && (
+            <div className="sidebar-inner ">
+              <span
+                variant="light"
+                onClick={handleToggle}
+                className="mb-3 tog-close-btn "
+              >
+                <i className="fa-solid fa-angles-left"></i>
+              </span>
+              <h2>heloooooo</h2>
+              <hr />
+              <ul>
+                <li>fffffffffffffff</li>
+                <li>fffffffffffffff</li>
+                <li>fffffffffffffff</li>
+                <li>fffffffffffffffffffffffffffffffffffffff</li>
+              </ul>
+            </div>
+          )}
+        </aside>
 
         {/* Main Content */}
-        <div className="main-content container">
+        <div className="main-content container flex-grow-1">
+          <CategorySlider />
+          <BrandSlider />
           <div>
             {!open && (
               <span variant="" onClick={handleToggle} className="toggle-btn ">
@@ -77,29 +88,23 @@ export default function Products() {
                   </div>
 
                   <div className="product-info d-flex justify-content-between align-items-center">
-                    <p className="product-title">
+                    <h6 className="product-title">
                       {product.title.split(" ").slice(0, 2).join(" ")}
-                    </p>
-                    <div className="d-flex align-items-center gap-1">
-                      <i className="fa-solid fa-star "></i>{" "}
-                      <div className="product-rating">
-                        {product.ratingsAverage}
-                      </div>
+                    </h6>
+                    <div className="text-warning small">
+                      <i className="fa-solid fa-star"></i>{" "}
+                      {product.ratingsAverage}
                     </div>
                   </div>
 
-                  <div className="product-category">
-                    <p>{product.category?.name}</p>
-                  </div>
-
-                  <div className="brand">
-                    <p>{product.brand?.name}</p>
-                  </div>
+                  <p className="product-category small mb-1">
+                    {product.category?.name}
+                  </p>
 
                   <div className="product-content d-flex justify-content-between align-items-center">
                     <button className="btn btn-primary">Add To Cart</button>
 
-                    <p className="product-price">{product.price}$</p>
+                    <p className="product-price">{product.price} EGP</p>
                   </div>
                 </div>
               ))}

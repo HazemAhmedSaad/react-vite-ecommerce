@@ -1,0 +1,51 @@
+.category-item {
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+  -webkit-transform: translateY(-5px);
+  -moz-transform: translateY(-5px);
+  -ms-transform: translateY(-5px);
+  -o-transform: translateY(-5px);
+}
+
+.category-img {
+  height: 250px ;
+  object-fit: cover;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.category-title {
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+}
+.category-img {
+  height: 200px;
+  object-fit: cover; /* This is the secret to uniform slider images */
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+.category-img {
+  height: 200px;
+  object-fit: cover; /* This is the secret to uniform slider images */
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover .category-img {
+  transform: scale(1.05);
+}

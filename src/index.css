@@ -24,6 +24,10 @@ body.light {
   --overlay-bg: rgba(0, 0, 0, 0.5);
 }
 
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 body {
   background: var(--bg-main);
   color: var(--text-main);

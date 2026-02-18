@@ -3,21 +3,28 @@
     flex-direction: column;
     margin-top: 40px;
     flex: 1;
+    position: relative;
     min-height: 100vh;
 }
 
 .products-content {
     display: flex;
     flex: 1;
-    position: relative;
     margin-top: 20px;
+    height: 100%;
 }
- 
+
 .sidebar {
     width: 0;
-    overflow: hidden;
     background: var(--bg-main);
-    position: relative;
+    position: fixed;
+    padding-top: 70px;
+    left: 0;
+    z-index: 1000;
+    top: 0px;
+    height: 100vh;
+    overflow: hidden;
+
     transition: all 0.3s ease;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -26,7 +33,7 @@
 }
 
 .sidebar.open {
-    width: 220px;
+    width: 250px;
     transition: all 0.3s ease;
     border-right: 1px solid var(--border-color);
     -webkit-transition: all 0.3s ease;
@@ -35,13 +42,10 @@
     -o-transition: all 0.3s ease;
 }
 
-/* .sidebar-inner .list-group button{
-    overflow: hidden !important;
-    width: 100%;
-} */
+
 .sidebar-inner {
     padding: 20px 15px;
-    /* overflow: hidden; */
+    height: auto;
 }
 
 .toggle-btn {
@@ -88,7 +92,7 @@
 }
 
 .product-card {
-    width: 250px;
+    width: 300px;
     background: var(--box-bg);
     padding: 15px;
     border-radius: 5px;
@@ -100,7 +104,7 @@
 .product-card img {
     width: 100%;
     height: auto;
-    border-radius: 5px;
+
 }
 
 .product-title {
@@ -108,6 +112,17 @@
     font-weight: bold;
     margin-top: 10px;
     color: var(--text-main);
+}
+
+.product-category {
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.product-category:hover {
+    /* text-decoration: underline; */
+    color: #f3a909;
 }
 
 .product-price {
@@ -126,11 +141,11 @@
     -moz-transition: 0.3s ease;
     -ms-transition: 0.3s ease;
     -o-transition: 0.3s ease;
-    transform: translateX(-75%);
-    -webkit-transform: translateX(-75%);
-    -moz-transform: translateX(-75%);
-    -ms-transform: translateX(-75%);
-    -o-transform: translateX(-75%);
+    transform: translateX(-70%);
+    -webkit-transform: translateX(-70%);
+    -moz-transform: translateX(-70%);
+    -ms-transform: translateX(-70%);
+    -o-transform: translateX(-70%);
 }
 
 .product-content button {
@@ -182,7 +197,6 @@
 }
 
 @media screen and (max-width: 400px) {
-
     .sidebar {
         height: 100vh;
         border-right: none;
@@ -194,5 +208,4 @@
     .sidebar.open {
         width: 100%;
     }
-
 }

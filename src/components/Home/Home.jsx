@@ -63,6 +63,7 @@ function Home() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
+      className="overflow-hidden"
     >
       {/* start slider */}
       <MemoHomeSlider />
@@ -78,7 +79,7 @@ function Home() {
             initial="hidden"
             whileInView="visible"
           >
-            <div className="card me-3 earphone">
+            <div className="card me-3 earphone" key={1}>
               <img
                 src={earphone}
                 alt="earphone"
@@ -92,7 +93,7 @@ function Home() {
                 <button className="btn">Browse</button>
               </div>
             </div>
-            <div className="card ms-3 gadgets">
+            <div className="card ms-3 gadgets" key={2}>
               <img
                 src={gadgests}
                 alt="GADGETS"
@@ -115,7 +116,7 @@ function Home() {
             initial="hidden"
             whileInView="visible"
           >
-            <div className="card laptop">
+            <div className="card laptop" key={3}>
               <img src={Laptop} alt="laptop" loading="lazy" decoding="async" />
               <div className="card-body ms-0 ms-md-3">
                 <p className="card-title">Trend</p>
@@ -133,7 +134,7 @@ function Home() {
             initial="hidden"
             whileInView="visible"
           >
-            <div className="card me-3 oculus">
+            <div className="card me-3 oculus" key={4}>
               <img src={oculus} alt="oculus" loading="lazy" decoding="async" />
               <div className="card-body ms-0 ms-md-3">
                 <p className="card-title">Play</p>
@@ -142,7 +143,7 @@ function Home() {
                 <button className="btn">Browse</button>
               </div>
             </div>
-            <div className="card ms-3 speaker">
+            <div className="card ms-3 speaker" key={5}>
               <img
                 src={speaker}
                 alt="speaker"
@@ -165,7 +166,7 @@ function Home() {
             initial="hidden"
             whileInView="visible"
           >
-            <div className="card console">
+            <div className="card console" key={6}>
               <img
                 src={consoleImage}
                 alt="console"

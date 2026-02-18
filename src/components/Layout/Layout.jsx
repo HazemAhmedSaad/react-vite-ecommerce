@@ -8,7 +8,7 @@ function Layout() {
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <main className="overflow-hidden flex-fill  ">
+      <main className=" flex-fill overflow-hidden">
         <Outlet />
       </main>
       <Footer />
