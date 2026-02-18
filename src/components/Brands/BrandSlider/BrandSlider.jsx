@@ -20,37 +20,18 @@ function BrandSlider() {
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
+    speed: 4000,
+    autoplaySpeed: 0,
     cssEase: "linear",
     pauseOnHover: true,
     arrows: false,
+    draggable: true,
     rtl: true,
     responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5,
-        },
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 4,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
+      { breakpoint: 1200, settings: { slidesToShow: 5 } },
+      { breakpoint: 992, settings: { slidesToShow: 4 } },
+      { breakpoint: 768, settings: { slidesToShow: 3 } },
+      { breakpoint: 576, settings: { slidesToShow: 2 } },
     ],
   };
 
@@ -68,8 +49,6 @@ function BrandSlider() {
                 alt={brand.name}
                 className="w-100 brand-img "
               />
-
-         
             </div>
           </div>
         ))}

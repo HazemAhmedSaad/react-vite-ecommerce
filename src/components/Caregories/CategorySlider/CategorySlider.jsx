@@ -29,16 +29,57 @@ function CategorySlider() {
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
+    speed: 4000,
+    autoplaySpeed: 0,
     cssEase: "linear",
-    pauseOnHover: true,
+    draggable: true,
     arrows: false,
+
+    initialSlide: 0,
+
+    adaptiveHeight: false,
     responsive: [
-      { breakpoint: 1200, settings: { slidesToShow: 5 } },
-      { breakpoint: 992, settings: { slidesToShow: 4 } },
-      { breakpoint: 768, settings: { slidesToShow: 3 } },
-      { breakpoint: 576, settings: { slidesToShow: 2 } },
+      {
+        breakpoint: 1400,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+        },
+      },
+
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: true,
+          centerPadding: "40px",
+        },
+      },
     ],
   };
 
@@ -52,7 +93,7 @@ function CategorySlider() {
   return (
     <div className="slider-container my-4">
       <h4 className="mb-3">Shop by Category</h4>
-      <Slider {...settings}>
+      <Slider  {...settings}>
         {categories.map((category) => (
           <div key={category._id} className="px-2">
             <div className="category-item text-center">
