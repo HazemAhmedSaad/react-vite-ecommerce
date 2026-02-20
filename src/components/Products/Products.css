@@ -141,11 +141,11 @@
     -moz-transition: 0.3s ease;
     -ms-transition: 0.3s ease;
     -o-transition: 0.3s ease;
-    transform: translateX(-70%);
-    -webkit-transform: translateX(-70%);
-    -moz-transform: translateX(-70%);
-    -ms-transform: translateX(-70%);
-    -o-transform: translateX(-70%);
+    transform: translateX(-75%);
+    -webkit-transform: translateX(-75%);
+    -moz-transform: translateX(-75%);
+    -ms-transform: translateX(-75%);
+    -o-transform: translateX(-75%);
 }
 
 .product-content button {

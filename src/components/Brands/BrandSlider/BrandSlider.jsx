@@ -2,8 +2,35 @@ import axios from "axios";
 import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import "./BrandSlider.css";
+import { useState, useEffect } from "react";
 import CategorySkeleton from "../../Caregories/CategorySkeleton/CategorySkeleton";
 function BrandSlider() {
+  function useSlidesToShow() {
+    const getSlides = () => {
+      const width = window.innerWidth;
+
+      if (width < 768) return 2;
+      if (width < 992) return 3;
+      if (width < 1200) return 4;
+      if (width < 1400) return 5;
+
+      return 6;
+    };
+
+    const [slidesToShow, setSlidesToShow] = useState(getSlides());
+
+    useEffect(() => {
+      const handleResize = () => {
+        setSlidesToShow(getSlides());
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return slidesToShow;
+  }
   const getAllBrands = () => {
     return axios.get("https://ecommerce.routemisr.com/api/v1/brands");
   };
@@ -17,7 +44,7 @@ function BrandSlider() {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: useSlidesToShow(),
     slidesToScroll: 1,
     autoplay: true,
     speed: 4000,
@@ -27,12 +54,6 @@ function BrandSlider() {
     arrows: false,
     draggable: true,
     rtl: true,
-    responsive: [
-      { breakpoint: 1200, settings: { slidesToShow: 5 } },
-      { breakpoint: 992, settings: { slidesToShow: 4 } },
-      { breakpoint: 768, settings: { slidesToShow: 3 } },
-      { breakpoint: 576, settings: { slidesToShow: 2 } },
-    ],
   };
 
   if (isLoading) return <CategorySkeleton />;

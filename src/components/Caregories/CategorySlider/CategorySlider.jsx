@@ -3,16 +3,44 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import "./CategorySlider.css";
 import CategorySkeleton from "../CategorySkeleton/CategorySkeleton";
+import { useState, useEffect } from "react";
 
 // It's better to keep the fetcher outside the component to avoid re-creation
-const getAllCategories = async () => {
-  const { data } = await axios.get(
-    "https://ecommerce.routemisr.com/api/v1/categories",
-  );
-  return data.data; // Flattening here makes the JSX cleaner
-};
 
 function CategorySlider() {
+  function useSlidesToShow() {
+    const getSlides = () => {
+      const width = window.innerWidth;
+
+      if (width < 768) return 2;
+      if (width < 992) return 3;
+      if (width < 1200) return 4;
+      if (width < 1400) return 5;
+
+      return 6;
+    };
+
+    const [slidesToShow, setSlidesToShow] = useState(getSlides());
+
+    useEffect(() => {
+      const handleResize = () => {
+        setSlidesToShow(getSlides());
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return slidesToShow;
+  }
+  const getAllCategories = async () => {
+    const { data } = await axios.get(
+      "https://ecommerce.routemisr.com/api/v1/categories",
+    );
+    return data.data; // Flattening here makes the JSX cleaner
+  };
+
   const {
     data: categories,
     isLoading,
@@ -22,65 +50,26 @@ function CategorySlider() {
     queryFn: getAllCategories,
     refetchOnMount: false,
   });
+  const slidesToShow = useSlidesToShow();
 
   const settings = {
     dots: false,
+
     infinite: true,
-    slidesToShow: 6,
+
+    slidesToShow: slidesToShow,
+
     slidesToScroll: 1,
+
     autoplay: true,
+
     speed: 4000,
+
     autoplaySpeed: 0,
+
     cssEase: "linear",
-    draggable: true,
+
     arrows: false,
-
-    initialSlide: 0,
-
-    adaptiveHeight: false,
-    responsive: [
-      {
-        breakpoint: 1400,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
-        },
-      },
-
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          centerMode: true,
-          centerPadding: "40px",
-        },
-      },
-    ],
   };
 
   if (isLoading) return <CategorySkeleton />;
@@ -93,7 +82,7 @@ function CategorySlider() {
   return (
     <div className="slider-container my-4">
       <h4 className="mb-3">Shop by Category</h4>
-      <Slider  {...settings}>
+      <Slider {...settings}>
         {categories.map((category) => (
           <div key={category._id} className="px-2">
             <div className="category-item text-center">
