@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategorySlider from "../Caregories/CategorySlider/CategorySlider";
 import BrandSlider from "../Brands/BrandSlider/BrandSlider";
+import { Link } from "react-router-dom";
 export default function Products() {
   const [open, setOpen] = useState(false);
   const getAllProducts = () =>
@@ -80,12 +81,17 @@ export default function Products() {
                 <i className="fa-solid fa-angles-right"></i>
               </span>
             )}
-            <div className="row row-cols-auto gap-4 justify-content-around">
+            <div className="row row-cols-auto gap-4 justify-content-around product-group">
               {data?.data.data?.map((product) => (
                 <div className="product-card col" key={product._id}>
-                  <div>
-                    <img src={product.imageCover} alt={product.title} />
-                  </div>
+                  <Link to={`/product/${product._id}`} key={product._id}>
+                    <div className="product-image-wrapper position-relative">
+                      <img src={product.imageCover} alt={product.title} />
+                      <div className="img-overlay">
+                        <span className="overlay-text">View</span>
+                      </div>
+                    </div>
+                  </Link>
 
                   <div className="product-info d-flex justify-content-between align-items-center">
                     <h6 className="product-title">
@@ -101,8 +107,8 @@ export default function Products() {
                     {product.category?.name}
                   </p>
 
-                  <div className="product-content d-flex justify-content-between align-items-center">
-                    <button className="btn btn-primary">Add To Cart</button>
+                  <div className="product-content d-flex justify-content-between">
+                    <button className="">Add To Cart</button>
 
                     <p className="product-price">{product.price} EGP</p>
                   </div>

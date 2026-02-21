@@ -24,7 +24,6 @@
     top: 0px;
     height: 100vh;
     overflow: hidden;
-
     transition: all 0.3s ease;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -70,7 +69,6 @@
 .main-content {
     flex: 1;
     padding: 35px 20px;
-
 }
 
 .tog-close-btn {
@@ -91,27 +89,89 @@
     margin-bottom: 10px;
 }
 
+.product-group a {
+    text-decoration: none;
+}
+
 .product-card {
-    width: 300px;
     background: var(--box-bg);
     padding: 15px;
-    border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
+    width: 220px;
+    border-radius: 12px;
+    transition: 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+
+.product-card:hover {
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+
 }
 
 .product-card img {
     width: 100%;
     height: auto;
-
 }
 
-.product-title {
+.product-card:hover img {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.product-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image-wrapper .img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200000000;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-image-wrapper:hover .img-overlay {
+    opacity: 1;
+}
+
+.product-image-wrapper .overlay-text {
+    color: #fff;
     font-size: 18px;
     font-weight: bold;
+    border: 2px solid #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.product-image-wrapper .overlay-text:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+
+.product-title {
+
     margin-top: 10px;
     color: var(--text-main);
+    font-size: 14px;
+    font-weight: 600;
+
 }
 
 .product-category {
@@ -122,13 +182,13 @@
 
 .product-category:hover {
     /* text-decoration: underline; */
-    color: #f3a909;
+    color: var(--accent);
 }
 
 .product-price {
     font-size: 16px;
-    font-weight: 600;
-    color: var(--text-main);
+    font-weight: bold;
+    color: var(--accent) !important;
 }
 
 .product-content {
@@ -137,31 +197,46 @@
     justify-content: space-between;
     margin-top: 10px;
     transition: 0.3s ease;
-    -webkit-transition: 0.3s ease;
-    -moz-transition: 0.3s ease;
-    -ms-transition: 0.3s ease;
-    -o-transition: 0.3s ease;
-    transform: translateX(-75%);
-    -webkit-transform: translateX(-75%);
-    -moz-transform: translateX(-75%);
-    -ms-transform: translateX(-75%);
-    -o-transform: translateX(-75%);
+    transform: translateX(-57%);
 }
 
 .product-content button {
+
+    /* Size */
+    width: 115px;
     padding: 5px 10px;
-    background-color: #f3a909;
+
+    /* Appearance */
+    background: var(--btn-gradient);
+    color: #fff;
     font-weight: 600;
     border: none;
     border-radius: 0 25px 25px 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--text-main);
+
+    /* Position */
     transform: translateX(-20px);
-    -webkit-transform: translateX(-20px);
-    -moz-transform: translateX(-20px);
-    -ms-transform: translateX(-20px);
-    -o-transform: translateX(-20px);
+
+    /* Interaction */
+    cursor: pointer;
+
+    /* Animation */
+    transition: all 0.3s ease;   
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+
+}
+
+
+.product-content button:hover {
+  background: linear-gradient(90deg, #5a67d8, #5a67d8);
+}
+.product-content p {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    width: 80px;
 }
 
 .product-card:hover .product-content {
@@ -170,14 +245,13 @@
     -moz-transform: translateX(0);
     -ms-transform: translateX(0);
     -o-transform: translateX(0);
+}
 
+.product-card:hover .product-content p {
+    width: fit-content;
 }
 
 
-.product-content button:hover {
-    background-color: #e08d07;
-
-}
 
 .product-card .product-info .product-rating {
     background-color: #f3a909;
@@ -201,11 +275,9 @@
         height: 100vh;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
-        position: fixed;
-        z-index: 1000;
     }
 
     .sidebar.open {
-        width: 100%;
+        width: 260px;
     }
 }

@@ -93,6 +93,7 @@ function CategorySlider() {
                   className="w-100 category-img"
                   loading="lazy" // Performance boost
                 />
+
               </div>
               <h6 className="category-title text-main">{category.name}</h6>
             </div>

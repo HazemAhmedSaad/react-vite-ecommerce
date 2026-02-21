@@ -6,6 +6,7 @@ import Profile from "../Profile/Profile";
 import Products from "../Products/Products";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AuthRoute from "../ProtectedRoute/AuthRoute";
+import ProductDetails from './../ProductDetails/ProductDetails';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "home", element: <Navigate to="/" replace /> },
+      { path: "product/:id", element: <ProductDetails /> },
 
       {
         element: <ProtectedRoute />,
