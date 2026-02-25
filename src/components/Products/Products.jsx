@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Products.css";
-import HashLoader from "./../../../node_modules/react-spinners/esm/HashLoader";
+import HashLoader from "react-spinners/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategorySlider from "../Caregories/CategorySlider/CategorySlider";
@@ -11,7 +11,7 @@ export default function Products() {
   const getAllProducts = () =>
     axios.get("https://ecommerce.routemisr.com/api/v1/products");
 
-  const { data, isLoading, isError, isFetching } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["allProducts"],
     queryFn: getAllProducts,
     refetchOnMount: false,

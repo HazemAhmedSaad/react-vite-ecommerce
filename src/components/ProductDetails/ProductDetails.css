@@ -1,0 +1,39 @@
+.main-image-container {
+
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+}
+
+.main-image {
+
+    max-width: 100%;
+    transition: transform 0.3s;
+    cursor: zoom-in;
+
+}
+
+.main-image.zoomed {
+
+    transform: scale(1.8);
+    cursor: zoom-out;
+
+}
+
+
+
+.thumb-img {
+
+    cursor: pointer;
+    padding: 3px;
+
+}
+
+
+
+.active-thumb {
+    border: 2px solid #f3a909 !important;
+}
