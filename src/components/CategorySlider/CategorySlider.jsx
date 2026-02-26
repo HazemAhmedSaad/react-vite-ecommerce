@@ -2,7 +2,7 @@ import axios from "axios";
 import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import "./CategorySlider.css";
-import CategorySkeleton from "../CategorySkeleton/CategorySkeleton";
+import CategorySkeleton from "../Skeleton/CategorySkeleton";
 import { useState, useEffect } from "react";
 
 // It's better to keep the fetcher outside the component to avoid re-creation
@@ -93,7 +93,6 @@ function CategorySlider() {
                   className="w-100 category-img"
                   loading="lazy" // Performance boost
                 />
-
               </div>
               <h6 className="category-title text-main">{category.name}</h6>
             </div>

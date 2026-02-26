@@ -3,7 +3,7 @@ import "./Products.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import CategorySlider from "../Caregories/CategorySlider/CategorySlider";
+import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../Brands/BrandSlider/BrandSlider";
 import { Link } from "react-router-dom";
 export default function Products() {

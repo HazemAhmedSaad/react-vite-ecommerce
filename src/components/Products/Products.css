@@ -99,7 +99,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
-    width: 220px;
+    width: 230px;
     border-radius: 12px;
     transition: 0.3s;
     border: 1px solid var(--border-color);

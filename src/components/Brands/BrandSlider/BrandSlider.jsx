@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import "./BrandSlider.css";
 import { useState, useEffect } from "react";
-import CategorySkeleton from "../../Caregories/CategorySkeleton/CategorySkeleton";
+import CategorySkeleton from "../../Skeleton/CategorySkeleton";
 function BrandSlider() {
   function useSlidesToShow() {
     const getSlides = () => {

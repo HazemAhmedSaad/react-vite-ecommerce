@@ -1,39 +1,48 @@
 .main-image-container {
-
-    height: 400px;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-
 }
 
 .main-image {
-
-    max-width: 100%;
-    transition: transform 0.3s;
+    max-width: 80%;
+    transition: transform 0.3s ease;
     cursor: zoom-in;
-
+    -webkit-transition: transform 0.3s ease;
+    -moz-transition: transform 0.3s ease;
+    -ms-transition: transform 0.3s ease;
+    -o-transition: transform 0.3s ease;
 }
-
-.main-image.zoomed {
-
-    transform: scale(1.8);
-    cursor: zoom-out;
-
-}
-
-
 
 .thumb-img {
-
+    min-height: 140px;
     cursor: pointer;
     padding: 3px;
-
+    border: 2px solid var(--border-color);
+    transition: 0.3s;
+    border-radius: 8px;
 }
 
-
+.thumb-img:hover {
+    transform: scale(1.05);
+}
 
 .active-thumb {
     border: 2px solid #f3a909 !important;
+}
+
+/* لون السهم نفسه */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #f3a909;
+    /* غير اللون هنا */
+}
+
+/* لون السهم عند الـ hover */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    color: var(--text-main);
+    /* لون مختلف عند المرور */
 }
