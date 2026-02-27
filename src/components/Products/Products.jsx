@@ -94,9 +94,11 @@ export default function Products() {
                   </Link>
 
                   <div className="product-info d-flex justify-content-between align-items-center">
-                    <h6 className="product-title">
-                      {product.title.split(" ").slice(0, 2).join(" ")}
-                    </h6>
+                    <Link to={`/product/${product._id}`} key={product._id}>
+                      <h6 className="product-title">
+                        {product.title.split(" ").slice(0, 2).join(" ")}
+                      </h6>
+                    </Link>
                     <div className="text-warning small">
                       <i className="fa-solid fa-star"></i>{" "}
                       {product.ratingsAverage}

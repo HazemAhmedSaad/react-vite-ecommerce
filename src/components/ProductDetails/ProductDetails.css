@@ -7,7 +7,8 @@
 }
 
 .main-image {
-    max-width: 80%;
+    max-width: 100%;
+    min-height: 500px;
     transition: transform 0.3s ease;
     cursor: zoom-in;
     -webkit-transition: transform 0.3s ease;
@@ -17,7 +18,7 @@
 }
 
 .thumb-img {
-    min-height: 140px;
+    min-height: 100px;
     cursor: pointer;
     padding: 3px;
     border: 2px solid var(--border-color);
@@ -33,16 +34,12 @@
     border: 2px solid #f3a909 !important;
 }
 
-/* لون السهم نفسه */
 .swiper-button-next,
 .swiper-button-prev {
     color: #f3a909;
-    /* غير اللون هنا */
 }
 
-/* لون السهم عند الـ hover */
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
     color: var(--text-main);
-    /* لون مختلف عند المرور */
 }

@@ -69,33 +69,33 @@ export default function ProductDetails() {
               ))}
             </Swiper>
 
-            <Swiper
-              onSwiper={setThumbsSwiper}
-              slidesPerView={4}
-              spaceBetween={10}
-              centeredSlides={true}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Pagination]}
-              className="mt-3 p-2"
-            >
-              {product?.images?.map((img, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={img}
-                    onClick={() => {
-                      setActiveIndex(index);
-                      mainSwiper?.slideTo(index);
-                    }}
-                    className={`w-100 rounded thumb-img ${
-                      activeIndex === index ? "active-thumb" : ""
-                    }`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                slidesPerView={4}
+                spaceBetween={10}
+                centeredSlides={true}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                className="mt-3 py-2 "
+              >
+                {product?.images?.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={img}
+                      onClick={() => {
+                        setActiveIndex(index);
+                        mainSwiper?.slideTo(index);
+                      }}
+                      className={`w-100 rounded thumb-img ${
+                        activeIndex === index ? "active-thumb" : ""
+                      }`}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
 
           <div className="col-md-7">
             <h3>{product?.title}</h3>
