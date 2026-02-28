@@ -8,7 +8,7 @@
 
 .main-image {
     max-width: 100%;
-    min-height: 500px;
+    min-height: 250px;
     transition: transform 0.3s ease;
     cursor: zoom-in;
     -webkit-transition: transform 0.3s ease;
@@ -18,16 +18,25 @@
 }
 
 .thumb-img {
-    min-height: 100px;
+    min-height: 50px;
     cursor: pointer;
     padding: 3px;
     border: 2px solid var(--border-color);
     transition: 0.3s;
     border-radius: 8px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+
 }
 
 .thumb-img:hover {
     transform: scale(1.05);
+    opacity: 1;
+
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
 }
 
 .active-thumb {
@@ -41,5 +50,27 @@
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
+    color: #000;
+}
+
+.thumb-img.active-thumb {
+    border: 2px solid #000;
+    opacity: 1;
+}
+.product-details-title {
+    margin-top: 10px;
     color: var(--text-main);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.product-rating span {
+    color: #ffc206;
+}
+
+
+.product-rating .rating-count {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
 }
