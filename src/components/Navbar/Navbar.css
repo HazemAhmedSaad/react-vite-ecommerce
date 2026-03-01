@@ -1,10 +1,10 @@
 .navbar {
-    position: fixed !important;
+    position: sticky;
     background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
+
     top: 0;
     width: 100%;
     z-index: 10000 !important;
@@ -15,6 +15,12 @@
     -moz-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     -ms-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     -o-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transform: translateZ(0);
+    /* 👈 مهم جدًا */
+    will-change: transform;
+    /* 👈 مهم جدًا */
+    backface-visibility: hidden;
+    /* 👈 مهم */
 }
 
 .navbar-brand {
