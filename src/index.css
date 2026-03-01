@@ -1,5 +1,5 @@
 html {
-  background-color: #081218;
+  background: var(--bg-main);
 }
 
 body {
@@ -15,6 +15,11 @@ body::before {
   inset: 0;
   background: var(--bg-main);
   z-index: -1;
+}
+
+html,
+body {
+  overscroll-behavior: none;
 }
 
 body.dark {
