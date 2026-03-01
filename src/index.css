@@ -1,4 +1,9 @@
-html.dark {
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body.dark {
   --bg-main: radial-gradient(circle, rgba(3, 24, 45, 1), rgba(8, 12, 18, 1));
   --box-bg: rgba(8, 12, 20, 0.65);
   --box-bg-hover: rgba(27, 30, 37, 0.692);
@@ -12,7 +17,7 @@ html.dark {
   --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
-html.light {
+body.light {
   --bg-main: #fff;
   --box-bg: rgba(245, 245, 245, 0.5);
   --box-bg-hover: rgba(216, 216, 216, 0.589);
@@ -35,13 +40,11 @@ html.light {
   font-family: "Poppins", sans-serif;
 }
 
-html,
 body {
   background: var(--bg-main);
   color: var(--text-main);
   background-attachment: fixed;
   margin: 0;
-  transition: background 0.3s ease;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: auto;

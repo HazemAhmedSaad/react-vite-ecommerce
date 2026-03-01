@@ -4,7 +4,7 @@ import HashLoader from "react-spinners/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategorySlider from "../CategorySlider/CategorySlider";
-import BrandSlider from "../Brands/BrandSlider/BrandSlider";
+import BrandSlider from "../BrandSlider/BrandSlider";
 import { Link } from "react-router-dom";
 export default function Products() {
   const [open, setOpen] = useState(false);
