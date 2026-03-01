@@ -13,13 +13,25 @@ import { Pagination } from "swiper/modules";
 
 export default function ProductDetails() {
   const { id } = useParams();
-
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [mainSwiper, setMainSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(()=>2 * 60 * 60);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer); 
+  }, []);
+  const hours = Math.floor(timeLeft / 3600);
+  const minutes = Math.floor((timeLeft % 3600) / 60);
+  const seconds = timeLeft % 60;
+
+  const formattedTime = `${hours}h ${minutes}m ${seconds}s`;
   const getProductDetails = () =>
     axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
 
@@ -147,7 +159,7 @@ export default function ProductDetails() {
 
               <span className="discount-badge rounded-pill">10% OFF</span>
             </div>
-            <div className="d-flex gap-5">
+            <div className="d-flex gap-lg-5 flex-column flex-lg-row ">
               <div className="quantity-wrapper">
                 <span className="qty-label">Quantity</span>
 
@@ -189,9 +201,11 @@ export default function ProductDetails() {
             </div>
 
             <div className="order-time my-3">
-              <i className="fa-solid fa-truck-fast me-2"></i>
-              Order within
-              <span className="fw-bold highlight-time">2 hours</span> to get
+              <i className="fa-solid fa-truck-fast me-1"></i>
+
+              <span>Order within </span>
+              <span className="fw-bold highlight-time">{formattedTime}</span>
+              <span> to get </span>
               <span className="fw-bold highlight-delivery">
                 next-day delivery
               </span>
