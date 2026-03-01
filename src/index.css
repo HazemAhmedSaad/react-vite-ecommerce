@@ -1,6 +1,7 @@
 body.dark {
   --bg-main: radial-gradient(circle, rgba(3, 24, 45, 1), rgba(8, 12, 18, 1));
   --box-bg: rgba(8, 12, 20, 0.65);
+  --box-bg-hover: rgba(27, 30, 37, 0.692);
   --text-main: #fff;
   --text-muted: rgba(255, 255, 255, 0.7);
   --border-color: #333b4d99;
@@ -14,6 +15,7 @@ body.dark {
 body.light {
   --bg-main: #fff;
   --box-bg: rgba(245, 245, 245, 0.5);
+  --box-bg-hover: rgba(216, 216, 216, 0.589);
   --text-main: #1a1a1a;
   --text-muted: rgba(0, 0, 0, 0.66);
   --border-color: #ccc;
@@ -24,10 +26,15 @@ body.light {
   --overlay-bg: rgba(0, 0, 0, 0.5);
 }
 
+:root {
+  --scond-color: #f3a909;
+}
+
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 body {
   background: var(--bg-main);
   color: var(--text-main);

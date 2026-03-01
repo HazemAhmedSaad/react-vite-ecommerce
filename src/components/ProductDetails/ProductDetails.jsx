@@ -17,7 +17,9 @@ export default function ProductDetails() {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [mainSwiper, setMainSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const [quantity, setQuantity] = useState(1);
+  const sizes = ["S", "M", "L", "XL", "XXL"];
+  const [selectedSize, setSelectedSize] = useState(null);
   const getProductDetails = () =>
     axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
 
@@ -121,23 +123,80 @@ export default function ProductDetails() {
                 } else if (rating >= index + 0.5) {
                   return (
                     <span key={index}>
-                      <i className="fa-solid fa-star-half-stroke fa-"></i>
+                      <i className="fa-solid fa-star-half-stroke fa-sm"></i>
                     </span>
                   );
                 } else {
                   return (
-                    <span key={index} >
+                    <span key={index}>
                       <i className="fa-regular fa-star fa-sm"></i>
                     </span>
                   );
                 }
               })}
               <span className="rating-count">
-                ({product?.ratingsAverage} from {product?.ratingsQuantity}{" "}
-                reviews)
+                ({product?.ratingsAverage?.toFixed(1)} / 5 -{" "}
+                {product?.ratingsQuantity} Reviews)
               </span>
             </div>
-            <h4 className="text-success">{product?.price} EGP</h4>
+            <div className="price-box">
+              <h4 className="new-price"> {product?.price} EGP</h4>
+              <span className="old-price">
+                {(product?.price + product?.price * 0.1)?.toFixed(2)} EGP
+              </span>
+
+              <span className="discount-badge rounded-pill">10% OFF</span>
+            </div>
+            <div className="d-flex gap-5">
+              <div className="quantity-wrapper">
+                <span className="qty-label">Quantity</span>
+
+                <div className="quantity-box">
+                  <button
+                    className="qty-btn"
+                    onClick={() =>
+                      setQuantity((prev) => (prev > 1 ? prev - 1 : 1))
+                    }
+                  >
+                    −
+                  </button>
+
+                  <span className="qty-number">{quantity}</span>
+
+                  <button
+                    className="qty-btn"
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div className="size-selector">
+                <span className="size-label">Select Size:</span>
+
+                <div className="size-options">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      className={`size-btn rounded-pill  ${selectedSize === size ? "active" : ""}`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="order-time my-3">
+              <i className="fa-solid fa-truck-fast me-2"></i>
+              Order within
+              <span className="fw-bold highlight-time">2 hours</span> to get
+              <span className="fw-bold highlight-delivery">
+                next-day delivery
+              </span>
+            </div>
+            <p>{product?.description}</p>
             <button className="btn btn-dark w-100 mt-3">Add To Cart</button>
           </div>
         </div>
