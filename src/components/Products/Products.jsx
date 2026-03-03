@@ -7,7 +7,6 @@ import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import { Link } from "react-router-dom";
 export default function Products() {
-  const [open, setOpen] = useState(false);
   const getAllProducts = () =>
     axios.get("https://ecommerce.routemisr.com/api/v1/products");
 
@@ -17,9 +16,6 @@ export default function Products() {
     refetchOnMount: false,
   });
 
-  const handleToggle = () => {
-    setOpen((prev) => !prev);
-  };
 
   if (isLoading) {
     return (
@@ -48,39 +44,14 @@ export default function Products() {
   return (
     <div className="products-wrapper">
       <div className="products-content">
-        {/* Sidebar */}
-        <aside className={`sidebar ${open ? "open" : ""} `}>
-          {open && (
-            <div className="sidebar-inner ">
-              <span
-                variant="light"
-                onClick={handleToggle}
-                className="mb-3 tog-close-btn "
-              >
-                <i className="fa-solid fa-angles-left"></i>
-              </span>
-              <h2>heloooooo</h2>
-              <hr />
-              <ul>
-                <li>fffffffffffffff</li>
-                <li>fffffffffffffff</li>
-                <li>fffffffffffffff</li>
-                <li>fffffffffffffffffffffffffffffffffffffff</li>
-              </ul>
-            </div>
-          )}
-        </aside>
+      
 
         {/* Main Content */}
         <div className="main-content container flex-grow-1">
           <CategorySlider />
           <BrandSlider />
           <div>
-            {!open && (
-              <span variant="" onClick={handleToggle} className="toggle-btn ">
-                <i className="fa-solid fa-angles-right"></i>
-              </span>
-            )}
+
             <div className="row row-cols-auto gap-4 justify-content-around product-group">
               {data?.data.data?.map((product) => (
                 <div className="product-card col" key={product._id}>
@@ -110,7 +81,9 @@ export default function Products() {
                   </p>
 
                   <div className="product-content d-flex justify-content-between">
-                    <button className="">Add To Cart</button>
+                    <button className="">
+                      <i className="fa-solid fa-cart-arrow-down"></i> Add To Cart
+                    </button>
 
                     <p className="product-price">{product.price} EGP</p>
                   </div>

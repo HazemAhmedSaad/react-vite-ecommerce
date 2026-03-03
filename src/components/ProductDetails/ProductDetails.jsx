@@ -19,13 +19,13 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(()=>2 * 60 * 60);
+  const [timeLeft, setTimeLeft] = useState(() => 2 * 60 * 60);
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
-    return () => clearInterval(timer); 
+    return () => clearInterval(timer);
   }, []);
   const hours = Math.floor(timeLeft / 3600);
   const minutes = Math.floor((timeLeft % 3600) / 60);
@@ -35,14 +35,25 @@ export default function ProductDetails() {
   const getProductDetails = () =>
     axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["productDetails", id],
     queryFn: getProductDetails,
+    refetchOnMount: false,
+    retry: 3,
+    retryDelay: 1000,
+    enabled: !!id,
   });
 
   const product = data?.data?.data;
   console.log(product);
-
+  if (isError) {
+    return (
+      <div className="text-center py-5 min-vh-100 d-flex flex-column justify-content-center">
+        <h4>Something went wrong 😢</h4>
+        <p>Please try again later.</p>
+      </div>
+    );
+  }
   return (
     <div className="container py-5 mt-5 min-vh-100">
       {isLoading ? (
@@ -157,7 +168,7 @@ export default function ProductDetails() {
                 {(product?.price + product?.price * 0.1)?.toFixed(2)} EGP
               </span>
 
-              <span className="discount-badge rounded-pill">10% OFF</span>
+              <span className="discount-badge rounded-pill">-10%</span>
             </div>
             <div className="d-flex gap-lg-5 flex-column flex-lg-row ">
               <div className="quantity-wrapper">
@@ -177,7 +188,9 @@ export default function ProductDetails() {
 
                   <button
                     className="qty-btn"
-                    onClick={() => setQuantity((prev) => prev + 1)}
+                    onClick={() =>
+                      setQuantity((prev) => (prev < 15 ? prev + 1 : prev))
+                    }
                   >
                     +
                   </button>
@@ -211,7 +224,9 @@ export default function ProductDetails() {
               </span>
             </div>
             <p>{product?.description}</p>
-            <button className="btn btn-dark w-100 mt-3">Add To Cart</button>
+            <button className="btn btn-dark w-100 mt-3">
+              <i className="fa-solid fa-cart-arrow-down"></i> Add To Cart
+            </button>
           </div>
         </div>
       )}

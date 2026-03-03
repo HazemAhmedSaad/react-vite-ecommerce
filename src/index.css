@@ -10,8 +10,8 @@ body.dark {
   --text-main: #fff;
   --text-muted: rgba(255, 255, 255, 0.7);
   --border-color: #333b4d99;
-  --accent: #9fa8ff;
-  --btn-gradient: linear-gradient(135deg, #667eea, #764ba2);
+  --accent: #418aff;
+  --btn-gradient: linear-gradient(135deg, #1f5ed6, #3d8bff);
   --taps-bg: rgba(255, 255, 255, 0.05);
   --border-main: rgba(255, 255, 255, 0.3);
   --overlay-bg: rgba(0, 0, 0, 0.7);
@@ -24,8 +24,8 @@ body.light {
   --text-main: #1a1a1a;
   --text-muted: rgba(0, 0, 0, 0.66);
   --border-color: #ccc;
-  --accent: #667eea;
-  --btn-gradient: linear-gradient(135deg, #667eea, #5a67d8);
+  --accent: #256fe2;
+  --btn-gradient: linear-gradient(135deg, #418aff, #256fe2);
   --taps-bg: #EEF1F6;
   --border-main: rgba(0, 0, 0, 0.66);
   --overlay-bg: rgba(0, 0, 0, 0.5);
