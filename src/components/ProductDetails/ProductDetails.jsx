@@ -9,7 +9,6 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { useState, useEffect } from "react";
 import "./ProductDetails.css";
 import ProductDetailsSkeleton from "../Skeleton/ProductDetailsSkeleton";
-import { Pagination } from "swiper/modules";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -42,6 +41,7 @@ export default function ProductDetails() {
     retry: 3,
     retryDelay: 1000,
     enabled: !!id,
+    refetchOnWindowFocus: false,
   });
 
   const product = data?.data?.data;
@@ -51,6 +51,14 @@ export default function ProductDetails() {
       <div className="text-center py-5 min-vh-100 d-flex flex-column justify-content-center">
         <h4>Something went wrong 😢</h4>
         <p>Please try again later.</p>
+        <div>
+          <button
+            className="btn btn-warning w-auto"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -69,6 +77,7 @@ export default function ProductDetails() {
               onSlideChange={(swiper) => {
                 setActiveIndex(swiper.activeIndex);
               }}
+              className="rounded"
             >
               {product?.images?.map((img, index) => (
                 <SwiperSlide key={index}>
@@ -83,12 +92,12 @@ export default function ProductDetails() {
                         const y = ((e.clientY - top) / height) * 100;
                         e.target.style.transformOrigin = `${x}% ${y}%`;
                       }}
-                      onMouseEnter={(e) => {
-                        e.target.style.transform = "scale(2)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.transform = "scale(1)";
-                      }}
+                      onMouseEnter={(e) =>
+                        e.currentTarget.classList.add("zoomed")
+                      }
+                      onMouseLeave={(e) =>
+                        e.currentTarget.classList.remove("zoomed")
+                      }
                     />
                   </div>
                 </SwiperSlide>
@@ -97,17 +106,14 @@ export default function ProductDetails() {
 
             <Swiper
               onSwiper={setThumbsSwiper}
-              slidesPerView={4}
+              slidesPerView={"auto"}
               spaceBetween={10}
               centeredSlides={true}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Pagination]}
+              watchSlidesProgress={true}
               className="mt-3 py-2 "
             >
               {product?.images?.map((img, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index} style={{ width: "80px" }}>
                   <img
                     src={img}
                     onClick={() => {
@@ -129,7 +135,7 @@ export default function ProductDetails() {
                 {product?.category?.name}
               </span>
               <span className="badge bg-warning">
-                {product?.subcategory?.[0].name}
+                {product?.subcategory?.[0]?.name}
               </span>
               <span className="badge bg-danger">{product?.brand?.name}</span>
             </div>
@@ -146,7 +152,7 @@ export default function ProductDetails() {
                 } else if (rating >= index + 0.5) {
                   return (
                     <span key={index}>
-                      <i className="fa-solid fa-star-half-stroke fa-sm"></i>
+                      <i className="fa-solid fa-star-half-stroke fa-sm "></i>
                     </span>
                   );
                 } else {
@@ -163,12 +169,28 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="price-box">
-              <h4 className="new-price"> {product?.price} EGP</h4>
-              <span className="old-price">
-                {(product?.price + product?.price * 0.1)?.toFixed(2)} EGP
-              </span>
+              {product?.priceAfterDiscount ? (
+                <>
+                  <h4 className="new-price">
+                    {product.priceAfterDiscount} EGP
+                  </h4>
+                  <span className="old-price text-decoration-line-through">
+                    {product.price} EGP
+                  </span>
 
-              <span className="discount-badge rounded-pill">-10%</span>
+                  <span className="discount-badge rounded-pill">
+                    -
+                    {Math.round(
+                      ((product.price - product.priceAfterDiscount) /
+                        product.price) *
+                        100,
+                    )}
+                    %
+                  </span>
+                </>
+              ) : (
+                <h4 className="new-price">{product?.price} EGP</h4>
+              )}
             </div>
             <div className="d-flex gap-lg-5 flex-column flex-lg-row ">
               <div className="quantity-wrapper">
@@ -215,12 +237,11 @@ export default function ProductDetails() {
 
             <div className="order-time my-3">
               <i className="fa-solid fa-truck-fast me-1"></i>
-
               <span>Order within </span>
               <span className="fw-bold highlight-time">{formattedTime}</span>
               <span> to get </span>
               <span className="fw-bold highlight-delivery">
-                next-day delivery
+                Tomorrow
               </span>
             </div>
             <p>{product?.description}</p>
