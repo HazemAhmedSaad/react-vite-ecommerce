@@ -244,6 +244,76 @@ body.dark {
     color: #000;
 }
 
+.btn-product-details {
+    background: var(--btn-gradient);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+
+}
+
+.btn-product-details:hover {
+    background: linear-gradient(135deg, #3270e4, #3d7cf0);
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+}
+
+.btn-product-details i {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.product-description {
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+    background-color: var(--box-bg) !important;
+    color: var(--text-main) !important;
+
+}
+
+.product-description i {
+    color: var(--scond-color);
+}
+
+.product-description p {
+    padding: 0 15px;
+    font-size: 14px;
+}
+
+
+
+.wishlist-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: white;
+    transition: 0.3s ease;
+}
+
+.wishlist-btn:hover {
+    background-color: #ffe5e5;
+    color: #FF4143;
+    
+}
+.text-danger-icon{
+    color: #FF4143;
+}
+
 @media screen and (max-width: 768px) {
     .product-details-title {
         font-size: 20px;

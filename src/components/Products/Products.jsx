@@ -6,6 +6,7 @@ import axios from "axios";
 import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import { Link } from "react-router-dom";
+
 export default function Products() {
   const getAllProducts = () =>
     axios.get("https://ecommerce.routemisr.com/api/v1/products");
@@ -65,7 +66,7 @@ export default function Products() {
                     </div>
                   </Link>
 
-                  <div className="product-info mb-1 d-flex justify-content-between align-items-center">
+                  <div className="product-info my-1 d-flex justify-content-between align-items-center">
                     <Link to={`/product/${product._id}`}>
                       <h6 className="product-title">
                         {product.title.split(" ").slice(0, 2).join(" ")}
@@ -98,12 +99,17 @@ export default function Products() {
                       <i className="fa-solid fa-cart-arrow-down"></i> Add
                     </button>
                     <div className="d-flex align-items-center gap-1 product-price-info">
-                      <p className="product-price">{product.price} EGP</p>
-                      {product.priceAfterDiscount && (
-                        <p className="old-price-text old-price">
-                          {" "}
-                          {product.priceAfterDiscount}
-                        </p>
+                      {product.priceAfterDiscount ? (
+                        <>
+                          <p className="product-price">
+                            {product.priceAfterDiscount} EGP
+                          </p>
+                          <p className="old-price-text old-price">
+                            {product.price} EGP
+                          </p>
+                        </>
+                      ) : (
+                        <p className="product-price">{product.price} EGP</p>
                       )}
                     </div>
                   </div>

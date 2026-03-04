@@ -47,7 +47,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
-    width: 250px;
+    width: 260px;
     border-radius: 12px;
     transition: 0.3s;
     border: 1px solid var(--border-color);
@@ -181,7 +181,7 @@
     color: var(--text-muted);
     font-size: 14px;
     font-weight: 600;
-    width: 140px;
+    width: 150px;
 }
 
 .product-card:hover .product-content {

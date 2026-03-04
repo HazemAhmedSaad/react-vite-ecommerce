@@ -9,6 +9,10 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { useState, useEffect } from "react";
 import "./ProductDetails.css";
 import ProductDetailsSkeleton from "../Skeleton/ProductDetailsSkeleton";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -19,6 +23,8 @@ export default function ProductDetails() {
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = useState(null);
   const [timeLeft, setTimeLeft] = useState(() => 2 * 60 * 60);
+  const [liked, setLiked] = useState(false);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
@@ -240,14 +246,40 @@ export default function ProductDetails() {
               <span>Order within </span>
               <span className="fw-bold highlight-time">{formattedTime}</span>
               <span> to get </span>
-              <span className="fw-bold highlight-delivery">
-                Tomorrow
-              </span>
+              <span className="fw-bold highlight-delivery">Tomorrow</span>
             </div>
-            <p>{product?.description}</p>
-            <button className="btn btn-dark w-100 mt-3">
-              <i className="fa-solid fa-cart-arrow-down"></i> Add To Cart
-            </button>
+            <div className="product-details d-flex align-items-center gap-3 mt-3">
+              <button className="btn-product-details flex-grow-1 rounded-pill">
+                <i className="fa-solid fa-cart-arrow-down me-2"></i>
+                Add To Cart
+              </button>
+
+              <button className="wishlist-btn" onClick={() => setLiked(!liked)}>
+                <i
+                  className={
+                    liked
+                      ? "fa-solid fa-heart text-danger-icon"
+                      : "fa-regular fa-heart"
+                  }
+                ></i>
+              </button>
+            </div>
+            <div className="mt-4 ">
+              <Accordion defaultExpanded className="product-description">
+                <AccordionSummary
+                  expandIcon={<i class="fa-solid fa-chevron-up"></i>}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                >
+                  <Typography component="span" className="fw-bold">
+                    <i className="fa-solid fa-circle-info"></i> Description
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>{product?.description}</Typography>
+                </AccordionDetails>
+              </Accordion>
+            </div>
           </div>
         </div>
       )}
