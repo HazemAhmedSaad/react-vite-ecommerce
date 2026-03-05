@@ -247,6 +247,16 @@
     font-size: 12px !important;
 }
 
+.main-image {
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.main-image.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+}
+
 @media screen and (max-width: 768px) {
     .product-content {
         transform: translateX(0);

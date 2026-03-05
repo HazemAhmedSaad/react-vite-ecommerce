@@ -99,10 +99,7 @@ body.dark {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     flex-wrap: wrap;
     gap: 5px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    -ms-border-radius: 50px;
-    -o-border-radius: 50px;
+
 }
 
 .order-time i {
@@ -308,10 +305,31 @@ body.dark {
 .wishlist-btn:hover {
     background-color: #ffe5e5;
     color: #FF4143;
-    
+
 }
-.text-danger-icon{
+
+.text-danger-icon {
     color: #FF4143;
+}
+
+.product-stock-sold span {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.product-stock-sold .stock  i {
+    color: #28a745;
+}
+.product-stock-sold .sold  i {
+    color: #ff5722;
+}
+
+.product-stock-sold .stock strong {
+    color: #28a745;
+}
+
+.product-stock-sold .sold strong {
+    color: #ff5722;
 }
 
 @media screen and (max-width: 768px) {
