@@ -4,7 +4,7 @@ import { Keyboard, Scrollbar } from "swiper/modules";
 import "./ReviewsSlider.css";
 
 export default function ReviewsSlider({ reviews }) {
-  if (!reviews || reviews.length === 0) return <p>No reviews yet.</p>;
+  if (!reviews || reviews.length === 0) return "";
 
   const totalReviews = reviews.length;
   const avgRating =
@@ -17,12 +17,12 @@ export default function ReviewsSlider({ reviews }) {
   return (
     <div>
       <h4 className="head-rating">Rating & Reviews</h4>{" "}
-      <div className="row g-3 justify-content-center align-items-center gap-3">
+      <div className="row justify-content-center align-items-center g-3">
         <div className="rating-summary col-12 col-md-8">
-          <div className="rating-main row gap-2 align-items-center justify-content-center">
-            <div className="average-rating   col-5 col-md-4 ">
+          <div className="rating-main row g-2 align-items-center justify-content-center">
+            <div className="average-rating col-5 col-md-4  ">
               <div className="d-flex justify-content-center align-items-center ">
-                <span className="avg-number">{avgRating.toFixed(1)}</span>
+                <span className="avg-number display-1">{avgRating.toFixed(1)}</span>
                 <span className="slash ">/5</span>
               </div>
               <span className="review-count">({totalReviews} Reviews)</span>
@@ -33,7 +33,7 @@ export default function ReviewsSlider({ reviews }) {
                 const percent = (count / totalReviews) * 100;
                 return (
                   <div key={star} className="rating-bar">
-                    <span className="star gap-1 d-flex align-items-center justify-content-center">
+                    <span className="star g-1 d-flex align-items-center justify-content-center">
                       <p className="m-0 fs-5">{star}</p>
                       <i className="fa-solid fa-star "></i>
                     </span>
@@ -63,8 +63,15 @@ export default function ReviewsSlider({ reviews }) {
             {reviews.map((review) => (
               <SwiperSlide key={review._id}>
                 <div className="review-card">
-                  <div className="review-header">
-                    <strong className="review-user">{review.user.name}</strong>
+                  <div>
+                    <div className="review-header">
+                      <strong className="review-user">
+                        {review.user.name}
+                      </strong>
+                      <small className="review-date">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </small>
+                    </div>
                     <span className="review-rating">
                       {Array.from({ length: 5 }, (_, i) => {
                         if (i < review.rating)
@@ -73,6 +80,7 @@ export default function ReviewsSlider({ reviews }) {
                       })}
                     </span>
                   </div>
+
                   <p className="review-text">{review.review}</p>
                 </div>
               </SwiperSlide>

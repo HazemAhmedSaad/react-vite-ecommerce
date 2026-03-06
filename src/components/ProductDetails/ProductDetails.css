@@ -99,7 +99,10 @@ body.dark {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     flex-wrap: wrap;
     gap: 5px;
-
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
 }
 
 .order-time i {
@@ -140,7 +143,6 @@ body.dark {
 .discount-badge {
     background: #FFEBEC;
     color: #FF4143;
-    /* border: solid 1px #FF4143; */
     padding: 3px 8px;
     font-size: 12px;
     font-weight: 600;
@@ -243,26 +245,19 @@ body.dark {
 
 .btn-product-details {
     background: var(--btn-gradient);
+    background-size: 200%;
+    background-position: left;
     color: #fff;
     font-weight: 600;
     border: none;
     padding: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-
+    transition: background-position 0.3s ease;
 }
 
 .btn-product-details:hover {
-    background: linear-gradient(135deg, #3270e4, #3d7cf0);
+    background-position: right;
     transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
 }
 
 .btn-product-details i {
@@ -317,10 +312,11 @@ body.dark {
     color: var(--text-muted);
 }
 
-.product-stock-sold .stock  i {
+.product-stock-sold .stock i {
     color: #28a745;
 }
-.product-stock-sold .sold  i {
+
+.product-stock-sold .sold i {
     color: #ff5722;
 }
 
@@ -331,7 +327,9 @@ body.dark {
 .product-stock-sold .sold strong {
     color: #ff5722;
 }
-
+.swiper-scrollbar-drag{
+    background-color: var(--scond-color) !important;
+}
 @media screen and (max-width: 768px) {
     .product-details-title {
         font-size: 20px;

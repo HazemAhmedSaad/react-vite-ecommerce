@@ -13,7 +13,7 @@ export function ThemeProvider({ children }) {
   });
   useEffect(() => {
     document.documentElement.style.backgroundColor =
-      theme === "dark" ? "#1a1a1a" : "#fff";
+      theme === "dark" ? "#080E16" : "#fff";
     const body = document.body;
     body.className = `${theme} theme-transition`;
 

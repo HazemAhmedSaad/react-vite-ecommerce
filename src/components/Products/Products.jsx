@@ -1,24 +1,34 @@
-import { useState } from "react";
 import "./Products.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
-import { Link } from "react-router-dom";
-
+import ProductCard from "./ProductCard";
+import { useSearchParams } from "react-router-dom";
+import Pagination from "./Pagination";
 export default function Products() {
-  const getAllProducts = () =>
-    axios.get("https://ecommerce.routemisr.com/api/v1/products");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
+
+  const getAllProducts = (page) =>
+    axios.get("https://ecommerce.routemisr.com/api/v1/products", {
+      params: {
+        limit: 12,
+        page,
+      },
+    });
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["allProducts"],
-    queryFn: getAllProducts,
+    queryKey: ["allProducts", page],
+    queryFn: () => getAllProducts(page),
     refetchOnMount: false,
     retry: 3,
     retryDelay: 1000,
     refetchOnWindowFocus: false,
+    placeholderData: (previousData) => previousData,
   });
+  console.log(data);
 
   if (isLoading) {
     return (
@@ -49,76 +59,29 @@ export default function Products() {
   return (
     <div className="products-wrapper">
       <div className="products-content">
-        <div className="main-content container flex-grow-1">
+        <div className="main-content container ">
           <CategorySlider />
           <BrandSlider />
           <div>
             <div className="row row-cols-auto gap-4 justify-content-around product-group">
               {data?.data.data?.map((product) => (
-                <div className="product-card col" key={product._id}>
-                  <Link to={`/product/${product._id}`}>
-                    <div className="product-image-wrapper position-relative">
-                      <img src={product.imageCover} alt={product.title} />
-
-                      <div className="img-overlay">
-                        <span className="overlay-text">View</span>
-                      </div>
-                    </div>
-                  </Link>
-
-                  <div className="product-info my-1 d-flex justify-content-between align-items-center">
-                    <Link to={`/product/${product._id}`}>
-                      <h6 className="product-title">
-                        {product.title.split(" ").slice(0, 2).join(" ")}
-                      </h6>
-                    </Link>
-                    <div className="text-warning ">
-                      <i className="fa-solid fa-star"></i>
-                      {product.ratingsAverage}
-                    </div>
-                  </div>
-                  <div className="product-info d-flex justify-content-between align-items-center">
-                    <p className="product-category mb-1">
-                      {product.category?.name}
-                    </p>
-                    {product.priceAfterDiscount && (
-                      <span className="discount-badge rounded-pill m-0 discount-badge-card ">
-                        -
-                        {Math.round(
-                          ((product.price - product.priceAfterDiscount) /
-                            product.price) *
-                            100,
-                        )}
-                        %
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="product-content d-flex justify-content-between">
-                    <button>
-                      <i className="fa-solid fa-cart-arrow-down"></i> Add
-                    </button>
-                    <div className="d-flex align-items-center gap-1 product-price-info">
-                      {product.priceAfterDiscount ? (
-                        <>
-                          <p className="product-price">
-                            {product.priceAfterDiscount} EGP
-                          </p>
-                          <p className="old-price-text old-price">
-                            {product.price} EGP
-                          </p>
-                        </>
-                      ) : (
-                        <p className="product-price">{product.price} EGP</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
           </div>
+          {data?.data?.data?.length == 0 && (
+            <div className="d-flex justify-content-center align-items-center ">
+              <h4 className="text-center my-5">No Products Found</h4>
+            </div>
+          )}
         </div>
       </div>
+
+      <Pagination
+        page={page}
+        totalPages={data?.data?.metadata?.numberOfPages}
+        setSearchParams={setSearchParams}
+      />
     </div>
   );
 }
