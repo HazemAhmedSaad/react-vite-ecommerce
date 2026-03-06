@@ -43,11 +43,11 @@ body.light {
 body {
   background: var(--bg-main);
   color: var(--text-main);
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
   margin: 0;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: auto;
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* overflow: auto; */
 }
 
 @media (prefers-reduced-motion: no-preference) {
