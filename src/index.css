@@ -43,10 +43,17 @@ body.light {
 body {
   background: var(--bg-main);
   color: var(--text-main);
-  /* background-attachment: fixed; */
+  background-attachment: fixed;
   margin: 0;
-  /* background-repeat: no-repeat; */
-  /* background-size: cover; */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
   /* overflow: auto; */
 }
 
