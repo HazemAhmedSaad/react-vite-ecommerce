@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const themeContext = createContext();
 
-export function ThemeProvider({children}) {
+export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     const themeFromStorage = localStorage.getItem("theme");
     return themeFromStorage === "dark" || themeFromStorage === "light"
@@ -11,18 +11,20 @@ export function ThemeProvider({children}) {
         ? "dark"
         : "light";
   });
-    useEffect(() => {
-      const body = document.body;
-      body.className = `${theme} theme-transition`;
-  
-      const timeout = setTimeout(() => {
-        body.classList.remove("theme-transition");
-      }, 300);
-  
-      localStorage.setItem("theme", theme);
-  
-      return () => clearTimeout(timeout);
-    }, [theme]);
+  useEffect(() => {
+    document.documentElement.style.backgroundColor =
+      theme === "dark" ? "#1a1a1a" : "#fff";
+    const body = document.body;
+    body.className = `${theme} theme-transition`;
+
+    const timeout = setTimeout(() => {
+      body.classList.remove("theme-transition");
+    }, 300);
+
+    localStorage.setItem("theme", theme);
+
+    return () => clearTimeout(timeout);
+  }, [theme]);
   return (
     <themeContext.Provider value={{ theme, setTheme }}>
       {children}
