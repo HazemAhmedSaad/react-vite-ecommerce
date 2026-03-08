@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import "./sidebar.css";
+import "./Sidebar.css";
 import PriceFilter from "./PriceSlider";
 
 export default function SidebarChickbooks() {
@@ -124,7 +124,6 @@ export default function SidebarChickbooks() {
               Reset
             </button>
 
-            {/* زر إغلاق الشريط الجانبي */}
             <button className="btn btn-danger p-2" onClick={toggleSidebar}>
               {" "}
               <i className="fa-solid fa-xmark"></i>{" "}
