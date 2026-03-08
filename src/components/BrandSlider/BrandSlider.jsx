@@ -33,11 +33,19 @@ function BrandSlider() {
     return axios.get("https://ecommerce.routemisr.com/api/v1/brands");
   };
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: brandData,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["brands"],
     queryFn: getAllBrands,
     refetchOnMount: false,
+    retry: 3,
+    retryDelay: 1000,
+    refetchOnWindowFocus: false,
   });
+  console.log(brandData);
 
   const settings = {
     dots: false,
@@ -60,7 +68,7 @@ function BrandSlider() {
   return (
     <div className="slider-container my-4">
       <Slider {...settings}>
-        {data?.data.data.map((brand) => (
+        {brandData?.data?.data.map((brand) => (
           <div key={brand._id} className="text-center px-2">
             <div className="brand-item">
               <img

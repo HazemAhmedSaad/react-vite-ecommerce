@@ -1,20 +1,10 @@
-import "./Pagination.css";
-export default function Pagination({ page, totalPages, setSearchParams }) {
-  const handlePageChange = (pageNumber) => {
-    setSearchParams({ page: pageNumber });
-
-    window.scrollTo({
-      top: 450,
-      behavior: "smooth",
-    });
-  };
-
+import"./Pagination.css";
+export default function Pagination({ page, totalPages, onPageChange }) {
   const getPagination = () => {
     const pages = [];
     const delta = 1;
 
     pages.push(1);
-
     let start = Math.max(2, page - delta);
     let end = Math.min(totalPages - 1, page + delta);
 
@@ -39,7 +29,7 @@ export default function Pagination({ page, totalPages, setSearchParams }) {
       <button
         className="page-btn"
         disabled={page === 1}
-        onClick={() => handlePageChange(page - 1)}
+        onClick={() => onPageChange(page - 1)}
       >
         ‹
       </button>
@@ -53,18 +43,18 @@ export default function Pagination({ page, totalPages, setSearchParams }) {
           <button
             key={i}
             className={`page-btn ${page === p ? "active" : ""}`}
-            onClick={() => handlePageChange(p)}
+            onClick={() => onPageChange(p)}
           >
             {p}
           </button>
-        )
+        ),
       )}
 
       {/* next */}
       <button
         className="page-btn"
         disabled={page === totalPages}
-        onClick={() => handlePageChange(page + 1)}
+        onClick={() => onPageChange(page + 1)}
       >
         ›
       </button>

@@ -4,7 +4,6 @@ import Footer from "../Footer/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
-import Sidebar from "../Sidebar/Sidebar";
 
 function Layout() {
   return (
@@ -12,7 +11,6 @@ function Layout() {
       <Navbar />
       <ScrollToTop />
       <main className=" flex-fill overflow-hidden">
-        <Sidebar />
         <Outlet />
       </main>
       <Footer />

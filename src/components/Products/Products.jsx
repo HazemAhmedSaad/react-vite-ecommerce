@@ -2,33 +2,65 @@ import "./Products.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import ProductCard from "./ProductCard";
+import Pagination from "./Pagination";
+import { useSearchParams } from "react-router-dom";
 import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
-import ProductCard from "./ProductCard";
-import { useSearchParams } from "react-router-dom";
-import Pagination from "./Pagination";
+import SidebarChickbooks from "../Sidebar/Sidebar";
+
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const category = searchParams.get("category");
+  const brand = searchParams.get("brand");
+  const subcategory = searchParams.get("subcategory");
+  const priceGte = Number(searchParams.get("price[gte]") || 0);
+  const priceLte = Number(searchParams.get("price[lte]") || 30000);
+  const sort = searchParams.get("sort");
 
-  const getAllProducts = (page) =>
-    axios.get("https://ecommerce.routemisr.com/api/v1/products", {
-      params: {
-        limit: 12,
-        page,
+  const getProducts = async () => {
+    const res = await axios.get(
+      "https://ecommerce.routemisr.com/api/v1/products",
+      {
+        params: {
+          limit: 12,
+          page,
+          ...(category && { category }),
+          ...(brand && { brand }),
+          ...(subcategory && { subcategory }),
+          ...(priceGte && { "price[gte]": priceGte }),
+          ...(priceLte && { "price[lte]": priceLte }),
+          ...(sort && { sort }),
+        },
       },
-    });
+    );
+
+    return res.data || { data: [], metadata: { numberOfPages: 1 } };
+  };
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["allProducts", page],
-    queryFn: () => getAllProducts(page),
-    refetchOnMount: false,
-    retry: 3,
-    retryDelay: 1000,
-    refetchOnWindowFocus: false,
-    placeholderData: (previousData) => previousData,
+    queryKey: [
+      "products",
+      page,
+      category,
+      brand,
+      subcategory,
+      priceGte,
+      priceLte,
+      sort,
+    ],
+    queryFn: getProducts,
+    keepPreviousData: true,
   });
-  console.log(data);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("page", newPage);
+      return params;
+    });
+  };
 
   if (isLoading) {
     return (
@@ -42,45 +74,47 @@ export default function Products() {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100 flex-column">
         <p className="text-center mb-3">
-          Error fetching data. Please refresh the page to try again.
+          Error fetching data. Refresh the page.
         </p>
-        <div>
-          <button
-            className="btn btn-warning w-auto"
-            onClick={() => window.location.reload()}
-          >
-            Retry
-          </button>
-        </div>
+        <button
+          className="btn btn-warning"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
       </div>
     );
   }
 
+  const products = data?.data || [];
+  const totalPages = data?.metadata?.numberOfPages || 1;
+
   return (
-    <div className="products-wrapper">
+    <div className="products-wrapper container">
+      <SidebarChickbooks />
+
       <div className="products-content">
-        <div className="main-content container ">
+        <div className="main-content container">
           <CategorySlider />
           <BrandSlider />
-          <div>
-            <div className="row row-cols-auto gap-4 justify-content-around product-group">
-              {data?.data.data?.map((product) => (
+          <div className="row row-cols-auto gap-4 justify-content-around product-group">
+            {products.length > 0 ? (
+              products.map((product) => (
                 <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
+              ))
+            ) : (
+              <div className="d-flex justify-content-center align-items-center w-100 my-5">
+                <h4>No Products Found</h4>
+              </div>
+            )}
           </div>
-          {data?.data?.data?.length == 0 && (
-            <div className="d-flex justify-content-center align-items-center ">
-              <h4 className="text-center my-5">No Products Found</h4>
-            </div>
-          )}
         </div>
       </div>
 
       <Pagination
         page={page}
-        totalPages={data?.data?.metadata?.numberOfPages}
-        setSearchParams={setSearchParams}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </div>
   );
