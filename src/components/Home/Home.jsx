@@ -15,6 +15,7 @@ import headphone from "../../assets/images/headphone.png";
 import scooter from "../../assets/images/scooter-01.png";
 import card4 from "../../assets/images/card4.jpg";
 import card5 from "../../assets/images/card5.jpg";
+import { Link } from "react-router-dom";
 
 const MemoHomeSlider = React.memo(HomeSlider);
 
@@ -90,7 +91,13 @@ function Home() {
                 <p className="card-title">Enjoy</p>
                 <h4>With</h4>
                 <h2 className="type-title">EARPHONE</h2>
-                <button className="btn">Browse</button>
+                <Link
+                  to={
+                    "/products?category=6439d2d167d9aa4ca970649f&page=1&subcategory=6407f3a8b575d3b90bf957e2"
+                  }
+                >
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
             <div className="card ms-3 gadgets" key={2}>
@@ -104,7 +111,9 @@ function Home() {
                 <p className="card-title">New</p>
                 <h4>Wear</h4>
                 <h2 className="type-title">GADGETS</h2>
-                <button className="btn">Browse</button>
+                <Link to={"/products"}>
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -122,7 +131,9 @@ function Home() {
                 <p className="card-title">Trend</p>
                 <h4>Devices</h4>
                 <h2>LAPTOP</h2>
-                <button className="btn">Browse</button>
+                <Link to={"/products?category=6439d2d167d9aa4ca970649f&page=1"}>
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -140,7 +151,9 @@ function Home() {
                 <p className="card-title">Play</p>
                 <h4>Game</h4>
                 <h2 className="type-title">OCULUS</h2>
-                <button className="btn">Browse</button>
+                <Link to={"/products?category=6439d5b90049ad0b52b90048&page=1"}>
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
             <div className="card ms-3 speaker" key={5}>
@@ -154,7 +167,9 @@ function Home() {
                 <p className="card-title">New</p>
                 <h4>Amazon</h4>
                 <h2 className="type-title">SPEAKER</h2>
-                <button className="btn">Browse</button>
+                <Link to={"/products"}>
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -177,7 +192,13 @@ function Home() {
                 <p className="card-title">Best</p>
                 <h4>Gaming</h4>
                 <h2>CONSOLE</h2>
-                <button className="btn">Browse</button>
+                <Link
+                  to={
+                    "/products?category=6439d2d167d9aa4ca970649f&page=1&subcategory=6407f3c0b575d3b90bf957e8"
+                  }
+                >
+                  <button className="btn">Browse</button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -224,7 +245,9 @@ function Home() {
           {[card1, card2, card3].map((card, idx) => (
             <motion.div className="col" key={idx} variants={itemUp}>
               <div className="card">
+                <Link to="/products">
                 <img src={card} alt="product" loading="lazy" decoding="async" />
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -321,7 +344,9 @@ function Home() {
           {[card5, card4].map((card, idx) => (
             <motion.div className="col" key={idx} variants={itemUp}>
               <div className="card px-3">
+                <Link to="/products?priceAfterDiscount[gte]=1">
                 <img src={card} alt="offer" loading="lazy" decoding="async" />
+                </Link>
               </div>
             </motion.div>
           ))}

@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import validateLogIn from "./validateLogIn";
 import { autContext } from "../../../context/AuthenticationToken";
+import api from "./../../Utils/api";
 export default function LogInForm({
   formVariants,
   errorLogIn,
@@ -22,10 +23,7 @@ export default function LogInForm({
 
   const loginToAccount = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/signin",
-        values,
-      );
+      const { data } = await api.post("/auth/signin", values);
       if (data.message === "success") {
         setSuccessLogIn("Logged in successfully");
         localStorage.setItem("token", data.token);

@@ -45,7 +45,6 @@ function BrandSlider() {
     retryDelay: 1000,
     refetchOnWindowFocus: false,
   });
-  console.log(brandData);
 
   const settings = {
     dots: false,
@@ -67,6 +66,7 @@ function BrandSlider() {
 
   return (
     <div className="slider-container my-4">
+      <h4 className="mb-3">Brands</h4>
       <Slider {...settings}>
         {brandData?.data?.data.map((brand) => (
           <div key={brand._id} className="text-center px-2">

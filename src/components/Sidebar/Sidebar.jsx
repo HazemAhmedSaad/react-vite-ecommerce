@@ -4,14 +4,22 @@ import "./Sidebar.css";
 import PriceFilter from "./PriceSlider";
 
 export default function SidebarChickbooks() {
-  const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category");
   const subcategory = searchParams.get("subcategory");
   const brand = searchParams.get("brand");
   const priceGte = Number(searchParams.get("price[gte]")) || 0;
   const priceLte = Number(searchParams.get("price[lte]")) || 30000;
+  const priceAfterDiscount =
+    Number(searchParams.get("priceAfterDiscount[gte]")) || 0;
+  const [open, setOpen] = useState(() => {
+    const saved = sessionStorage.getItem("sidebarOpen");
+    return saved ? JSON.parse(saved) : false;
+  });
 
+  useEffect(() => {
+    sessionStorage.setItem("sidebarOpen", JSON.stringify(open));
+  }, [open]);
   function updateSearchParams(newParams) {
     const params = new URLSearchParams(searchParams);
 
@@ -29,16 +37,14 @@ export default function SidebarChickbooks() {
 
     setSearchParams(params);
   }
-  //   useEffect(()=>{
-  //   if(open){
-  //     document.body.style.overflow="hidden"
-  //   }else{
-  //     document.body.style.overflow="auto"
-  //   }
-  // },[open])
-  const toggleSidebar = () => {
-    setOpen((prev) => !prev);
-  };
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
+  const toggleSidebar = () => setOpen((prev) => !prev);
 
   const clearFilters = () => {
     setSearchParams({});
@@ -51,7 +57,7 @@ export default function SidebarChickbooks() {
         name: "Women's Fashion",
         subcategories: [
           {
-            _id: "6407f243b575d3b90bf957ac",
+            _id: "6407f1bcb575d3b90bf95797",
             name: "Women's Clothing",
           },
         ],
@@ -87,6 +93,10 @@ export default function SidebarChickbooks() {
           { _id: "6407f3ccb575d3b90bf957eb", name: "Cameras & Accessories" },
           { _id: "6407f3c0b575d3b90bf957e8", name: "Video Games" },
           { _id: "6407f3a8b575d3b90bf957e2", name: "Laptops & Accessories" },
+          {
+            _id: "6407f39bb575d3b90bf957df",
+            name: "TVs, Satellites & Accessories",
+          },
         ],
         brands: [
           { _id: "64089fe824b25627a25315d1", name: "Canon" },
@@ -103,14 +113,19 @@ export default function SidebarChickbooks() {
   const selectedCategory = useMemo(() => {
     return categories.find((cat) => cat._id === category);
   }, [category, categories]);
+
   const subcategories = selectedCategory?.subcategories || [];
-  const brands = category
-    ? selectedCategory?.brands || []
-    : [
-        ...new Map(
-          categories.flatMap((c) => c.brands).map((b) => [b._id, b]),
-        ).values(),
-      ];
+
+  const brands = useMemo(() => {
+    if (category) return selectedCategory?.brands || [];
+
+    return [
+      ...new Map(
+        categories.flatMap((c) => c.brands).map((b) => [b._id, b]),
+      ).values(),
+    ];
+  }, [category, selectedCategory, categories]);
+
   return (
     <>
       <button onClick={toggleSidebar} className=" mt-5 toggle-btn">
@@ -136,6 +151,43 @@ export default function SidebarChickbooks() {
             priceLte={priceLte}
             updateSearchParams={updateSearchParams}
           />
+
+          {/* {Price After Discount} */}
+          <div className="filter-box">
+            <div className="filter-box-sort">
+              <h4>Discount</h4>
+
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  name="priceAfterDiscount"
+                  checked={!searchParams.get("priceAfterDiscount[gte]")}
+                  onChange={() =>
+                    updateSearchParams({
+                      "priceAfterDiscount[gte]": null,
+                    })
+                  }
+                />
+                <span>All Products</span>
+              </label>
+
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  name="priceAfterDiscount"
+                  checked={priceAfterDiscount === 1}
+                  onChange={() =>
+                    updateSearchParams({
+                      "priceAfterDiscount[gte]": 1,
+                    })
+                  }
+                />
+                <span>Discounted Only</span>
+              </label>
+            </div>
+          </div>
+
+          {/* SORT BY */}
           <div className="filter-box">
             <div className="filter-box-sort">
               <h4>SORT BY</h4>
@@ -159,53 +211,56 @@ export default function SidebarChickbooks() {
               </select>
             </div>
           </div>
+
           {/* CATEGORIES */}
           <div className="filter-box">
             <h4>CATEGORIES</h4>
 
-            {categories.map((cat) => (
-              <div key={cat._id}>
-                <div
-                  className={`category-row ${category === cat._id ? "active" : ""}`}
-                  onClick={() =>
-                    updateSearchParams({
-                      category: category === cat._id ? null : cat._id,
-                      subcategory: null,
-                      brand: null,
-                    })
-                  }
-                >
-                  <span>{cat.name}</span>
+            {categories.map((cat) => {
+              const isActive = category === cat._id;
 
-                  <span
-                    className={`arrow ${category === cat._id ? "rotate" : ""}`}
+              return (
+                <div key={cat._id}>
+                  <div
+                    className={`category-row ${isActive ? "active" : ""}`}
+                    onClick={() =>
+                      updateSearchParams({
+                        category: isActive ? null : cat._id,
+                        subcategory: null,
+                        brand: null,
+                      })
+                    }
                   >
-                    <i
-                      className={`fa-solid fa-chevron-right arrow ${category === cat._id ? "rotate" : ""}`}
-                    ></i>
-                  </span>
-                </div>
+                    <span>{cat.name}</span>
 
-                {category === cat._id && (
-                  <div className="subcategories">
-                    {subcategories.map((sub) => (
-                      <div
-                        key={sub._id}
-                        className={`subcategory ${subcategory === sub._id ? "active" : ""}`}
-                        onClick={() =>
-                          updateSearchParams({
-                            subcategory:
-                              subcategory === sub._id ? null : sub._id,
-                          })
-                        }
-                      >
-                        {sub.name}
-                      </div>
-                    ))}
+                    <span className={`arrow ${isActive ? "rotate" : ""}`}>
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </span>
                   </div>
-                )}
-              </div>
-            ))}
+
+                  {isActive && (
+                    <div className="subcategories">
+                      {subcategories.map((sub) => (
+                        <div
+                          key={sub._id}
+                          className={`subcategory ${
+                            subcategory === sub._id ? "active" : ""
+                          }`}
+                          onClick={() =>
+                            updateSearchParams({
+                              subcategory:
+                                subcategory === sub._id ? null : sub._id,
+                            })
+                          }
+                        >
+                          {sub.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
           {/* BRANDS */}
           <div className="filter-box">

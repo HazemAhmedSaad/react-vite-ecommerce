@@ -80,7 +80,7 @@ function CategorySlider() {
 
   return (
     <div className="slider-container my-4">
-      <h4 className="mb-3">Shop by Category</h4>
+      <h4 className="mb-3">Categorys</h4>
       <Slider {...settings}>
         {categoriesSlider.map((category) => (
           <div key={category._id} className="px-2">

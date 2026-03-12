@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import validateSignUp from './validateSignUp';
+import validateSignUp from "./validateSignUp";
+import api from "../../Utils/api";
 export default function SignUpForm({
   formVariants,
   errorSignUp,
@@ -17,10 +18,7 @@ export default function SignUpForm({
   const [showRePassword, setShowRePassword] = useState(false);
   const registerNewUser = async (values, { setSubmitting }) => {
     try {
-      const { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/signup",
-        values,
-      );
+      const { data } = await api.post("/auth/signup", values);
       if (data.message == "success") {
         setSuccessSignUp("Account Created Successfully");
         setErrorSignUp(null);

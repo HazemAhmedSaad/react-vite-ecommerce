@@ -93,6 +93,23 @@
 }
 
 
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.radio-option input {
+    accent-color: #f3a909;
+    cursor: pointer;
+}
+
+.radio-option:hover span {
+    color: #f3a909;
+}
 
 
 /* CATEGORY */
@@ -230,7 +247,7 @@
 }
 
 .arrow.rotate {
-    transform: rotate(45deg);
+    transform: rotate(90deg);
 }
 
 
@@ -263,40 +280,42 @@
         opacity: 1
     }
 }
+
 /* SORT DROPDOWN */
 .filter-box-sort select {
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background-color: var(--box-bg);
-  color: var(--text-main);
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  appearance: none; /* لإخفاء السهم الافتراضي */
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--box-bg);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    /* لإخفاء السهم الافتراضي */
 }
 
 /* إضافة سهم مخصص */
 .filter-box-sort select::-ms-expand {
-  display: none; /* لإخفاء السهم في IE */
+    display: none;
+    /* لإخفاء السهم في IE */
 }
 
 /* hover effect */
 .filter-box-sort select:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* focus effect */
 .filter-box-sort select:focus {
-  outline: none;
-  border-color: var(--scond-color);
-  box-shadow: 0 0 0 2px rgba(243, 169, 9, 0.2);
+    outline: none;
+    border-color: var(--scond-color);
+    box-shadow: 0 0 0 2px rgba(243, 169, 9, 0.2);
 }
 
 /* إضافة سهم مخصص باستخدام pseudo-element */
 .filter-box-sort {
-  position: relative;
+    position: relative;
 }
-

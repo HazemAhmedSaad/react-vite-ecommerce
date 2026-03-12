@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function ProductCard({ product }) {
+function ProductCard({ product, addProductToCart }) {
   const getDiscount = (price, priceAfterDiscount) => {
     return Math.round(((price - priceAfterDiscount) / price) * 100);
   };
@@ -41,7 +41,7 @@ function ProductCard({ product }) {
       </div>
 
       <div className="product-content d-flex justify-content-between">
-        <button>
+        <button onClick={() => addProductToCart(product._id)}>
           <i className="fa-solid fa-cart-arrow-down"></i> Add
         </button>
         <div className="d-flex align-items-center gap-1 product-price-info">

@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import "./ProductDetails.css";
 import ProductDetailsSkeleton from "../Skeleton/ProductDetailsSkeleton";
 import Accordion from "@mui/material/Accordion";
@@ -14,16 +13,26 @@ import Typography from "@mui/material/Typography";
 import ProductDetailsSlider from "./ProductDetailsSlider";
 import OrderCountDown from "./OrderCountDown";
 import ReviewsSlider from "./Review/ReviewList";
+import api from "../Utils/api";
+import { cartContext } from "../../context/CartContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
-  const sizes = useMemo(() => ["S", "M", "L", "XL", "XXL"], []);
+  const sizes = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = useState(null);
   const [liked, setLiked] = useState(false);
+  const { addToCart } = useContext(cartContext);
+  const getProductDetails = () => api.get(`/products/${id}`);
 
-  const getProductDetails = () =>
-    axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
+  async function addProductToCart(productId) {
+    // Api logic
+    const res = await addToCart(productId);
+    console.log(res);
+    if (res.status === "success") {
+      console.log(res?.data?.message);
+    }
+  }
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["productDetails", id],
@@ -210,7 +219,10 @@ export default function ProductDetails() {
 
             {/* Add To Cart */}
             <div className="product-details d-flex align-items-center gap-3 mt-3">
-              <button className="btn-product-details flex-grow-1 rounded-pill">
+              <button
+                onClick={() => addProductToCart(product?._id)}
+                className="btn-product-details flex-grow-1 rounded-pill"
+              >
                 <i className="fa-solid fa-cart-arrow-down me-2"></i>
                 Add To Cart
               </button>

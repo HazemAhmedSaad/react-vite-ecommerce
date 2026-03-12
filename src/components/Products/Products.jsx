@@ -8,8 +8,13 @@ import { useSearchParams } from "react-router-dom";
 import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import SidebarChickbooks from "../Sidebar/Sidebar";
+import api from "../Utils/api";
+import { useContext } from "react";
+import { cartContext } from "../../context/CartContext";
 
 export default function Products() {
+  const { addToCart } = useContext(cartContext);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const category = searchParams.get("category");
@@ -18,23 +23,25 @@ export default function Products() {
   const priceGte = Number(searchParams.get("price[gte]") || 0);
   const priceLte = Number(searchParams.get("price[lte]") || 30000);
   const sort = searchParams.get("sort");
-
+  const priceAfterDiscount =
+    Number(searchParams.get("priceAfterDiscount[gte]")) || 0;
   const getProducts = async () => {
-    const res = await axios.get(
-      "https://ecommerce.routemisr.com/api/v1/products",
-      {
-        params: {
-          limit: 12,
-          page,
-          ...(category && { category }),
-          ...(brand && { brand }),
-          ...(subcategory && { subcategory }),
-          ...(priceGte && { "price[gte]": priceGte }),
-          ...(priceLte && { "price[lte]": priceLte }),
-          ...(sort && { sort }),
-        },
-      },
-    );
+    const params = {
+      limit: 12,
+      page,
+      ...(category && { category }),
+      ...(brand && { brand }),
+      ...(subcategory && { subcategory }),
+      ...(priceGte && { "price[gte]": priceGte }),
+      ...(priceLte && { "price[lte]": priceLte }),
+      ...(sort && { sort }),
+      ...(priceAfterDiscount && {
+        "priceAfterDiscount[gte]": priceAfterDiscount,
+      }),
+    };
+    const res = await api.get("/products", {
+      params,
+    });
 
     return res.data || { data: [], metadata: { numberOfPages: 1 } };
   };
@@ -49,9 +56,10 @@ export default function Products() {
       priceGte,
       priceLte,
       sort,
+      priceAfterDiscount,
     ],
     queryFn: getProducts,
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
 
   const handlePageChange = (newPage) => {
@@ -61,7 +69,14 @@ export default function Products() {
       return params;
     });
   };
-
+  async function addProductToCart(productId) {
+    // Api logic
+    const res = await addToCart(productId);
+    console.log(res);
+    if (res.status === "success") {
+      console.log(res?.data?.message);
+    }
+  }
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -88,6 +103,7 @@ export default function Products() {
 
   const products = data?.data || [];
   const totalPages = data?.metadata?.numberOfPages || 1;
+  console.log(products);
 
   return (
     <div className="products-wrapper container">
@@ -100,7 +116,7 @@ export default function Products() {
           <div className="row row-cols-auto gap-4 justify-content-around product-group">
             {products.length > 0 ? (
               products.map((product) => (
-                <ProductCard key={product._id} product={product} />
+                <ProductCard key={product._id} product={product}  addProductToCart={addProductToCart}/>
               ))
             ) : (
               <div className="d-flex justify-content-center align-items-center w-100 my-5">

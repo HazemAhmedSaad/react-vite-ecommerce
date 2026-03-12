@@ -46,17 +46,19 @@
     transition: color 0.3s ease;
     padding: 15px 0 !important;
     margin: 0 10px;
+    border-bottom: transparent solid 2px ;
+
 
 }
 
 .header-link.active {
     color: #f3a909 !important;
-    border-bottom: #f3a909 solid 2px !important;
+    border-bottom: #f3a909 solid 2px ;
 }
 
 .header-link:hover {
     color: #fff !important;
-    border-bottom: #fff solid 2px !important;
+    border-bottom: #fff solid 2px;
     transition: background-color 0.3s ease;
     -webkit-transition: background-color 0.3s ease;
     -moz-transition: background-color 0.3s ease;
