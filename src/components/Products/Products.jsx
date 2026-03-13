@@ -1,7 +1,6 @@
 import "./Products.css";
 import HashLoader from "react-spinners/HashLoader";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
 import { useSearchParams } from "react-router-dom";
@@ -9,12 +8,13 @@ import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import SidebarChickbooks from "../Sidebar/Sidebar";
 import api from "../Utils/api";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { cartContext } from "../../context/CartContext";
+import toast from "react-hot-toast";
 
 export default function Products() {
   const { addToCart } = useContext(cartContext);
-
+  const [loadingProduct, setLoadingProduct] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const category = searchParams.get("category");
@@ -35,7 +35,7 @@ export default function Products() {
       ...(priceGte && { "price[gte]": priceGte }),
       ...(priceLte && { "price[lte]": priceLte }),
       ...(sort && { sort }),
-      ...(priceAfterDiscount && {
+      ...(priceAfterDiscount > 0 && {
         "priceAfterDiscount[gte]": priceAfterDiscount,
       }),
     };
@@ -49,17 +49,23 @@ export default function Products() {
   const { data, isLoading, isError } = useQuery({
     queryKey: [
       "products",
-      page,
-      category,
-      brand,
-      subcategory,
-      priceGte,
-      priceLte,
-      sort,
-      priceAfterDiscount,
+      {
+        page,
+        category,
+        brand,
+        subcategory,
+        priceGte,
+        priceLte,
+        sort,
+        priceAfterDiscount,
+      },
     ],
     queryFn: getProducts,
-    placeholderData: (prev) => prev,
+    placeholderData: keepPreviousData,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 3,
+    retryDelay: 1000,
   });
 
   const handlePageChange = (newPage) => {
@@ -70,16 +76,34 @@ export default function Products() {
     });
   };
   async function addProductToCart(productId) {
-    // Api logic
-    const res = await addToCart(productId);
-    console.log(res);
-    if (res.status === "success") {
-      console.log(res?.data?.message);
+    try {
+      toast.loading("Adding to cart...", { id: "addToCart" });
+
+      setLoadingProduct(productId);
+
+      const res = await addToCart(productId);
+
+      if (res.status === "success") {
+        toast.success(res?.message, {
+          id: "addToCart",
+          style: {
+            background: "#16a34a",
+            color: "#fff",
+          },
+          icon: <i className="fa-solid fa-cart-arrow-down text-white"></i>,
+        });
+      } else {
+        toast.error(res?.message, { id: "addToCart" });
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: "addToCart" });
+    } finally {
+      setLoadingProduct(false);
     }
   }
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
         <HashLoader color="#f3a909" size={75} />
       </div>
     );
@@ -116,7 +140,10 @@ export default function Products() {
           <div className="row row-cols-auto gap-4 justify-content-around product-group">
             {products.length > 0 ? (
               products.map((product) => (
-                <ProductCard key={product._id} product={product}  addProductToCart={addProductToCart}/>
+                <ProductCard
+                  key={product._id}
+                  {...{ product, addProductToCart, loadingProduct }}
+                />
               ))
             ) : (
               <div className="d-flex justify-content-center align-items-center w-100 my-5">

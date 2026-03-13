@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-
-function ProductCard({ product, addProductToCart }) {
+import PulseLoader from "react-spinners/PulseLoader";
+function ProductCard({ product, addProductToCart, loadingProduct }) {
   const getDiscount = (price, priceAfterDiscount) => {
     return Math.round(((price - priceAfterDiscount) / price) * 100);
   };
@@ -32,7 +32,9 @@ function ProductCard({ product, addProductToCart }) {
         </div>
       </div>
       <div className="product-info d-flex justify-content-between align-items-center">
-        <p className="product-category mb-1">{product.category?.name}</p>
+        <Link to={`/products?category=${product.category._id}`}>
+          <p className="product-category mb-1">{product.category?.name}</p>
+        </Link>
         {product.priceAfterDiscount > 0 && (
           <span className="discount-badge rounded-pill m-0 discount-badge-card ">
             -{getDiscount(product.price, product.priceAfterDiscount)}%
@@ -41,9 +43,19 @@ function ProductCard({ product, addProductToCart }) {
       </div>
 
       <div className="product-content d-flex justify-content-between">
-        <button onClick={() => addProductToCart(product._id)}>
-          <i className="fa-solid fa-cart-arrow-down"></i> Add
+        <button
+          onClick={() => addProductToCart(product._id)}
+          disabled={loadingProduct === product._id}
+        >
+          {loadingProduct === product._id ? (
+            <PulseLoader color="#fff" size={8} />
+          ) : (
+            <span>
+              <i className="fa-solid fa-cart-arrow-down"></i> Add
+            </span>
+          )}
         </button>
+
         <div className="d-flex align-items-center gap-1 product-price-info">
           {product.priceAfterDiscount ? (
             <>

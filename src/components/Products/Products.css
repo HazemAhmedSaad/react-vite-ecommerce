@@ -257,7 +257,12 @@
     cursor: zoom-out;
 }
 
-@media screen and (max-width: 768px) {
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 960px) {
     .product-content {
         transform: translateX(0);
         -webkit-transform: translateX(0);

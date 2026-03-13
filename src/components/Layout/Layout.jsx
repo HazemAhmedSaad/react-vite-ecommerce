@@ -7,12 +7,14 @@ import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 function Layout() {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Navbar />
-      <ScrollToTop />
-      <main className=" flex-fill overflow-hidden">
-        <Outlet />
-      </main>
+    <div>
+      <div className="d-flex flex-column min-vh-100">
+        <Navbar />
+        <ScrollToTop />
+        <main className=" flex-fill overflow-hidden">
+          <Outlet />
+        </main>
+      </div>
       <Footer />
     </div>
   );

@@ -15,22 +15,44 @@ import OrderCountDown from "./OrderCountDown";
 import ReviewsSlider from "./Review/ReviewList";
 import api from "../Utils/api";
 import { cartContext } from "../../context/CartContext";
+import toast from "react-hot-toast";
+import PulseLoader from "react-spinners/PulseLoader";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const sizes = ["S", "M", "L", "XL", "XXL"];
+
   const [selectedSize, setSelectedSize] = useState(null);
   const [liked, setLiked] = useState(false);
   const { addToCart } = useContext(cartContext);
+  const [loadingProduct, setLoadingProduct] = useState(false);
   const getProductDetails = () => api.get(`/products/${id}`);
 
   async function addProductToCart(productId) {
-    // Api logic
-    const res = await addToCart(productId);
-    console.log(res);
-    if (res.status === "success") {
-      console.log(res?.data?.message);
+    try {
+      toast.loading("Adding to cart...", { id: "addToCart" });
+
+      setLoadingProduct(true);
+
+      const res = await addToCart(productId);
+
+      if (res.status === "success") {
+        toast.success(res?.message, {
+          id: "addToCart",
+          style: {
+            background: "#16a34a",
+            color: "#fff",
+          },
+           icon:<i className="fa-solid fa-cart-arrow-down text-white"></i>,
+        });
+      } else {
+        toast.error(res?.message, { id: "addToCart" });
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: "addToCart" });
+    } finally {
+      setLoadingProduct(false);
     }
   }
 
@@ -45,6 +67,9 @@ export default function ProductDetails() {
   });
 
   const product = data?.data?.data;
+  const isClothing =
+    product?.category?.name === "Men's Fashion" ||
+    product?.category?.name === "Women's Fashion";
   console.log(product);
   const discount = useMemo(() => {
     if (!product?.priceAfterDiscount) return 0;
@@ -195,8 +220,7 @@ export default function ProductDetails() {
                   </button>
                 </div>
               </div>
-              {product?.category?._id === "6439d5b90049ad0b52b90048" ||
-              product?.category?._id === "6439d58a0049ad0b52b9003f" ? (
+              {isClothing ? (
                 <div className="size-selector">
                   <span className="size-label">Select Size:</span>
 
@@ -220,11 +244,20 @@ export default function ProductDetails() {
             {/* Add To Cart */}
             <div className="product-details d-flex align-items-center gap-3 mt-3">
               <button
+                disabled={loadingProduct}
                 onClick={() => addProductToCart(product?._id)}
                 className="btn-product-details flex-grow-1 rounded-pill"
               >
-                <i className="fa-solid fa-cart-arrow-down me-2"></i>
-                Add To Cart
+                {loadingProduct ? (
+                  <div className="">
+                    <PulseLoader color="#fff" size={10} />
+                  </div>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-cart-arrow-down me-2"></i>
+                    Add To Cart
+                  </>
+                )}
               </button>
 
               <button

@@ -330,6 +330,10 @@ body.dark {
 .swiper-scrollbar-drag{
     background-color: var(--scond-color) !important;
 }
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 @media screen and (max-width: 768px) {
     .product-details-title {
         font-size: 20px;
