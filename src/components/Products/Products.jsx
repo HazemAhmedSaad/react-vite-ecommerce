@@ -96,9 +96,16 @@ export default function Products() {
         toast.error(res?.message, { id: "addToCart" });
       }
     } catch (error) {
-      toast.error("Something went wrong", { id: "addToCart" });
+      toast.error(error?.message || "Something went wrong", {
+        id: "addToCart",
+        style: {
+          background: "#f87171",
+          color: "#fff",
+        },
+        icon: <i className="fa-solid fa-triangle-exclamation text-white"></i>,
+      });
     } finally {
-      setLoadingProduct(false);
+      setLoadingProduct(null);
     }
   }
   if (isLoading) {

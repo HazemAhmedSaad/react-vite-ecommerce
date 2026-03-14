@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import api from "../components/Utils/api";
+import { toast } from "react-hot-toast";
 
 export const cartContext = createContext();
 
@@ -12,7 +13,6 @@ export function CartContextProvider({ children }) {
     try {
       const { data } = await api.post("/cart", { productId });
 
-      // تحديث ال state
       setCart(data.data.products);
       setTotalPrice(data.data.totalCartPrice);
       setCount(data.numOfCartItems);
@@ -21,9 +21,9 @@ export function CartContextProvider({ children }) {
     } catch (error) {
       console.error(
         "Error adding to cart:",
-        error.response?.data || error.message,
+        error.response?.data.message || error.message,
       );
-      throw error;
+      throw error?.response?.data;
     }
   };
 
