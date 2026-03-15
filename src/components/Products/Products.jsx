@@ -39,7 +39,7 @@ export default function Products() {
         "priceAfterDiscount[gte]": priceAfterDiscount,
       }),
     };
-    const res = await api.get("/products", {
+    const res = await api.get("/v1/products", {
       params,
     });
 

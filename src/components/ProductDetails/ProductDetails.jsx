@@ -27,7 +27,7 @@ export default function ProductDetails() {
   const [liked, setLiked] = useState(false);
   const { addToCart } = useContext(cartContext);
   const [loadingProduct, setLoadingProduct] = useState(false);
-  const getProductDetails = () => api.get(`/products/${id}`);
+  const getProductDetails = () => api.get(`/v1/products/${id}`);
 
   async function addProductToCart(productId) {
     try {

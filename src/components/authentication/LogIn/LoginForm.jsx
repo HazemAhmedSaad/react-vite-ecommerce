@@ -2,7 +2,6 @@ import { motion } from "motion/react";
 import { TextField } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import validateLogIn from "./validateLogIn";
@@ -23,7 +22,7 @@ export default function LogInForm({
 
   const loginToAccount = async (values, { setSubmitting }) => {
     try {
-      const { data } = await api.post("/auth/signin", values);
+      const { data } = await api.post("/v1/auth/signin", values);
       if (data.message === "success") {
         setSuccessLogIn("Logged in successfully");
         localStorage.setItem("token", data.token);
