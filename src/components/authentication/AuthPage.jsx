@@ -29,12 +29,15 @@ function AuthPage() {
           {/* Tabs */}
           <div className="tabs ">
             <button
+            type="button"
               className={isLogin ? "active" : ""}
               onClick={() => setIsLogin(true)}
             >
               Login
             </button>
             <button
+            type="button"
+
               className={!isLogin ? "active" : ""}
               onClick={() => setIsLogin(false)}
             >

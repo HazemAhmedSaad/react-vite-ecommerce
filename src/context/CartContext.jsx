@@ -12,11 +12,9 @@ export function CartContextProvider({ children }) {
   const addToCart = async (productId) => {
     try {
       const { data } = await api.post("/v2/cart", { productId });
-
       setCart(data.data.products);
       setTotalPrice(data.data.totalCartPrice);
       setCount(data.numOfCartItems);
-
       return data;
     } catch (error) {
       console.error(

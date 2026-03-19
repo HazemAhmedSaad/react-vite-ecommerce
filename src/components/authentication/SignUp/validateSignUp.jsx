@@ -1,10 +1,11 @@
-const validateSignUp = (values, errorSign, setErrorSign) => {
+const validateSignUp = (values) => {
   const errors = {};
 
   const name = values.name?.trim();
   const email = values.email?.trim();
   const phone = values.phone?.trim();
-
+  const password = values.password?.trim();
+  const rePassword = values.rePassword?.trim();
   // NAME
   if (!name) {
     errors.name = "Name is required";
@@ -13,22 +14,18 @@ const validateSignUp = (values, errorSign, setErrorSign) => {
   }
 
   // EMAIL
-  if (errorSign) {
-    setErrorSign(null);
-  }
-  else if (!email) {
+  if (!email) {
     errors.email = "Email is required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
     errors.email = "Invalid email address";
   }
 
   // PASSWORD
-  if (!values.password) {
+  if (!password) {
     errors.password = "Password is required";
-  } else if (!values.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/)) {
-    errors.password = "Include upper, lower & number";
+  } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(password)) {
+    errors.password = "Min 6 chars, include upper, lower & number";
   }
-
   // RE-PASSWORD
   if (!values.rePassword) {
     errors.rePassword = "Confirm password is required";

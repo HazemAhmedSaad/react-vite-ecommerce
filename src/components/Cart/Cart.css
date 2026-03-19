@@ -1,0 +1,35 @@
+.cart-table thead{
+background:#f5c518;
+border-radius:8px;
+}
+
+.cart-table th{
+padding:16px;
+font-weight:600;
+}
+
+.cart-table td{
+padding:20px 10px;
+vertical-align:middle;
+}
+
+.qty-box{
+display:inline-flex;
+align-items:center;
+gap:12px;
+border:1px solid #ddd;
+border-radius:30px;
+padding:5px 12px;
+}
+
+.qty-box button{
+border:none;
+background:none;
+font-size:18px;
+}
+
+.summary-box{
+background:#fff;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}

@@ -51,7 +51,7 @@ export default function LogInForm({
     },
     onSubmit: loginToAccount,
 
-    validate: (values) => validateLogIn(values, errorLogIn, setErrorLogIn),
+    validate: validateLogIn,
   });
   useEffect(() => {
     return () => {
@@ -87,7 +87,10 @@ export default function LogInForm({
             name="email"
             variant="standard"
             value={formikLog.values.email}
-            onChange={formikLog.handleChange}
+            onChange={(e) => {
+              formikLog.handleChange(e);
+              if (errorLogIn) setErrorLogIn("");
+            }}
             onBlur={formikLog.handleBlur}
             error={Boolean(
               (formikLog.errors.email && formikLog.touched.email) || errorLogIn,
@@ -107,7 +110,10 @@ export default function LogInForm({
               type={showPassword ? "text" : "password"}
               variant="standard"
               value={formikLog.values.password}
-              onChange={formikLog.handleChange}
+              onChange={(e) => {
+                formikLog.handleChange(e);
+                if (errorLogIn) setErrorLogIn("");
+              }}
               onBlur={formikLog.handleBlur}
               fullWidth
               error={Boolean(
@@ -115,18 +121,19 @@ export default function LogInForm({
                 errorLogIn,
               )}
               helperText={
-                formikLog.errors.password && formikLog.touched.password
-                  ? formikLog.errors.password
-                  : errorLogIn
-                    ? errorLogIn
-                    : ""
+                (formikLog.touched.password && formikLog.errors.password) ||
+                errorLogIn ||
+                ""
               }
             />
-            <span onClick={() => setShowPassword(!showPassword)}>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
               <i
                 className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}
               ></i>
-            </span>
+            </button>
           </div>
 
           <button

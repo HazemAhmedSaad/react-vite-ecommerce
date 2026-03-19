@@ -15,13 +15,13 @@ export default function SignUpForm({
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-  const registerNewUser = async (values, { setSubmitting }) => {
+  const registerNewUser = async (values, { setSubmitting, resetForm }) => {
     try {
       const { data } = await api.post("/v1/auth/signup", values);
-      if (data.message == "success") {
+      if (data.message === "success") {
         setSuccessSignUp("Account Created Successfully");
         setErrorSignUp(null);
-        formik.resetForm();
+        resetForm();
         setTimeout(() => {
           setSuccessSignUp(null);
           setIsLogin(true);
@@ -44,7 +44,7 @@ export default function SignUpForm({
     },
     onSubmit: registerNewUser,
 
-    validate: (values) => validateSignUp(values, errorSignUp, setErrorSignUp),
+    validate: validateSignUp,
   });
 
   return (
@@ -78,7 +78,10 @@ export default function SignUpForm({
             name="name"
             variant="standard"
             value={formik.values.name}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.handleChange(e);
+              if (errorSignUp) setErrorSignUp("");
+            }}
             onBlur={formik.handleBlur}
             error={Boolean(formik.errors.name && formik.touched.name)}
             helperText={
@@ -92,17 +95,16 @@ export default function SignUpForm({
             name="email"
             variant="standard"
             value={formik.values.email}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.handleChange(e);
+              if (errorSignUp) setErrorSignUp("");
+            }}
             onBlur={formik.handleBlur}
             error={Boolean(
               (formik.errors.email && formik.touched.email) || errorSignUp,
             )}
             helperText={
-              formik.errors.email && formik.touched.email
-                ? formik.errors.email
-                : errorSignUp
-                  ? errorSignUp
-                  : ""
+              (formik.touched.email && formik.errors.email) || errorSignUp || ""
             }
           />
           <div className="password-field">
@@ -112,21 +114,23 @@ export default function SignUpForm({
               type={showPassword ? "text" : "password"}
               variant="standard"
               value={formik.values.password}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                if (errorSignUp) setErrorSignUp("");
+              }}
               onBlur={formik.handleBlur}
               fullWidth
               error={Boolean(formik.errors.password && formik.touched.password)}
-              helperText={
-                formik.errors.password &&
-                formik.touched.password &&
-                formik.errors.password
-              }
+              helperText={formik.touched.password && formik.errors.password}
             />
-            <span onClick={() => setShowPassword(!showPassword)}>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
               <i
                 className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}
               ></i>
-            </span>
+            </button>
           </div>
           <div className="password-field">
             <TextField
@@ -135,35 +139,38 @@ export default function SignUpForm({
               type={showRePassword ? "text" : "password"}
               variant="standard"
               value={formik.values.rePassword}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                if (errorSignUp) setErrorSignUp("");
+              }}
               onBlur={formik.handleBlur}
               fullWidth
               error={Boolean(
                 formik.errors.rePassword && formik.touched.rePassword,
               )}
-              helperText={
-                formik.errors.rePassword &&
-                formik.touched.rePassword &&
-                formik.errors.rePassword
-              }
+              helperText={formik.touched.rePassword && formik.errors.rePassword}
             />
-            <span onClick={() => setShowRePassword(!showRePassword)}>
+            <button
+              type="button"
+              onClick={() => setShowRePassword(!showRePassword)}
+            >
               <i
                 className={showRePassword ? "fas fa-eye-slash" : "fas fa-eye"}
               ></i>
-            </span>
+            </button>
           </div>
           <TextField
             label="Phone"
             name="phone"
             variant="standard"
             value={formik.values.phone}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.handleChange(e);
+              if (errorSignUp) setErrorSignUp("");
+            }}
             onBlur={formik.handleBlur}
             error={Boolean(formik.errors.phone && formik.touched.phone)}
-            helperText={
-              formik.errors.phone && formik.touched.phone && formik.errors.phone
-            }
+            helperText={formik.touched.phone && formik.errors.phone}
           />
 
           <button

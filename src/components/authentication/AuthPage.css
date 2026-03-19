@@ -99,12 +99,19 @@
   align-items: center;
 }
 
-.password-field span {
+.password-field button {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
   position: absolute;
   right: 0;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.password-field button:hover {
+  color: var(--scond-color);
+}
 /* ================= MUI OVERRIDES ================= */
 
 .MuiInputBase-input {

@@ -1,12 +1,10 @@
-const validateLogIn = (values, errorLogIn, setErrorLogIn) => {
+const validateLogIn = (values) => {
   const errors = {};
 
   const email = values.email?.trim();
 
   // EMAIL
-  if (errorLogIn) {
-    setErrorLogIn(null);
-  } else if (!email) {
+  if (!email) {
     errors.email = "Email is required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
     errors.email = "Invalid email address";

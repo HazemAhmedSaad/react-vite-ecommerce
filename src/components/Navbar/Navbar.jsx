@@ -27,7 +27,7 @@ function NavScrollExample() {
   function Logout() {
     localStorage.removeItem("token");
     setToken(null);
-    navFunc( "/authentication" )
+    navFunc("/authentication");
   }
 
   return (
@@ -78,9 +78,17 @@ function NavScrollExample() {
           </Form>
           <Nav>
             {token ? (
-              <li className="nav-link header-link cursor-pointer">
-                <span onClick={Logout}>Logout</span>
-              </li>
+              <div className="d-flex align-text-center justify-content-center">
+                <NavLink
+                  className="nav-link mx-lg-4 header-link"
+                  to="/cart"
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </NavLink>
+                <li className="nav-link header-link cursor-pointer">
+                  <span onClick={Logout}>Logout</span>
+                </li>
+              </div>
             ) : (
               <NavLink
                 className="nav-link mx-lg-4 header-link"
