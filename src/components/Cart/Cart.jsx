@@ -1,7 +1,6 @@
 import React from "react";
-
+import "./Cart.css"
 export default function Cart() {
-
   const cartItems = [
     {
       id: 1,
@@ -19,14 +18,6 @@ export default function Cart() {
       quantity: 2,
       image: "https://i.imgur.com/UPrs1EW.png",
     },
-    {
-      id: 3,
-      name: "Fresh Yellow Lemon",
-      weight: "1 Kg",
-      price: 8,
-      quantity: 1,
-      image: "https://i.imgur.com/UPrs1EW.png",
-    },
   ];
 
   return (
@@ -36,148 +27,109 @@ export default function Cart() {
 
       <div className="row">
 
-        {/* Cart Table */}
+        {/* LEFT */}
         <div className="col-lg-8">
 
-          <table className="table align-middle cart-table">
-
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th className="text-center">Price</th>
-                <th className="text-center">Quantity</th>
-                <th className="text-end">Subtotal</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {cartItems.map((item) => (
-
-                <tr key={item.id}>
-
-                  {/* Product */}
-                  <td>
-                    <div className="d-flex align-items-center gap-3">
-
-                      <button className="btn-close"></button>
-
-                      <img
-                        src={item.image}
-                        width="60"
-                        className="rounded"
-                      />
-
-                      <div>
-                        <h6 className="mb-0">{item.name}</h6>
-                        <small>{item.weight}</small>
-                      </div>
-
-                    </div>
-                  </td>
-
-                  {/* Price */}
-                  <td className="text-center">
-                    ${item.price}
-                  </td>
-
-                  {/* Quantity */}
-                  <td className="text-center">
-
-                    <div className="qty-box">
-
-                      <button>-</button>
-                      <span>{item.quantity}</span>
-                      <button>+</button>
-
-                    </div>
-
-                  </td>
-
-                  {/* Subtotal */}
-                  <td className="text-end">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </td>
-
+          {/* TABLE (Desktop فقط) */}
+          <div className="d-none d-md-block">
+            <table className="table cart-table align-middle">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th className="text-center">Price</th>
+                  <th className="text-center">Quantity</th>
+                  <th className="text-end">Subtotal</th>
                 </tr>
+              </thead>
 
-              ))}
+              <tbody>
+                {cartItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <div className="d-flex align-items-center gap-3">
+                        <img src={item.image} width="60" />
+                        <div>
+                          <h6 className="mb-0">{item.name}</h6>
+                          <small>{item.weight}</small>
+                        </div>
+                      </div>
+                    </td>
 
-            </tbody>
+                    <td className="text-center">${item.price}</td>
 
-          </table>
+                    <td className="text-center">
+                      <div className="qty-box">
+                        <button>-</button>
+                        <span>{item.quantity}</span>
+                        <button>+</button>
+                      </div>
+                    </td>
 
+                    <td className="text-end">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          {/* Coupon */}
-          <div className="d-flex gap-3 mt-4">
+          {/* MOBILE CARDS */}
+          <div className="d-block d-md-none">
 
-            <input
-              className="form-control"
-              placeholder="Coupon Code"
-            />
+            {cartItems.map((item) => (
+              <div key={item.id} className="mobile-cart-item mb-3">
 
-            <button className="btn btn-success">
-              Apply Coupon
-            </button>
+                <div className="d-flex gap-3">
+                  <img src={item.image} width="70" />
 
-            <button className="btn btn-link text-success">
-              Clear Shopping Cart
-            </button>
+                  <div className="flex-grow-1">
+                    <h6>{item.name}</h6>
+                    <small>{item.weight}</small>
+
+                    <div className="mt-2">
+                      <strong>${item.price}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center mt-3">
+
+                  <div className="qty-box">
+                    <button>-</button>
+                    <span>{item.quantity}</span>
+                    <button>+</button>
+                  </div>
+
+                  <div className="fw-bold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </div>
+
+                </div>
+
+              </div>
+            ))}
 
           </div>
 
         </div>
 
-
-        {/* Order Summary */}
-        <div className="col-lg-4">
-
+        {/* RIGHT */}
+        <div className="col-lg-4 mt-4 mt-lg-0">
           <div className="summary-box p-4">
-
-            <h5 className="mb-4">Order Summary</h5>
-
-            <div className="d-flex justify-content-between mb-2">
-              <span>Items</span>
-              <span>9</span>
-            </div>
-
-            <div className="d-flex justify-content-between mb-2">
-              <span>Sub Total</span>
-              <span>$85.40</span>
-            </div>
-
-            <div className="d-flex justify-content-between mb-2">
-              <span>Shipping</span>
-              <span>$0.00</span>
-            </div>
-
-            <div className="d-flex justify-content-between mb-2">
-              <span>Taxes</span>
-              <span>$0.00</span>
-            </div>
-
-            <div className="d-flex justify-content-between text-danger mb-3">
-              <span>Coupon Discount</span>
-              <span>-$10.00</span>
-            </div>
-
+            <h5>Order Summary</h5>
             <hr />
-
-            <div className="d-flex justify-content-between fw-bold mb-4">
+            <div className="d-flex justify-content-between">
               <span>Total</span>
               <span>$74.40</span>
             </div>
-
-            <button className="btn btn-success w-100">
-              Proceed to Checkout
+            <button className="btn btn-success w-100 mt-3">
+              Checkout
             </button>
-
           </div>
-
         </div>
 
       </div>
-
     </div>
   );
 }

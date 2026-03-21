@@ -8,7 +8,7 @@ import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import SidebarChickbooks from "../Sidebar/Sidebar";
 import api from "../Utils/api";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cartContext } from "../../context/CartContext";
 import toast from "react-hot-toast";
 
@@ -45,8 +45,7 @@ export default function Products() {
 
     return res.data || { data: [], metadata: { numberOfPages: 1 } };
   };
-
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isFetching } = useQuery({
     queryKey: [
       "products",
       {
@@ -67,7 +66,12 @@ export default function Products() {
     retry: 3,
     retryDelay: 1000,
   });
-
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (page > 1) window.scrollTo({ top: 500, behavior: "smooth" });
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, [page]);
   const handlePageChange = (newPage) => {
     setSearchParams((prev) => {
       const params = new URLSearchParams(prev);
@@ -76,6 +80,7 @@ export default function Products() {
     });
   };
   async function addProductToCart(productId) {
+    if (loadingProduct === productId) return;
     try {
       toast.loading("Adding to cart...", { id: "addToCart" });
 
@@ -110,7 +115,7 @@ export default function Products() {
   }
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <div className="d-flex loading-overlay justify-content-center align-items-center min-vh-100">
         <HashLoader color="#f3a909" size={75} />
       </div>
     );
@@ -134,10 +139,15 @@ export default function Products() {
 
   const products = data?.data || [];
   const totalPages = data?.metadata?.numberOfPages || 1;
-  console.log(products);
+  // console.log(products);
 
   return (
     <div className="products-wrapper container">
+      {isFetching && (
+        <div className="loading-overlay">
+          <HashLoader color="#f3a909" size={75} />
+        </div>
+      )}
       <SidebarChickbooks />
 
       <div className="products-content">

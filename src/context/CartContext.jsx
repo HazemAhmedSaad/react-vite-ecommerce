@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import api from "../components/Utils/api";
-import { toast } from "react-hot-toast";
 
 export const cartContext = createContext();
 
