@@ -79,6 +79,9 @@
   border-color: var(--accent);
 }
 
+.text-danger-custom {
+  color: #ff4d4f !important;
+}
 /* ====== Summary Box ====== */
 .summary-box h5 {
   color: var(--text-main);
@@ -91,7 +94,6 @@
 .summary-box>div:first-of-type span:last-child {
   color: var(--text-main);
 }
-
 
 .summary-box>div:nth-last-of-type(2) span:last-child {
   color: var(--accent);

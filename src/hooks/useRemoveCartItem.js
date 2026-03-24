@@ -1,31 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { removeCartItem } from "../api/cartApi";
 
-export const useRemoveCartItem = () => {
+export const useRemoveCartItem = (options = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ["removeCartItem"],
     mutationFn: removeCartItem,
 
-    onMutate: (productId) => {
-      toast.loading("Removing...", { id: productId });
-    },
-
-    onSuccess: (data, productId) => {
-      toast.success("Removed 🗑️", {
-        id: productId,
-        style: { background: "#28a745", color: "#fff" },
-      });
+    onSuccess: (data, variables, context) => {
       queryClient.setQueryData(["cart"], data);
+
+      // يشغل اللي جاي من بره
+      options.onSuccess?.(data, variables, context);
     },
 
-    onError: (err, productId) => {
-      toast.error("Failed to remove", {
-        id: productId,
-        style: { background: "#dc3545", color: "#fff" },
-      });
+    onMutate: (variables) => {
+      return options.onMutate?.(variables);
+    },
+
+    onError: (error, variables, context) => {
+      options.onError?.(error, variables, context);
     },
   });
 };

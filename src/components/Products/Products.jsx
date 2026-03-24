@@ -29,21 +29,44 @@ export default function Products() {
   });
   const { mutate: removeFromCart } = useRemoveCartItem({
     onMutate: (productId) => {
-      toast.loading("Removing...", { id: productId });
+      const toastId = `remove-${productId}-${Date.now()}`;
+      toast.loading("Removing...", { id: toastId });
+      return { toastId };
     },
 
-    onSuccess: (data, productId) => {
-      toast.success("Removed 🗑️", {
-        id: productId,
-        style: { background: "#28a745", color: "#fff" },
+    onSuccess: (data, productId, context) => {
+      toast.success("Removed from cart 🗑️", {
+        id: context.toastId,
+        duration: 2000,
+        style: {
+          background: "#22c55e", // أخضر حديث
+          color: "#fff",
+          borderRadius: "10px",
+          padding: "10px 16px",
+          fontWeight: "500",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#22c55e",
+        },
       });
-      queryClient.setQueryData(["cart"], data);
     },
 
-    onError: (err, productId) => {
+    onError: (err, productId, context) => {
       toast.error("Failed to remove", {
-        id: productId,
-        style: { background: "#dc3545", color: "#fff" },
+        id: context.toastId,
+        duration: 2500,
+        style: {
+          background: "#ef4444", // أحمر حديث
+          color: "#fff",
+          borderRadius: "10px",
+          padding: "10px 16px",
+          fontWeight: "500",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#ef4444",
+        },
       });
     },
   });
