@@ -14,7 +14,14 @@ function App() {
         <AuthProvider>
           <ThemeProvider>
             <QueryClientProvider client={queryClient}>
-              <Toaster position="bottom-left" reverseOrder={false} />
+              <Toaster
+                position="top-left"
+                reverseOrder={false}
+                containerStyle={{
+                  top: 70,
+                  left: 20,
+                }}
+              />
               <RouterProvider router={router} />
             </QueryClientProvider>
           </ThemeProvider>

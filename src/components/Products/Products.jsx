@@ -1,6 +1,10 @@
 import "./Products.css";
 import HashLoader from "react-spinners/HashLoader";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutationState,
+  useQuery,
+} from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
 import { useSearchParams } from "react-router-dom";
@@ -8,13 +12,15 @@ import CategorySlider from "../CategorySlider/CategorySlider";
 import BrandSlider from "../BrandSlider/BrandSlider";
 import SidebarChickbooks from "../Sidebar/Sidebar";
 import api from "../Utils/api";
-import { useContext, useEffect, useState } from "react";
-import { cartContext } from "../../context/CartContext";
-import toast from "react-hot-toast";
+import { useCallback, useEffect } from "react";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 export default function Products() {
-  const { addToCart } = useContext(cartContext);
-  const [loadingProduct, setLoadingProduct] = useState(null);
+  const loadingProducts = useMutationState({
+    filters: { mutationKey: ["addToCart"], status: "pending" },
+    select: (mutation) => mutation.state.variables,
+  });
+  const { mutate: addToCart } = useAddToCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const category = searchParams.get("category");
@@ -25,7 +31,7 @@ export default function Products() {
   const sort = searchParams.get("sort");
   const priceAfterDiscount =
     Number(searchParams.get("priceAfterDiscount[gte]")) || 0;
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     const params = {
       limit: 12,
       page,
@@ -39,13 +45,26 @@ export default function Products() {
         "priceAfterDiscount[gte]": priceAfterDiscount,
       }),
     };
-    const res = await api.get("/v1/products", {
-      params,
-    });
+
+    const res = await api.get("/v1/products", { params });
 
     return res.data || { data: [], metadata: { numberOfPages: 1 } };
-  };
-  const { data, isLoading, isError, isFetching } = useQuery({
+  }, [
+    page,
+    category,
+    brand,
+    subcategory,
+    priceGte,
+    priceLte,
+    sort,
+    priceAfterDiscount,
+  ]);
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetching: isFetchingProducts,
+  } = useQuery({
     queryKey: [
       "products",
       {
@@ -79,40 +98,7 @@ export default function Products() {
       return params;
     });
   };
-  async function addProductToCart(productId) {
-    if (loadingProduct === productId) return;
-    try {
-      toast.loading("Adding to cart...", { id: "addToCart" });
-
-      setLoadingProduct(productId);
-
-      const res = await addToCart(productId);
-
-      if (res.status === "success") {
-        toast.success(res?.message, {
-          id: "addToCart",
-          style: {
-            background: "#16a34a",
-            color: "#fff",
-          },
-          icon: <i className="fa-solid fa-cart-arrow-down text-white"></i>,
-        });
-      } else {
-        toast.error(res?.message, { id: "addToCart" });
-      }
-    } catch (error) {
-      toast.error(error?.message || "Something went wrong", {
-        id: "addToCart",
-        style: {
-          background: "#f87171",
-          color: "#fff",
-        },
-        icon: <i className="fa-solid fa-triangle-exclamation text-white"></i>,
-      });
-    } finally {
-      setLoadingProduct(null);
-    }
-  }
+  const handleAddToCart = (productId) => addToCart(productId);
   if (isLoading) {
     return (
       <div className="d-flex loading-overlay justify-content-center align-items-center min-vh-100">
@@ -143,13 +129,12 @@ export default function Products() {
 
   return (
     <div className="products-wrapper container">
-      {isFetching && (
+      {isFetchingProducts && !isLoading && (
         <div className="loading-overlay">
           <HashLoader color="#f3a909" size={75} />
         </div>
       )}
       <SidebarChickbooks />
-
       <div className="products-content">
         <div className="main-content container">
           <CategorySlider />
@@ -159,7 +144,9 @@ export default function Products() {
               products.map((product) => (
                 <ProductCard
                   key={product._id}
-                  {...{ product, addProductToCart, loadingProduct }}
+                  product={product}
+                  handleAddToCart={handleAddToCart}
+                  isLoading={loadingProducts.includes(product._id)}
                 />
               ))
             ) : (

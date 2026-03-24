@@ -10,7 +10,12 @@ import ThemeToggle from "../Theme/ThemeToggle";
 import { themeContext } from "../../context/ThemeContext";
 import { autContext } from "../../context/AuthenticationToken";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../hooks/useGetCart";
 function NavScrollExample() {
+  const { data: cartData } = useCart();
+  const cartCount = cartData?.numOfCartItems || 0;
+  console.log(cartData);
+
   const { theme, setTheme } = useContext(themeContext);
   const { token, setToken } = useContext(autContext);
   const [isSticky, setIsSticky] = useState(false);
@@ -78,12 +83,12 @@ function NavScrollExample() {
           </Form>
           <Nav>
             {token ? (
-              <div className="d-flex align-text-center justify-content-center">
-                <NavLink
-                  className="nav-link mx-lg-4 header-link"
-                  to="/cart"
-                >
+              <div className="d-flex align-text-center justify-content-between ">
+                <NavLink className="nav-link mx-lg-4 header-link" to="/cart">
                   <i className="fa-solid fa-cart-shopping"></i>
+                  {/* <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> */}
+                  {cartCount}
+                  {/* </span> */}
                 </NavLink>
                 <li className="nav-link header-link cursor-pointer">
                   <span onClick={Logout}>Logout</span>

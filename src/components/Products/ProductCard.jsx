@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
-function ProductCard({ product, addProductToCart, loadingProduct }) {
+function ProductCard({ product, handleAddToCart, isLoading }) {
   const getDiscount = (price, priceAfterDiscount) => {
     return Math.round(((price - priceAfterDiscount) / price) * 100);
   };
@@ -11,7 +11,7 @@ function ProductCard({ product, addProductToCart, loadingProduct }) {
       .join(" ");
   };
   return (
-    <div className="product-card col" key={product._id}>
+    <div className="product-card col">
       <Link to={`/product/${product._id}`}>
         <div className="product-image-wrapper position-relative">
           <img src={product.imageCover} alt={product.title} />
@@ -44,10 +44,10 @@ function ProductCard({ product, addProductToCart, loadingProduct }) {
 
       <div className="product-content d-flex justify-content-between">
         <button
-          onClick={() => addProductToCart(product._id)}
-          disabled={loadingProduct === product._id}
+          onClick={() => handleAddToCart(product._id)}
+          disabled={isLoading}
         >
-          {loadingProduct === product._id ? (
+          {isLoading ? (
             <PulseLoader color="#fff" size={8} />
           ) : (
             <span>

@@ -1,33 +1,211 @@
-.cart-table thead {
-  background: #f5c518;
+.btn-danger-custom {
+  background: #ff4d4f !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 5px 10px !important;
+  cursor: pointer !important;
 }
 
+.btn-danger-custom:hover {
+  opacity: 0.8 !important;
+}
+
+.img-cart-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+/* ====== Table ====== */
+
+.table td {
+  border-color: var(--border-color);
+  background: var(--box-bg);
+  color: var(--text-main);
+}
+
+.table th {
+  background: var(--box-bg-hover);
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: var(--box-bg-hover);
+}
+
+/* ====== Product Title ====== */
+.table p {
+  color: var(--text-muted);
+}
+
+/* ====== Quantity Box ====== */
 .qty-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid #ddd;
-  border-radius: 30px;
-  padding: 5px 10px;
+  background: transparent;
+  width: fit-content;
+  border-radius: 20px;
 }
 
 .qty-box button {
   border: none;
-  background: none;
-  font-size: 18px;
+  background: var(--btn-gradient);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* MOBILE CARD */
+.qty-box button:hover {
+  opacity: 0.85;
+}
+
+.qty-box input {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  outline: none !important;
+}
+
+.qty-box input:focus {
+  border-color: var(--accent);
+}
+
+/* ====== Remove Button ====== */
+.btn-link {
+  color: #ff4d4f !important;
+}
+
+.btn-link:hover {
+  opacity: 0.7;
+}
+
+/* ====== Summary Box ====== */
+
+.summary-box h5 {
+  color: var(--text-main);
+}
+
+.summary-box span {
+  color: var(--text-muted);
+}
+
+.summary-box>div:first-of-type span:last-child {
+  color: var(--text-main);
+}
+
+
+.summary-box>div:nth-last-of-type(2) span:last-child {
+  color: var(--accent);
+}
+
+/* ====== Total ====== */
+.text-main-custom {
+  color: var(--accent);
+}
+
+/* ====== Empty Cart ====== */
+.empty-cart {
+  background: var(--box-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.empty-cart p {
+  color: var(--text-muted);
+}
+
+.empty-cart i {
+  color: var(--scond-color);
+}
+
+/* ====== Mobile Card ====== */
 .mobile-cart-item {
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  background: var(--box-bg);
+  border: 1px solid var(--border-color);
+  transition: 0.3s ease;
 }
 
-/* SUMMARY */
-.summary-box {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+.mobile-cart-item:hover {
+  background: var(--box-bg-hover);
+}
+
+.btn-main {
+  background: var(--btn-gradient);
+  color: #fff !important;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-main:hover {
+  opacity: 0.8;
+}
+
+.text-main {
+  color: var(--text-main);
+}
+
+.text-muted-custom {
+  color: var(--text-muted);
+}
+
+.bg-box {
+  background: var(--box-bg);
+}
+
+.border-custom {
+  border: 1px solid var(--border-color);
+}
+
+
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.text-second {
+  color: var(--scond-color) !important;
+}
+
+.cart-item {
+  position: relative;
+  transition: 0.3s;
+}
+
+.mobile-cart-item {
+  position: relative;
+}
+
+/* حالة الحذف */
+.removing {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* overlay */
+.item-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 8px;
 }

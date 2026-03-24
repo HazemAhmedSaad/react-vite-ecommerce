@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo } from "react";
 import "./ProductDetails.css";
 import ProductDetailsSkeleton from "../Skeleton/ProductDetailsSkeleton";
 import Accordion from "@mui/material/Accordion";
@@ -14,54 +14,24 @@ import ProductDetailsSlider from "./ProductDetailsSlider";
 import OrderCountDown from "./OrderCountDown";
 import ReviewsSlider from "./Review/ReviewList";
 import api from "../Utils/api";
-import { cartContext } from "../../context/CartContext";
-import toast from "react-hot-toast";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const { mutate: addToCartMutate, isPending: isAddingToCart } = useAddToCart();
   const [quantity, setQuantity] = useState(1);
   const sizes = ["S", "M", "L", "XL", "XXL"];
 
   const [selectedSize, setSelectedSize] = useState(null);
   const [liked, setLiked] = useState(false);
-  const { addToCart } = useContext(cartContext);
-  const [loadingProduct, setLoadingProduct] = useState(false);
   const getProductDetails = () => api.get(`/v1/products/${id}`);
 
-  async function addProductToCart(productId) {
-    try {
-      toast.loading("Adding to cart...", { id: "addToCart" });
-
-      setLoadingProduct(true);
-
-      const res = await addToCart(productId);
-
-      if (res.status === "success") {
-        toast.success(res?.message, {
-          id: "addToCart",
-          style: {
-            background: "#16a34a",
-            color: "#fff",
-          },
-          icon: <i className="fa-solid fa-cart-arrow-down text-white"></i>,
-        });
-      } else {
-        toast.error(res?.message, { id: "addToCart" });
-      }
-    } catch (error) {
-      toast.error(error?.message || "Something went wrong", {
-        id: "addToCart",
-        style: {
-          background: "#f87171",
-          color: "#fff",
-        },
-        icon: <i className="fa-solid fa-triangle-exclamation text-white"></i>,
-      });
-    } finally {
-      setLoadingProduct(false);
-    }
-  }
+  const handleAddToCart = () => {
+    if (!id) return;
+    // لو عاوز تبعت الـ quantity والـ size لو السيرفر بيدعمهم:
+    addToCartMutate(id);
+  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["productDetails", id],
@@ -251,11 +221,11 @@ export default function ProductDetails() {
             {/* Add To Cart */}
             <div className="product-details d-flex align-items-center gap-3 mt-3">
               <button
-                disabled={loadingProduct}
-                onClick={() => addProductToCart(product?._id)}
+                disabled={isAddingToCart}
+                onClick={() => handleAddToCart(product?._id)}
                 className="btn-product-details flex-grow-1 rounded-pill"
               >
-                {loadingProduct ? (
+                {isAddingToCart ? (
                   <div className="">
                     <PulseLoader color="#fff" size={10} />
                   </div>
