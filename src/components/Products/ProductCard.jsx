@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
-function ProductCard({ product, handleAddToCart, isLoadingProduct, isInCart }) {
+function ProductCard({
+  product,
+  handleAddToCart,
+  handleRemoveFromCart,
+  isAdding,
+  isRemoving,
+  isInCart,
+}) {
+  const isLoadingProduct = isAdding || isRemoving;
   const getDiscount = (price, priceAfterDiscount) => {
     return Math.round(((price - priceAfterDiscount) / price) * 100);
   };
@@ -56,8 +64,8 @@ function ProductCard({ product, handleAddToCart, isLoadingProduct, isInCart }) {
             <PulseLoader color="#fff" size={8} />
           ) : isInCart ? (
             <>
-             
-              <span>Added</span>
+              <i className="fa-solid fa-trash"></i>
+              {/* <span>Remove</span> */}
             </>
           ) : (
             <>

@@ -262,7 +262,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.loading-overlay{
+.loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -297,3 +297,13 @@ button:disabled {
     }
 }
 
+/* لما يبقى المنتج في الكارت (Remove) */
+.cart-btn.added {
+    background: #dc3545;
+    /* أحمر */
+}
+
+/* Hover */
+.cart-btn.added:hover {
+    background: #bb2d3b;
+}

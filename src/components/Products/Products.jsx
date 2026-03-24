@@ -14,17 +14,48 @@ import SidebarChickbooks from "../Sidebar/Sidebar";
 import api from "../Utils/api";
 import { useCallback, useEffect } from "react";
 import { useAddToCart } from "../../hooks/useAddToCart";
-import { useCart } from './../../hooks/useGetCart';
+import { useCart } from "./../../hooks/useGetCart";
+import { useRemoveCartItem } from "./../../hooks/useRemoveCartItem";
+import toast from "react-hot-toast";
 
 export default function Products() {
   const loadingProducts = useMutationState({
     filters: { mutationKey: ["addToCart"], status: "pending" },
     select: (mutation) => mutation.state.variables,
   });
+  const removingProducts = useMutationState({
+    filters: { mutationKey: ["removeCartItem"], status: "pending" },
+    select: (mutation) => mutation.state.variables,
+  });
+  const { mutate: removeFromCart } = useRemoveCartItem({
+    onMutate: (productId) => {
+      toast.loading("Removing...", { id: productId });
+    },
+
+    onSuccess: (data, productId) => {
+      toast.success("Removed 🗑️", {
+        id: productId,
+        style: { background: "#28a745", color: "#fff" },
+      });
+      queryClient.setQueryData(["cart"], data);
+    },
+
+    onError: (err, productId) => {
+      toast.error("Failed to remove", {
+        id: productId,
+        style: { background: "#dc3545", color: "#fff" },
+      });
+    },
+  });
   const { data: cartData } = useCart();
+  const removingSet = new Set(
+    removingProducts.map((p) => (typeof p === "string" ? p : p?.productId)),
+  );
   const cartItems = cartData?.data?.products || [];
   const cartSet = new Set(cartItems.map((item) => item.product._id));
-  const loadingSet = new Set(loadingProducts);
+  const addingSet = new Set(
+    loadingProducts.map((p) => (typeof p === "string" ? p : p?.productId)),
+  );
 
   const { mutate: addToCart } = useAddToCart();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -157,7 +188,9 @@ export default function Products() {
                   key={product._id}
                   product={product}
                   handleAddToCart={handleAddToCart}
-                  isLoadingProduct={loadingSet.has(product._id)}
+                  handleRemoveFromCart={removeFromCart}
+                  isAdding={addingSet.has(product._id)}
+                  isRemoving={removingSet.has(product._id)}
                   isInCart={cartSet.has(product._id)}
                 />
               ))

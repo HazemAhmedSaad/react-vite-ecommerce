@@ -10,14 +10,14 @@ export const useRemoveCartItem = () => {
     mutationFn: removeCartItem,
 
     onMutate: (productId) => {
-      // toast.loading("Removing...", { id: productId });
+      toast.loading("Removing...", { id: productId });
     },
 
     onSuccess: (data, productId) => {
-      // toast.success("Removed 🗑️", {
-      //   id: productId,
-      //   style: { background: "#28a745", color: "#fff" },
-      // });
+      toast.success("Removed 🗑️", {
+        id: productId,
+        style: { background: "#28a745", color: "#fff" },
+      });
       queryClient.setQueryData(["cart"], data);
     },
 
