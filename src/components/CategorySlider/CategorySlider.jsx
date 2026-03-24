@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import "./CategorySlider.css";
 import CategorySkeleton from "../Skeleton/CategorySkeleton";
 import { useState, useEffect } from "react";
+import { hover } from "motion";
 
 
 function CategorySlider() {
@@ -53,21 +54,13 @@ function CategorySlider() {
 
   const settings = {
     dots: false,
-
     infinite: true,
-
     slidesToShow: slidesToShow,
-
     slidesToScroll: 1,
-
     autoplay: true,
-
     speed: 4000,
-
     autoplaySpeed: 0,
-
     cssEase: "linear",
-
     arrows: false,
   };
 

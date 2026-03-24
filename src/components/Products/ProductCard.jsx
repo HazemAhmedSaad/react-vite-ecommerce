@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
-function ProductCard({ product, handleAddToCart, isLoading }) {
+function ProductCard({ product, handleAddToCart, isLoadingProduct, isInCart }) {
   const getDiscount = (price, priceAfterDiscount) => {
     return Math.round(((price - priceAfterDiscount) / price) * 100);
   };
@@ -11,7 +11,7 @@ function ProductCard({ product, handleAddToCart, isLoading }) {
       .join(" ");
   };
   return (
-    <div className="product-card col">
+    <div className="product-card col-6 col-md-4 col-lg-3">
       <Link to={`/product/${product._id}`}>
         <div className="product-image-wrapper position-relative">
           <img src={product.imageCover} alt={product.title} />
@@ -44,15 +44,26 @@ function ProductCard({ product, handleAddToCart, isLoading }) {
 
       <div className="product-content d-flex justify-content-between">
         <button
-          onClick={() => handleAddToCart(product._id)}
-          disabled={isLoading}
+          className={`cart-btn ${isInCart ? "added" : ""}`}
+          onClick={() =>
+            isInCart
+              ? handleRemoveFromCart(product._id)
+              : handleAddToCart(product._id)
+          }
+          disabled={isLoadingProduct}
         >
-          {isLoading ? (
+          {isLoadingProduct ? (
             <PulseLoader color="#fff" size={8} />
+          ) : isInCart ? (
+            <>
+             
+              <span>Added</span>
+            </>
           ) : (
-            <span>
-              <i className="fa-solid fa-cart-arrow-down"></i> Add
-            </span>
+            <>
+              <i className="fa-solid fa-cart-arrow-down"></i>
+              <span>Add</span>
+            </>
           )}
         </button>
 

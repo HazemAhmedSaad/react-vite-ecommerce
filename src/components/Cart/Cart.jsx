@@ -8,18 +8,30 @@ import { useCart } from "../../hooks/useGetCart";
 import { useClearCart } from "./../../hooks/useClearCart";
 import Swal from "sweetalert2";
 import { useMutationState } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
+import { translate } from "react-range/lib/utils";
 
 export default function Cart() {
-  const timeoutRef = useRef({});
+  const [inputValues, setInputValues] = useState({});
   const { data: cartData, isLoading, isError } = useCart();
+  const commitChange = (id, originalCount) => {
+    let value = Number(inputValues[id]);
 
-  useEffect(() => {
-    return () => {
-      Object.values(timeoutRef.current).forEach(clearTimeout);
-    };
-  }, []);
+    if (!value || value < 1) value = 1;
+    if (value > 10) value = 10;
+
+    // ✅ رجّع القيمة المصححة للـ input
+    setInputValues((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+
+    // ✅ لو نفس القيمة → متعملش request
+    if (value === originalCount) return;
+
+    handleUpdateCount(id, value);
+  };
   // ✅ Remove
   const { mutate: removeItem } = useRemoveCartItem();
   const removingItems = useMutationState({
@@ -38,7 +50,13 @@ export default function Cart() {
   const totalPrice = cartData?.data?.totalCartPrice || 0;
   const cartId = cartData?.data?._id || "";
   const numOfCartItems = cartData?.numOfCartItems || 0;
-
+  useEffect(() => {
+    const initialValues = {};
+    items.forEach((item) => {
+      initialValues[item.product._id] = item.count;
+    });
+    setInputValues(initialValues);
+  }, [items]);
   const handleUpdateCount = (productId, count) => {
     if (count < 1) return;
     updateItem({ productId, count });
@@ -71,7 +89,8 @@ export default function Cart() {
       }
     });
   };
-
+  const updatingSet = new Set(updatingItems.map((i) => i?.productId));
+  const removingSet = new Set(removingItems);
   if (isLoading) {
     return (
       <div className="vh-100 d-flex justify-content-center align-items-center">
@@ -145,24 +164,19 @@ export default function Cart() {
                       <th className="ps-4">Product</th>
                       <th className="text-center">Price</th>
                       <th className="text-center">Quantity</th>
-                      <th className="text-end pe-4">Subtotal</th>
+                      <th className="text-center pe-4">Subtotal</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {items.map((item) => {
-                      const isUpdatingThis = updatingItems.some(
-                        (itemVar) => itemVar?.productId === item.product._id,
-                      );
-                      const isRemovingThis = removingItems.some(
-                        (id) => id === item.product._id,
-                      );
+                      const isUpdatingThis = updatingSet.has(item.product._id);
+                      const isRemovingThis = removingSet.has(item.product._id);
+
                       return (
                         <tr
                           key={item._id}
-                          className={
-                            isRemovingThis ? "cart-item removing" : "cart-item"
-                          }
+                          className={`cart-item ${isRemovingThis ? "removing" : ""}`}
                         >
                           <td className="ps-4 py-3">
                             <div className="d-flex img-cart-item align-items-center gap-3">
@@ -186,18 +200,22 @@ export default function Cart() {
                                 <p className="text-muted-custom small mb-1">
                                   {item.product.category.name}
                                 </p>
-
                                 <button
-                                  className="btn btn-link text-danger-custom p-0 small text-decoration-none"
+                                  className="remove-btn"
                                   onClick={() =>
                                     handleRemoveItem(item.product._id)
                                   }
                                   disabled={isRemovingThis}
                                 >
                                   {isRemovingThis ? (
-                                    <span>Removing...</span>
+                                    <span className="d-flex align-items-center gap-2">
+                                      Removing...
+                                    </span>
                                   ) : (
-                                    <i className="fa-solid fa-trash-can"></i>
+                                    <>
+                                      <i className="fa-solid fa-trash-can"></i>
+                                      <span className="ms-1">Remove</span>
+                                    </>
                                   )}
                                 </button>
                               </div>
@@ -247,23 +265,36 @@ export default function Cart() {
                               ) : (
                                 <input
                                   type="number"
-                                  min="1"
-                                  max="10"
-                                  value={item.count}
-                                  className=" text-center"
-                                  disabled={isUpdatingThis}
+                                  className="text-center"
+                                  value={
+                                    inputValues[item.product._id] ?? item.count
+                                  }
                                   onChange={(e) => {
-                                    let value = Number(e.target.value);
-                                    const id = item.product._id;
+                                    const value = e.target.value.replace(
+                                      /\D/g,
+                                      "",
+                                    );
 
-                                    if (value < 1) value = 1;
-                                    if (value > 10) value = 10;
+                                    setInputValues((prev) => ({
+                                      ...prev,
+                                      [item.product._id]: value,
+                                    }));
+                                  }}
+                                  onBlur={() =>
+                                    commitChange(item.product._id, item.count)
+                                  }
+                                  onKeyDown={(e) => {
+                                    if (["e", "E", "+", "-"].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
 
-                                    clearTimeout(timeoutRef.current[id]);
-
-                                    timeoutRef.current[id] = setTimeout(() => {
-                                      handleUpdateCount(id, value);
-                                    }, 500);
+                                    if (e.key === "Enter") {
+                                      commitChange(
+                                        item.product._id,
+                                        item.count,
+                                      );
+                                      e.target.blur();
+                                    }
                                   }}
                                 />
                               )}
@@ -281,15 +312,18 @@ export default function Cart() {
                               </button>
                             </div>
                           </td>
-
-                          <td className="text-end pe-4 fw-bold">
+                          <td className="text-center">
                             {(item.price * item.count).toLocaleString()} EGP
+                            {isRemovingThis && (
+                              <div className="item-overlay">
+                                <PropagateLoader
+                                  style={{ transform: "translateY(-10px)" }}
+                                  color="#ff4d4f"
+                                  size={20}
+                                />
+                              </div>
+                            )}
                           </td>
-                          {isRemovingThis && (
-                            <div className="item-overlay">
-                              <PropagateLoader color="#ff4d4f" size={20} />
-                            </div>
-                          )}
                         </tr>
                       );
                     })}
@@ -300,12 +334,8 @@ export default function Cart() {
               {/* Mobile */}
               <div className="d-block d-md-none p-3">
                 {items.map((item) => {
-                  const isUpdatingThis = updatingItems.some(
-                    (itemVar) => itemVar?.productId === item.product._id,
-                  );
-                  const isRemovingThis = removingItems.some(
-                    (id) => id === item.product._id,
-                  );
+                  const isUpdatingThis = updatingSet.has(item.product._id);
+                  const isRemovingThis = removingSet.has(item.product._id);
                   return (
                     <div
                       key={item._id}
@@ -374,23 +404,36 @@ export default function Cart() {
                               ) : (
                                 <input
                                   type="number"
-                                  min="1"
-                                  max="10"
-                                  value={item.count}
                                   className="text-center"
-                                  disabled={isUpdatingThis}
+                                  value={
+                                    inputValues[item.product._id] ?? item.count
+                                  }
                                   onChange={(e) => {
-                                    let value = Number(e.target.value);
-                                    const id = item.product._id;
+                                    const value = e.target.value.replace(
+                                      /\D/g,
+                                      "",
+                                    );
 
-                                    if (value < 1) value = 1;
-                                    if (value > 10) value = 10;
+                                    setInputValues((prev) => ({
+                                      ...prev,
+                                      [item.product._id]: value,
+                                    }));
+                                  }}
+                                  onBlur={() =>
+                                    commitChange(item.product._id, item.count)
+                                  }
+                                  onKeyDown={(e) => {
+                                    if (["e", "E", "+", "-"].includes(e.key)) {
+                                      e.preventDefault();
+                                    }
 
-                                    clearTimeout(timeoutRef.current[id]);
-
-                                    timeoutRef.current[id] = setTimeout(() => {
-                                      handleUpdateCount(id, value);
-                                    }, 500);
+                                    if (e.key === "Enter") {
+                                      commitChange(
+                                        item.product._id,
+                                        item.count,
+                                      );
+                                      e.target.blur();
+                                    }
                                   }}
                                 />
                               )}
@@ -424,10 +467,7 @@ export default function Cart() {
                       </div>
                       {isRemovingThis && (
                         <div className="item-overlay">
-                          <PropagateLoader
-                            color="#ff4d4f"
-                            size={15}
-                          />{" "}
+                          <PropagateLoader color="#ff4d4f" size={15} />{" "}
                         </div>
                       )}
                     </div>

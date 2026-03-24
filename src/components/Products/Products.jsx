@@ -14,12 +14,18 @@ import SidebarChickbooks from "../Sidebar/Sidebar";
 import api from "../Utils/api";
 import { useCallback, useEffect } from "react";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useCart } from './../../hooks/useGetCart';
 
 export default function Products() {
   const loadingProducts = useMutationState({
     filters: { mutationKey: ["addToCart"], status: "pending" },
     select: (mutation) => mutation.state.variables,
   });
+  const { data: cartData } = useCart();
+  const cartItems = cartData?.data?.products || [];
+  const cartSet = new Set(cartItems.map((item) => item.product._id));
+  const loadingSet = new Set(loadingProducts);
+
   const { mutate: addToCart } = useAddToCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
@@ -98,7 +104,12 @@ export default function Products() {
       return params;
     });
   };
-  const handleAddToCart = (productId) => addToCart(productId);
+  const handleAddToCart = useCallback(
+    (productId) => {
+      addToCart(productId);
+    },
+    [addToCart],
+  );
   if (isLoading) {
     return (
       <div className="d-flex loading-overlay justify-content-center align-items-center min-vh-100">
@@ -139,19 +150,24 @@ export default function Products() {
         <div className="main-content container">
           <CategorySlider />
           <BrandSlider />
-          <div className="row row-cols-auto gap-4 justify-content-around product-group">
+          <div className="row  g-4 justify-content-around product-group">
             {products.length > 0 ? (
               products.map((product) => (
                 <ProductCard
                   key={product._id}
                   product={product}
                   handleAddToCart={handleAddToCart}
-                  isLoading={loadingProducts.includes(product._id)}
+                  isLoadingProduct={loadingSet.has(product._id)}
+                  isInCart={cartSet.has(product._id)}
                 />
               ))
             ) : (
               <div className="d-flex justify-content-center align-items-center w-100 my-5">
-                <h4>No Products Found</h4>
+                <div className="text-center my-5">
+                  <i className="fa-solid fa-box-open display-4 text-muted mb-3"></i>
+                  <h5>No Products Found</h5>
+                  <p className="text-muted">Try changing filters</p>
+                </div>
               </div>
             )}
           </div>

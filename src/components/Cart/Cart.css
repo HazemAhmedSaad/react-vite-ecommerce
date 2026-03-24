@@ -79,17 +79,7 @@
   border-color: var(--accent);
 }
 
-/* ====== Remove Button ====== */
-.btn-link {
-  color: #ff4d4f !important;
-}
-
-.btn-link:hover {
-  opacity: 0.7;
-}
-
 /* ====== Summary Box ====== */
-
 .summary-box h5 {
   color: var(--text-main);
 }
@@ -207,5 +197,37 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  border-radius: 8px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.remove-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 77, 79, 0.1);
+  transform: translateY(-1px);
+}
+
+.remove-btn:active {
+  transform: scale(0.95);
+}
+
+.remove-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
