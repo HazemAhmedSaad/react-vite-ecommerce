@@ -244,7 +244,6 @@ body.dark {
 }
 
 .btn-product-details {
-    background: var(--btn-gradient);
     background-size: 200%;
     background-position: left;
     color: #fff;
@@ -252,7 +251,20 @@ body.dark {
     border: none;
     padding: 8px;
     cursor: pointer;
-    transition: background-position 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.btn-details-add {
+    background: var(--btn-gradient);
+
+}
+
+.btn-details-update {
+    background-color: #28a745;
+}
+
+.btn-details-delete {
+    background-color: #ff5252;
 }
 
 .btn-product-details:hover {
@@ -327,13 +339,16 @@ body.dark {
 .product-stock-sold .sold strong {
     color: #ff5722;
 }
-.swiper-scrollbar-drag{
+
+.swiper-scrollbar-drag {
     background-color: var(--scond-color) !important;
 }
+
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
 @media screen and (max-width: 768px) {
     .product-details-title {
         font-size: 20px;

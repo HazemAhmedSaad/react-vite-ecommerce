@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { useMutationState } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
-import { translate } from "react-range/lib/utils";
+
 
 export default function Cart() {
   const [inputValues, setInputValues] = useState({});

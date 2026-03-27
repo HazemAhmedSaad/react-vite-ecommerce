@@ -15,21 +15,27 @@ export const useClearCart = () => {
       const previousCart = queryClient.getQueryData(["cart"]);
 
       // تفضى الكارت فورًا
-      queryClient.setQueryData(["cart"], (oldData) => ({
-        ...oldData,
-        data: {
-          ...oldData.data,
-          products: [],
-          totalCartPrice: 0,
-        },
-      }));
+      queryClient.setQueryData(["cart"], (oldData) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            products: [],
+            totalCartPrice: 0,
+          },
+        };
+      });
 
       return { previousCart };
     },
 
     // ❌ rollback لو حصل error
     onError: (err, variables, context) => {
-      queryClient.setQueryData(["cart"], context.previousCart);
+      if (context?.previousCart) {
+        queryClient.setQueryData(["cart"], context.previousCart);
+      }
     },
 
     // ✅ success
@@ -38,8 +44,8 @@ export const useClearCart = () => {
     },
 
     // 🔄 sync احتياطي
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
+    // onSettled: () => {
+    //   queryClient.invalidateQueries({ queryKey: ["cart"] });
+    // },
   });
 };

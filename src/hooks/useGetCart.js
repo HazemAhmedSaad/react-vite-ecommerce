@@ -5,14 +5,9 @@ export const useCart = () => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: getCart,
-
-    staleTime: 1000 * 60, // الكارت fresh لمدة دقيقة
-    gcTime: 1000 * 60 * 10, // يفضل في الكاش 10 دقايق
-
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     refetchOnReconnect: true,
-
-    // 🔥 يمنع flicker مع optimistic updates
-    placeholderData: (prev) => prev,
   });
 };

@@ -31,7 +31,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         disabled={page === 1}
         onClick={() => onPageChange(page - 1)}
       >
-        ‹
+        <i className="fa-solid fa-chevron-left"></i>
       </button>
 
       {pages.map((p, i) =>
@@ -56,7 +56,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         disabled={page === totalPages}
         onClick={() => onPageChange(page + 1)}
       >
-        ›
+        <i className="fa-solid fa-chevron-right"></i>
       </button>
     </div>
   );

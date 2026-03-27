@@ -9,18 +9,22 @@ export const useRemoveCartItem = (options = {}) => {
     mutationKey: ["removeCartItem"],
     mutationFn: removeCartItem,
 
+    onMutate: async (variables) => {
+      return await options.onMutate?.(variables);
+    },
+
     onSuccess: (data, variables, context) => {
       queryClient.setQueryData(["cart"], data);
 
-      // يشغل اللي جاي من بره
       options.onSuccess?.(data, variables, context);
     },
 
-    onMutate: (variables) => {
-      return options.onMutate?.(variables);
-    },
-
     onError: (error, variables, context) => {
+      toast.error("Failed to remove item", {
+        id: variables,
+        style: { background: "#dc3545", color: "#fff" },
+      });
+
       options.onError?.(error, variables, context);
     },
   });

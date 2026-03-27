@@ -37,36 +37,14 @@ export default function Products() {
     onSuccess: (data, productId, context) => {
       toast.success("Removed from cart 🗑️", {
         id: context.toastId,
-        duration: 2000,
-        style: {
-          background: "#22c55e", // أخضر حديث
-          color: "#fff",
-          borderRadius: "10px",
-          padding: "10px 16px",
-          fontWeight: "500",
-        },
-        iconTheme: {
-          primary: "#fff",
-          secondary: "#22c55e",
-        },
+        style: { background: "#28a745", color: "#fff" },
       });
     },
 
     onError: (err, productId, context) => {
       toast.error("Failed to remove", {
         id: context.toastId,
-        duration: 2500,
-        style: {
-          background: "#ef4444", // أحمر حديث
-          color: "#fff",
-          borderRadius: "10px",
-          padding: "10px 16px",
-          fontWeight: "500",
-        },
-        iconTheme: {
-          primary: "#fff",
-          secondary: "#ef4444",
-        },
+        style: { background: "#dc3545", color: "#fff" },
       });
     },
   });
@@ -166,7 +144,7 @@ export default function Products() {
   );
   if (isLoading) {
     return (
-      <div className="d-flex loading-overlay justify-content-center align-items-center min-vh-100">
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
         <HashLoader color="#f3a909" size={75} />
       </div>
     );
@@ -195,7 +173,7 @@ export default function Products() {
   return (
     <div className="products-wrapper container">
       {isFetchingProducts && !isLoading && (
-        <div className="loading-overlay">
+        <div className="loading-overlay-custom">
           <HashLoader color="#f3a909" size={75} />
         </div>
       )}
@@ -220,9 +198,9 @@ export default function Products() {
             ) : (
               <div className="d-flex justify-content-center align-items-center w-100 my-5">
                 <div className="text-center my-5">
-                  <i className="fa-solid fa-box-open display-4 text-muted mb-3"></i>
+                  <i className="fa-solid fa-box-open text-main-filter display-4  mb-3"></i>
                   <h5>No Products Found</h5>
-                  <p className="text-muted">Try changing filters</p>
+                  <p className="text-muted-filter">Try changing filters</p>
                 </div>
               </div>
             )}

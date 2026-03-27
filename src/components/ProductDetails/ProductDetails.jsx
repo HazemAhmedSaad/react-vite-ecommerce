@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./ProductDetails.css";
 import ProductDetailsSkeleton from "../Skeleton/ProductDetailsSkeleton";
 import Accordion from "@mui/material/Accordion";
@@ -16,11 +16,43 @@ import ReviewsSlider from "./Review/ReviewList";
 import api from "../Utils/api";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useCart } from "./../../hooks/useGetCart";
+import { useRemoveCartItem } from "./../../hooks/useRemoveCartItem";
+import { useUpdateCartItem } from "./../../hooks/useUpdateCartItem";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const { mutate: addToCartMutate, isPending: isAddingToCart } = useAddToCart();
   const [quantity, setQuantity] = useState(1);
+  const { mutate: addToCartMutate, isPending: isAddingToCart } = useAddToCart();
+  const { data: cartData } = useCart();
+  const { mutate: removeItem, isPending: isRemoving } = useRemoveCartItem({
+    mutationKey: ["removeCartItem"],
+
+    onSuccess: () => {
+      toast.success("Removed from cart 🗑️", {
+        id: "remove-item",
+        style: { background: "#28a745", color: "#fff" },
+      });
+      setQuantity(1);
+    },
+    onError: () => {
+      toast.error("Something went wrong", {
+        id: "remove-item",
+        style: { background: "#dc3545", color: "#fff" },
+      });
+    },
+  });
+  const { mutate: updateItem, isPending: isUpdating } = useUpdateCartItem({
+    onSuccess: () => {
+      toast.success("Updated",{
+        id: "update-item",
+        style: { background: "#28a745", color: "#fff" },
+      });
+    },
+  });
+  const cartItems = cartData?.data?.products || [];
+
   const sizes = ["S", "M", "L", "XL", "XXL"];
 
   const [selectedSize, setSelectedSize] = useState(null);
@@ -29,10 +61,15 @@ export default function ProductDetails() {
 
   const handleAddToCart = () => {
     if (!id) return;
-    // لو عاوز تبعت الـ quantity والـ size لو السيرفر بيدعمهم:
     addToCartMutate(id);
   };
+  const handleRemoveItem = (id) => {
+    removeItem(id);
+  };
+  const cartItem = cartItems.find((item) => item.product._id === id);
+  const isInCart = !!cartItem;
 
+  const isQuantityChanged = cartItem && cartItem.count !== quantity;
   const { data, isLoading, isError } = useQuery({
     queryKey: ["productDetails", id],
     queryFn: getProductDetails,
@@ -44,6 +81,35 @@ export default function ProductDetails() {
   });
 
   const product = data?.data?.data;
+  const isLoadingAction = isAddingToCart || isUpdating || isRemoving;
+  const getButtonState = () => {
+    if (!isInCart) {
+      return {
+        text: "Add To Cart",
+        action: handleAddToCart,
+        className: "btn-details-add",
+        icon: "fa-cart-plus",
+      };
+    }
+
+    if (isQuantityChanged) {
+      return {
+        text: "Update Cart",
+        action: () => updateItem({ productId: id, count: quantity }),
+        className: "btn-details-update",
+        icon: "fa-rotate",
+      };
+    }
+
+    return {
+      text: "Remove",
+      action: () => handleRemoveItem(id),
+      className: "btn-details-delete",
+      icon: "fa-trash",
+    };
+  };
+
+  const { text, action, className, icon } = getButtonState();
   const isClothing =
     product?.category?.name === "Men's Fashion" ||
     product?.category?.name === "Women's Fashion";
@@ -55,6 +121,36 @@ export default function ProductDetails() {
       ((product.price - product.priceAfterDiscount) / product.price) * 100,
     );
   }, [product]);
+
+  const stars = useMemo(() => {
+    const rating = product?.ratingsAverage || 0;
+    return Array.from({ length: 5 }, (_, index) => {
+      if (rating >= index + 1) {
+        return (
+          <span key={index}>
+            <i className="fa-solid fa-star fa-sm"></i>
+          </span>
+        );
+      } else if (rating >= index + 0.5) {
+        return (
+          <span key={index}>
+            <i className="fa-solid fa-star-half-stroke fa-sm"></i>
+          </span>
+        );
+      } else {
+        return (
+          <span key={index}>
+            <i className="fa-regular fa-star fa-sm"></i>
+          </span>
+        );
+      }
+    });
+  }, [product]);
+  useEffect(() => {
+    if (cartItem) {
+      setQuantity(cartItem.count);
+    }
+  }, [cartItem]);
   if (isError) {
     return (
       <div className="text-center py-5 min-vh-100 d-flex flex-column justify-content-center">
@@ -96,28 +192,7 @@ export default function ProductDetails() {
             <h3 className="product-details-title">{product?.title}</h3>
             {/* Product Rating */}
             <div className="product-rating d-flex align-items-center gap-2 my-2">
-              {Array.from({ length: 5 }, (_, index) => {
-                const rating = product?.ratingsAverage || 0;
-                if (rating >= index + 1) {
-                  return (
-                    <span key={index}>
-                      <i className="fa-solid fa-star fa-sm"></i>
-                    </span>
-                  );
-                } else if (rating >= index + 0.5) {
-                  return (
-                    <span key={index}>
-                      <i className="fa-solid fa-star-half-stroke fa-sm "></i>
-                    </span>
-                  );
-                } else {
-                  return (
-                    <span key={index}>
-                      <i className="fa-regular fa-star fa-sm"></i>
-                    </span>
-                  );
-                }
-              })}
+              {stars}
               <span className="rating-count">
                 ({product?.ratingsAverage?.toFixed(1)} / 5 -{" "}
                 {product?.ratingsQuantity} Reviews)
@@ -156,7 +231,6 @@ export default function ProductDetails() {
                   "Out of Stock"
                 )}
               </span>
-
               <span className="sold">
                 <i className="fa-solid fa-fire me-1"></i>
                 Sold:{" "}
@@ -177,23 +251,25 @@ export default function ProductDetails() {
 
                 <div className="quantity-box">
                   <button
+                    disabled={!isInCart || quantity === 1 || isLoadingAction}
                     className="qty-btn"
                     onClick={() =>
                       setQuantity((prev) => (prev > 1 ? prev - 1 : 1))
                     }
                   >
-                    −
+                    <i className="fa-solid fa-minus fa-sm"></i>
                   </button>
 
                   <span className="qty-number">{quantity}</span>
 
                   <button
+                    disabled={!isInCart || quantity === 10 || isLoadingAction}
                     className="qty-btn"
                     onClick={() =>
-                      setQuantity((prev) => (prev < 15 ? prev + 1 : prev))
+                      setQuantity((prev) => (prev < 10 ? prev + 1 : prev))
                     }
                   >
-                    +
+                    <i className="fa-solid fa-plus fa-sm"></i>
                   </button>
                 </div>
               </div>
@@ -218,21 +294,18 @@ export default function ProductDetails() {
               )}
             </div>
 
-            {/* Add To Cart */}
             <div className="product-details d-flex align-items-center gap-3 mt-3">
               <button
-                disabled={isAddingToCart}
-                onClick={() => handleAddToCart(product?._id)}
-                className="btn-product-details flex-grow-1 rounded-pill"
+                disabled={isLoadingAction}
+                onClick={action}
+                className={`btn-product-details flex-grow-1 rounded-pill ${className}`}
               >
-                {isAddingToCart ? (
-                  <div className="">
-                    <PulseLoader color="#fff" size={10} />
-                  </div>
+                {isLoadingAction ? (
+                  <PulseLoader color="#fff" size={10} />
                 ) : (
                   <>
-                    <i className="fa-solid fa-cart-arrow-down me-2"></i>
-                    Add To Cart
+                    <i className={`fa-solid ${icon} me-2`}></i>
+                    {text}
                   </>
                 )}
               </button>
