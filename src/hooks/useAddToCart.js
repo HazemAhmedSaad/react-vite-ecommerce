@@ -36,6 +36,8 @@ export const useAddToCart = (options = {}) => {
 
       options.onError?.(err, variables, context);
     },
-    
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
   });
 };

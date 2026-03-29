@@ -185,14 +185,6 @@ body.dark {
     -o-border-radius: 50%;
 }
 
-.qty-btn:hover {
-    background: var(--scond-color);
-    transform: scale(1.1);
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-}
 
 .qty-number {
     font-size: 16px;
@@ -309,11 +301,6 @@ body.dark {
     transition: 0.3s ease;
 }
 
-.wishlist-btn:hover {
-    background-color: #ffe5e5;
-    color: #FF4143;
-
-}
 
 .text-danger-icon {
     color: #FF4143;
@@ -347,6 +334,24 @@ body.dark {
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+@media screen and (min-width: 960px) {
+    .qty-btn:hover {
+        background: var(--scond-color);
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+    }
+
+    .wishlist-btn:hover {
+        background-color: #ffe5e5;
+        color: #FF4143;
+
+    }
+
 }
 
 @media screen and (max-width: 768px) {

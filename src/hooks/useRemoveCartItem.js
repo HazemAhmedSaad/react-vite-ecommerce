@@ -27,5 +27,8 @@ export const useRemoveCartItem = (options = {}) => {
 
       options.onError?.(error, variables, context);
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
   });
 };

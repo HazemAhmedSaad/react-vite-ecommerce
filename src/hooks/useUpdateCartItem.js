@@ -26,5 +26,8 @@ export const useUpdateCartItem = (options = {}) => {
 
       options.onError?.(err, variables, context);
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
   });
 };

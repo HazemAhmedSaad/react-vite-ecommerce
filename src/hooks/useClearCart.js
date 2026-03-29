@@ -44,8 +44,8 @@ export const useClearCart = () => {
     },
 
     // 🔄 sync احتياطي
-    // onSettled: () => {
-    //   queryClient.invalidateQueries({ queryKey: ["cart"] });
-    // },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
   });
 };
