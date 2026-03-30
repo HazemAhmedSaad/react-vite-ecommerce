@@ -3,17 +3,23 @@ import { z } from "zod";
 export const checkoutSchema = z.object({
   details: z
     .string()
-    .min(5, "Address must be at least 5 characters"),
+    .trim()
+    .min(5, "Address must be at least 5 characters")
+    .max(100, "Address is too long"),
 
   phone: z
     .string()
+    .trim()
     .regex(/^01[0125][0-9]{8}$/, "Invalid Egyptian phone number"),
 
   city: z
     .string()
-    .min(2, "City is required"),
+    .trim()
+    .min(2, "City is required")
+    .max(50, "City name is too long"),
 
   postalCode: z
     .string()
-    .regex(/^[0-9]{5}$/, "Must be 5 digits"),
+    .trim()
+    .regex(/^[0-9]{5}$/, "Postal code must be 5 digits"),
 });

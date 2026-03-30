@@ -5,7 +5,7 @@ import api from "../Utils/api";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-
+import "./Payment.css";
 function PaymentForm() {
   const navigate = useNavigate();
   const { cartId } = useParams();
@@ -33,11 +33,9 @@ function PaymentForm() {
       });
 
       toast.success("Order placed successfully ✅");
-
       // 🔥 امسح الكارت من الكاش
       queryClient.setQueryData(["cart"], null);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
-
       reset();
       navigate("/cart");
     } catch (error) {
@@ -46,28 +44,50 @@ function PaymentForm() {
   };
 
   return (
-    <div className="payment-form container mt-5 pt-5">
+    <div className="payment-form">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input placeholder="Address" {...register("details")} />
-        <p className="text-red-500 text-sm">{errors.details?.message}</p>
+        <h2>Checkout</h2>
 
         <input
+          className={errors.details ? "input error-input" : "input"}
+          disabled={isSubmitting}
+          placeholder="Address"
+          {...register("details")}
+        />
+        {errors.details && <p className="error">{errors.details.message}</p>}
+        <input
+          className={errors.phone ? "input error-input" : "input"}
+          disabled={isSubmitting}
           placeholder="Phone"
           {...register("phone")}
           onInput={(e) => {
             e.target.value = e.target.value.replace(/[^0-9]/g, "");
           }}
         />
-        <p>{errors.phone?.message}</p>
+        {errors.phone && <p className="error">{errors.phone.message}</p>}
 
-        <input placeholder="City" {...register("city")} />
-        <p>{errors.city?.message}</p>
+        <input
+          className={errors.city ? "input error-input" : "input"}
+          disabled={isSubmitting}
+          placeholder="City"
+          {...register("city")}
+        />
+        {errors.city && <p className="error">{errors.city.message}</p>}
 
-        <input placeholder="Postal Code" {...register("postalCode")} />
-        <p>{errors.postalCode?.message}</p>
-
-        <button disabled={!isValid || !isDirty || isSubmitting}>
-          {isSubmitting ? "Loading..." : "Submit"}
+        <input
+          className={errors.postalCode ? "input error-input" : "input"}
+          disabled={isSubmitting}
+          placeholder="Postal Code"
+          {...register("postalCode")}
+        />
+        {errors.postalCode && (
+          <p className="error">{errors.postalCode.message}</p>
+        )}
+        <button
+          className={isSubmitting ? "loading" : ""}
+          disabled={!isValid || !isDirty || isSubmitting}
+        >
+          {isSubmitting ? "Processing..." : "Place Order"}
         </button>
       </form>
     </div>
