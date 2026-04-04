@@ -9,19 +9,23 @@ import "./Payment.css";
 function PaymentForm() {
   const navigate = useNavigate();
   const { cartId } = useParams();
-  const queryClient = useQueryClient(); // ✅ هنا الصح
-  // console.log(cartId);
-
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, touchedFields, isDirty, isValid, isSubmitting },
     reset,
   } = useForm({
     resolver: zodResolver(checkoutSchema),
     mode: "onChange",
   });
+  const getInputState = (field) => {
+    if (!touchedFields[field]) return "input";
 
+    if (errors[field]) return "input error-input";
+
+    return "input success";
+  };
   const onSubmit = async (data) => {
     //   console.log(cartId);
 
@@ -35,7 +39,8 @@ function PaymentForm() {
       toast.success("Order placed successfully ✅");
       // 🔥 امسح الكارت من الكاش
       queryClient.setQueryData(["cart"], null);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.removeQueries({ queryKey: ["cart"] });
+      // queryClient.invalidateQueries({ queryKey: ["cart"] });
       reset();
       navigate("/cart");
     } catch (error) {
@@ -47,16 +52,18 @@ function PaymentForm() {
     <div className="payment-form">
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2>Checkout</h2>
-
         <input
-          className={errors.details ? "input error-input" : "input"}
+          className={getInputState("details")}
           disabled={isSubmitting}
           placeholder="Address"
           {...register("details")}
         />
-        {errors.details && <p className="error">{errors.details.message}</p>}
+
+        {touchedFields.details && errors.details && (
+          <p className="error">{errors.details.message}</p>
+        )}
         <input
-          className={errors.phone ? "input error-input" : "input"}
+          className={getInputState("phone")}
           disabled={isSubmitting}
           placeholder="Phone"
           {...register("phone")}
@@ -64,23 +71,26 @@ function PaymentForm() {
             e.target.value = e.target.value.replace(/[^0-9]/g, "");
           }}
         />
-        {errors.phone && <p className="error">{errors.phone.message}</p>}
-
+        {touchedFields.phone && errors.phone && (
+          <p className="error">{errors.phone.message}</p>
+        )}
         <input
-          className={errors.city ? "input error-input" : "input"}
+          className={getInputState("city")}
           disabled={isSubmitting}
           placeholder="City"
           {...register("city")}
         />
-        {errors.city && <p className="error">{errors.city.message}</p>}
+        {touchedFields.city && errors.city && (
+          <p className="error">{errors.city.message}</p>
+        )}
 
         <input
-          className={errors.postalCode ? "input error-input" : "input"}
+          className={getInputState("postalCode")}
           disabled={isSubmitting}
           placeholder="Postal Code"
           {...register("postalCode")}
         />
-        {errors.postalCode && (
+        { touchedFields.postalCode && errors.postalCode && (
           <p className="error">{errors.postalCode.message}</p>
         )}
         <button
