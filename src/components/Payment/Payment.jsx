@@ -13,19 +13,13 @@ function PaymentForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, touchedFields, isDirty, isValid, isSubmitting },
+    formState: { errors, isDirty, isValid, isSubmitting },
     reset,
   } = useForm({
     resolver: zodResolver(checkoutSchema),
-    mode: "onChange",
+    mode: "onTouched",
   });
-  const getInputState = (field) => {
-    if (!touchedFields[field]) return "input";
 
-    if (errors[field]) return "input error-input";
-
-    return "input success";
-  };
   const onSubmit = async (data) => {
     //   console.log(cartId);
 
@@ -53,17 +47,15 @@ function PaymentForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2>Checkout</h2>
         <input
-          className={getInputState("details")}
+          className={errors.details ? "error-input input" : "input"}
           disabled={isSubmitting}
           placeholder="Address"
           {...register("details")}
         />
 
-        {touchedFields.details && errors.details && (
-          <p className="error">{errors.details.message}</p>
-        )}
+        {errors.details && <p className="error">{errors.details.message}</p>}
         <input
-          className={getInputState("phone")}
+          className={errors.phone ? "error-input input" : "input"}
           disabled={isSubmitting}
           placeholder="Phone"
           {...register("phone")}
@@ -71,26 +63,22 @@ function PaymentForm() {
             e.target.value = e.target.value.replace(/[^0-9]/g, "");
           }}
         />
-        {touchedFields.phone && errors.phone && (
-          <p className="error">{errors.phone.message}</p>
-        )}
+        {errors.phone && <p className="error">{errors.phone.message}</p>}
         <input
-          className={getInputState("city")}
+          className={errors.city ? "error-input input" : "input"}
           disabled={isSubmitting}
           placeholder="City"
           {...register("city")}
         />
-        {touchedFields.city && errors.city && (
-          <p className="error">{errors.city.message}</p>
-        )}
+        {errors.city && <p className="error">{errors.city.message}</p>}
 
         <input
-          className={getInputState("postalCode")}
+          className={errors.postalCode ? "error-input input" : "input"}
           disabled={isSubmitting}
           placeholder="Postal Code"
           {...register("postalCode")}
         />
-        { touchedFields.postalCode && errors.postalCode && (
+        {errors.postalCode && (
           <p className="error">{errors.postalCode.message}</p>
         )}
         <button

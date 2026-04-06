@@ -4,7 +4,8 @@ export const checkoutSchema = z.object({
   details: z
     .string()
     .trim()
-    .min(5, "Address must be at least 5 characters")
+    .min(1, "Address is required")
+    .min(4, "Address must be at least 4 characters")
     .max(100, "Address is too long"),
 
 
@@ -17,12 +18,14 @@ export const checkoutSchema = z.object({
   city: z
     .string()
     .trim()
-    .min(2, "City is required")
+    .min(1, "City is required")
+    .min(3, "City name is too short")
     .max(50, "City name is too long"),
 
   postalCode: z
     .string()
     .trim()
+    .min(1, "Postal code is required")
     .regex(/^[0-9]{5}$/, "Postal code must be 5 digits"),
 
 });
