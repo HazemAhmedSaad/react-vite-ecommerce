@@ -1,87 +1,262 @@
-.payment-form {
+/* Payment.css */
+
+/* حاوية الصفحة الكاملة */
+.payment-form-container {
     min-height: 100vh;
-    background: var(--bg-main);
+    background: #0d1117; /* لون خلفية داكن جداً */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    font-family: 'Inter', sans-serif; /* تأكد من استخدام خط عصري */
 }
 
-.payment-form form {
+/* بطاقة الدفع الرئيسية */
+.checkout-card {
     width: 100%;
-    max-width: 420px;
-    background: var(--box-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 24px;
+    max-width: 480px;
+    background: #161b22; /* لون البطاقة الداكن */
+    border: 1px solid #30363d; /* لون الحدود */
+    border-radius: 12px;
+    padding: 32px 24px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* title */
-.payment-form h2 {
-    color: var(--text-main);
-    text-align: center;
-    margin-bottom: 10px;
+/* حاوية أيقونة السلة العلوية */
+.cart-icon-container {
+    width: 44px;
+    height: 44px;
+    background-color: rgba(30, 110, 255, 0.1); /* أزرق خفيف جداً */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
 }
 
-/* inputs */
-.payment-form input {
-    padding: 12px 14px;
-    /* border-radius: 10px; */
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    background: transparent;
-    color: var(--text-main);
-    outline: none;
+.cart-icon {
+    color: #1e6eff; /* لون الأيقونة الأزرق */
+}
+
+/* قسم العناوين */
+.checkout-header {
+    margin-bottom: 24px;
+}
+
+.checkout-header h2 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+}
+
+.checkout-header .subtitle {
+    color: #8b949e;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* تنسيق النموذج */
+.checkout-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* تنسيق حقل الإدخال المفرد */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.form-field label {
+    color: #c9d1d9;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* تنسيق مجموعة الإدخال (الأيقونة + المدخل) */
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: #0d1117; /* خلفية أغمق للحقل */
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 10px 14px;
     transition: 0.2s;
 }
 
-.payment-form input::placeholder {
-    color: var(--text-muted);
+.input-group:focus-within {
+    border-color: #1e6eff;
+    box-shadow: 0 0 0 2px rgba(30, 110, 255, 0.2);
 }
 
-/* focus */
-.payment-form input:focus {
-    border-bottom: 1px solid var(--accent);
-    /* box-shadow: 0 0 0 2px rgba(65, 138, 255, 0.2); */
+.field-icon {
+    color: #586069;
+    margin-right: 10px;
+    flex-shrink: 0;
 }
 
-/* error */
-.payment-form .error {
-    color: #ef4444;
-    font-size: 12px;
-    margin-top: -8px;
-}
-
-/* button */
-.payment-form button {
-    margin-top: 10px;
-    padding: 12px;
-    border-radius: 10px;
+/* تنسيق المدخل الفعلي */
+.input-group input {
+    flex: 1;
+    background: transparent;
     border: none;
-    background: var(--btn-gradient);
-    color: #fff;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    padding: 0;
+}
+
+.input-group input::placeholder {
+    color: #484f58;
+}
+
+/* تنسيق الحقول بجانب بعضها */
+.row-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* تنسيق رسائل الخطأ */
+.error-message {
+    color: #f85149;
+    font-size: 11px;
+    margin: 2px 0 0 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.error-field .input-group {
+    border-color: #f85149 !important;
+}
+
+/* تنسيق قسم ملخص السعر */
+.price-summary {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.summary-row .label {
+    color: #8b949e;
+}
+
+.summary-row .value {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.total-row {
+    border-top: 1px solid #30363d;
+    padding-top: 10px;
+    margin-top: 5px;
+}
+
+.summary-row.total-row .label {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.total-price {
+    color: #1e6eff !important;
+    font-size: 16px;
+    font-weight: 700 !important;
+}
+
+/* تنسيق زر "Place Order" الأزرق */
+.place-order-btn {
+    background-color: #1e6eff;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.payment-form button:hover {
-    opacity: 0.9;
+.place-order-btn:hover {
+    background-color: #1a5ecc;
 }
 
-.payment-form button:disabled {
-    opacity: 0.5;
+.place-order-btn:disabled {
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
-.error-input {
-    border-color: #ef4444 !important;
+.place-order-btn.loading {
+    opacity: 0.8;
+    pointer-events: none;
 }
 
-button.loading {
-    opacity: 0.7;
-    pointer-events: none;
+/* تنسيق نص الحماية السفلي */
+.security-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #8b949e;
+    font-size: 12px;
+    margin-top: 16px;
+    opacity: 0.8;
+}
+
+.security-icon {
+    color: #3fb950; /* لون أيقونة الحماية الأخضر */
+}/* تأكد من أن الأيقونات داخل الـ input-group لها عرض ثابت لتكون المحاذاة مضبوطة */
+.field-icon {
+    width: 20px;
+    text-align: center;
+    color: #586069;
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+/* أيقونة السلة العلوية */
+.cart-icon {
+    font-size: 22px;
+    color: #1e6eff;
+}
+
+/* أيقونات الخطأ والحماية */
+.error-message i, .security-footer i {
+    margin-right: 5px;
+}
+
+.security-icon {
+    color: #3fb950;
+}/* هذا الكلاس سيجعل البرواز أحمر عند وجود خطأ */
+.error-field {
+    border-color: #f85149 !important; /* لون أحمر */
+    background-color: rgba(248, 81, 73, 0.05) !important; /* خلفية حمراء خفيفة جداً */
+}
+
+/* لتغيير لون الأيقونة أيضاً عند الخطأ (اختياري) */
+.error-field .field-icon {
+    color: #f85149;
 }
