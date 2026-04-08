@@ -6,12 +6,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import "./Payment.css";
+import { useCart } from "../../hooks/useGetCart";
 
 function PaymentForm() {
   const navigate = useNavigate();
   const { cartId } = useParams();
   const queryClient = useQueryClient();
-
+  const { data: cartData, isLoading, isError } = useCart();
+  const totalPrice = cartData?.data?.totalCartPrice || 0;
+  const numOfCartItems = cartData?.numOfCartItems || 0;
   const {
     register,
     handleSubmit,
@@ -61,6 +64,7 @@ function PaymentForm() {
               <i className="fa-solid fa-location-dot field-icon"></i>
               <input
                 type="text"
+                disabled={isSubmitting}
                 placeholder="Enter your full address"
                 {...register("address")}
               />
@@ -80,6 +84,7 @@ function PaymentForm() {
               <i className="fa-solid fa-phone field-icon"></i>
               <input
                 type="tel"
+                disabled={isSubmitting}
                 placeholder="01 XXX XXX XXX"
                 {...register("phone")}
               />
@@ -97,11 +102,12 @@ function PaymentForm() {
             <div className="form-field">
               <label>City</label>
               <div
-                className={`input-group ${errors.city ? "error-field" : ""}`}
+                className={`input-group  ${errors.city ? "error-field" : ""}`}
               >
                 <i className="fa-solid fa-city field-icon"></i>
                 <input
                   type="text"
+                  disabled={isSubmitting}
                   placeholder="e.g. Cairo"
                   {...register("city")}
                 />
@@ -123,32 +129,32 @@ function PaymentForm() {
                 <input
                   type="text"
                   placeholder="12345"
+                  disabled={isSubmitting}
                   {...register("postalCode")}
                 />
               </div>
               {errors.postalCode && (
                 <p className="error-message">
-                  <i className="fa-solid fa-circle-exclamation"></i>{" "} 
+                  <i className="fa-solid fa-circle-exclamation"></i>{" "}
                   {errors.postalCode.message}
                 </p>
               )}
             </div>
-            
           </div>
 
           {/* ملخص السعر */}
           <div className="price-summary">
             <div className="summary-row">
-              <span>Subtotal</span>
-              <span>EGP 1,250.00</span>
+              <span>Items in Cart</span>
+              <span>{numOfCartItems} Items</span>
             </div>
             <div className="summary-row">
               <span>Shipping</span>
-              <span>EGP 50.00</span>
+              <span>Free</span>
             </div>
             <div className="summary-row total-row">
-              <span>Total</span>
-              <span className="total-price">EGP 1,300.00</span>
+              <span className="total-price">Total Price</span>
+              <span className="total-price">{totalPrice.toLocaleString()} EGP</span>
             </div>
           </div>
 

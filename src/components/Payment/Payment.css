@@ -1,262 +1,248 @@
 /* Payment.css */
 
-/* حاوية الصفحة الكاملة */
 .payment-form-container {
     min-height: 100vh;
-    background: #0d1117; /* لون خلفية داكن جداً */
+    background: var(--bg-main);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    font-family: 'Inter', sans-serif; /* تأكد من استخدام خط عصري */
+    margin-top: 60px;
+    transition: background 0.3s ease;
 }
 
-/* بطاقة الدفع الرئيسية */
+/* بطاقة الدفع */
 .checkout-card {
     width: 100%;
-    max-width: 480px;
-    background: #161b22; /* لون البطاقة الداكن */
-    border: 1px solid #30363d; /* لون الحدود */
-    border-radius: 12px;
-    padding: 32px 24px;
+    max-width: 500px;
+    background: var(--box-bg);
+    backdrop-filter: blur(12px);
+    /* تأثير زجاجي بسيط */
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* حاوية أيقونة السلة العلوية */
+/* حاوية الأيقونة العلوية */
 .cart-icon-container {
-    width: 44px;
-    height: 44px;
-    background-color: rgba(30, 110, 255, 0.1); /* أزرق خفيف جداً */
-    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--taps-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .cart-icon {
-    color: #1e6eff; /* لون الأيقونة الأزرق */
+    color: var(--accent);
+    font-size: 20px;
 }
 
-/* قسم العناوين */
-.checkout-header {
-    margin-bottom: 24px;
-}
-
+/* النصوص */
 .checkout-header h2 {
-    color: #ffffff;
+    color: var(--text-main);
     font-size: 24px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    text-align: center;
 }
 
 .checkout-header .subtitle {
-    color: #8b949e;
+    color: var(--text-muted);
     font-size: 14px;
-    margin: 0;
+    text-align: center;
 }
 
-/* تنسيق النموذج */
+/* الفورم والحقول */
 .checkout-card form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
 }
 
-/* تنسيق حقل الإدخال المفرد */
 .form-field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    width: 100%;
+    gap: 8px;
 }
 
 .form-field label {
-    color: #c9d1d9;
+    color: var(--text-main);
     font-size: 13px;
     font-weight: 500;
 }
 
-/* تنسيق مجموعة الإدخال (الأيقونة + المدخل) */
+/* مجموعة الإدخال */
 .input-group {
     display: flex;
     align-items: center;
-    background-color: #0d1117; /* خلفية أغمق للحقل */
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 10px 14px;
-    transition: 0.2s;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
 .input-group:focus-within {
-    border-color: #1e6eff;
-    box-shadow: 0 0 0 2px rgba(30, 110, 255, 0.2);
+    border-color: var(--accent);
 }
 
 .field-icon {
-    color: #586069;
-    margin-right: 10px;
-    flex-shrink: 0;
+    color: var(--text-muted);
+    margin-right: 12px;
+    font-size: 14px;
+    width: 18px;
+    text-align: center;
 }
 
-/* تنسيق المدخل الفعلي */
+.input-group:focus-within .field-icon {
+    color: var(--accent);
+}
+
+.input-group.error-field .field-icon {
+    color: #ef4444;
+}
+
 .input-group input {
     flex: 1;
+    width: 100%;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: var(--text-main);
     font-size: 14px;
     outline: none;
-    padding: 0;
 }
 
 .input-group input::placeholder {
-    color: #484f58;
+    color: var(--text-muted);
+    opacity: 0.6;
 }
 
-/* تنسيق الحقول بجانب بعضها */
+/* تقسيم المدينة والرمز البريدي */
 .row-fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 15px;
 }
 
-/* تنسيق رسائل الخطأ */
+/* --- إصلاح الأخطاء (Error Styles) --- */
 .error-message {
-    color: #f85149;
-    font-size: 11px;
-    margin: 2px 0 0 0;
+    color: #ef4444;
+    /* لون أحمر صريح للخطأ */
+    font-size: 12px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
+    padding: 0 10px;
 }
 
-.error-field .input-group {
-    border-color: #f85149 !important;
+/* الكلاس الذي يتم تفعيله عند وجود خطأ */
+.input-group.error-field {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05);
 }
 
-/* تنسيق قسم ملخص السعر */
+.error-field .field-icon {
+    color: #ef4444;
+}
+
+/* ملخص السعر */
 .price-summary {
-    background-color: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 16px 0;
+    background: var(--taps-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    margin: 10px 0;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
+    color: var(--text-muted);
 }
 
-.summary-row .label {
-    color: #8b949e;
-}
-
-.summary-row .value {
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.total-row {
-    border-top: 1px solid #30363d;
-    padding-top: 10px;
-    margin-top: 5px;
-}
-
-.summary-row.total-row .label {
-    color: #ffffff;
+.summary-row.total-row {
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
+    color: var(--text-main);
     font-weight: 600;
 }
 
 .total-price {
-    color: #1e6eff !important;
-    font-size: 16px;
-    font-weight: 700 !important;
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
 }
 
-/* تنسيق زر "Place Order" الأزرق */
+.summary-row.total-row span:first-child {
+    color: var(--text-main);
+
+}
+
+/* زر إرسال الطلب */
 .place-order-btn {
-    background-color: #1e6eff;
-    color: #ffffff;
+    background: var(--btn-gradient);
+    color: #fff;
     border: none;
-    border-radius: 6px;
-    padding: 12px;
-    font-size: 14px;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    transition: transform 0.2s, opacity 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-.place-order-btn:hover {
-    background-color: #1a5ecc;
+.place-order-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    opacity: 0.95;
 }
 
 .place-order-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-.place-order-btn.loading {
-    opacity: 0.8;
-    pointer-events: none;
-}
-
-/* تنسيق نص الحماية السفلي */
+/* التذييل */
 .security-footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    color: #8b949e;
+    gap: 8px;
+    color: var(--text-muted);
     font-size: 12px;
-    margin-top: 16px;
-    opacity: 0.8;
+    margin-top: 10px;
 }
 
 .security-icon {
-    color: #3fb950; /* لون أيقونة الحماية الأخضر */
-}/* تأكد من أن الأيقونات داخل الـ input-group لها عرض ثابت لتكون المحاذاة مضبوطة */
-.field-icon {
-    width: 20px;
-    text-align: center;
-    color: #586069;
-    margin-right: 12px;
-    font-size: 16px;
+    color: #10b981;
+    /* لون أخضر للأمان */
 }
 
-/* أيقونة السلة العلوية */
-.cart-icon {
-    font-size: 22px;
-    color: #1e6eff;
-}
+/* Responsive */
+@media (max-width: 480px) {
+    .row-fields {
+        grid-template-columns: 1fr;
+    }
 
-/* أيقونات الخطأ والحماية */
-.error-message i, .security-footer i {
-    margin-right: 5px;
-}
-
-.security-icon {
-    color: #3fb950;
-}/* هذا الكلاس سيجعل البرواز أحمر عند وجود خطأ */
-.error-field {
-    border-color: #f85149 !important; /* لون أحمر */
-    background-color: rgba(248, 81, 73, 0.05) !important; /* خلفية حمراء خفيفة جداً */
-}
-
-/* لتغيير لون الأيقونة أيضاً عند الخطأ (اختياري) */
-.error-field .field-icon {
-    color: #f85149;
+    .checkout-card {
+        padding: 20px;
+    }
 }
