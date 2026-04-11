@@ -29,8 +29,8 @@ function PaymentForm() {
     if (!cartId) return;
     try {
       await api.post(`/v2/orders/${cartId}`, { shippingAddress: data });
-      toast.success("Order placed successfully ✅");
-      queryClient.setQueryData({ queryKey: ["cart"] }, null);
+      toast.success("Order placed successfully");
+      queryClient.setQueryData(["cart"], null);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       reset();
       navigate("/cart");
@@ -53,126 +53,142 @@ function PaymentForm() {
             Complete your order by filling in the details below
           </p>
         </div>
+        <fieldset disabled={isSubmitting}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* العنوان */}
+            <div className="form-field">
+              <label>Delivery Address</label>
+              <div
+                className={`input-group ${errors.address ? "error-field" : ""}`}
+              >
+                <i className="fa-solid fa-location-dot field-icon"></i>
+                <input
+                  type="text"
+                  disabled={isSubmitting}
+                  placeholder="Enter your full address"
+                  {...register("address")}
+                />
+              </div>
+              {errors.address && (
+                <p className="error-message">
+                  <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                  {errors.address.message}
+                </p>
+              )}
+            </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* العنوان */}
-          <div className="form-field">
-            <label>Delivery Address</label>
-            <div
-              className={`input-group ${errors.address ? "error-field" : ""}`}
+            {/* الهاتف */}
+            <div className="form-field">
+              <label>Phone Number</label>
+              <div
+                className={`input-group ${errors.phone ? "error-field" : ""}`}
+              >
+                <i className="fa-solid fa-phone field-icon"></i>
+                <input
+                  type="tel"
+                  disabled={isSubmitting}
+                  placeholder="01 XXX XXX XXX"
+                  {...register("phone")}
+                  maxLength={11}
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
+                />
+              </div>
+              {errors.phone && (
+                <p className="error-message">
+                  <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+
+            {/* المدينة والرمز البريدي */}
+            <div className="row-fields">
+              <div className="form-field">
+                <label>City</label>
+                <div
+                  className={`input-group  ${errors.city ? "error-field" : ""}`}
+                >
+                  <i className="fa-solid fa-city field-icon"></i>
+                  <input
+                    type="text"
+                    disabled={isSubmitting}
+                    placeholder="e.g. Cairo"
+                    {...register("city")}
+                  />
+                </div>
+                {errors.city && (
+                  <p className="error-message">
+                    <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                    {errors.city.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="form-field">
+                <label>Postal Code</label>
+                <div
+                  className={`input-group  ${errors.postalCode ? "error-field" : ""}`}
+                >
+                  <i className="fa-solid fa-hashtag field-icon"></i>
+                  <input
+                    type="text"
+                    placeholder="12345"
+                    disabled={isSubmitting}
+                    {...register("postalCode")}
+                    maxLength={5}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                  />
+                </div>
+                {errors.postalCode && (
+                  <p className="error-message">
+                    <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                    {errors.postalCode.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* ملخص السعر */}
+            <div className="price-summary">
+              <div className="summary-row">
+                <span>Items in Cart</span>
+                <span>{numOfCartItems} Items</span>
+              </div>
+              <div className="summary-row">
+                <span>Shipping</span>
+                <span>Free</span>
+              </div>
+              <div className="summary-row total-row">
+                <span className="total-price">Total Price</span>
+                <span className="total-price">
+                  {totalPrice.toLocaleString()} EGP
+                </span>
+              </div>
+            </div>
+
+            {/* الزر */}
+            <button
+              type="submit"
+              className="place-order-btn"
+              disabled={!isValid || !isDirty || isSubmitting}
             >
-              <i className="fa-solid fa-location-dot field-icon"></i>
-              <input
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Enter your full address"
-                {...register("address")}
-              />
-            </div>
-            {errors.address && (
-              <p className="error-message">
-                <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                {errors.address.message}
-              </p>
-            )}
-          </div>
-
-          {/* الهاتف */}
-          <div className="form-field">
-            <label>Phone Number</label>
-            <div className={`input-group ${errors.phone ? "error-field" : ""}`}>
-              <i className="fa-solid fa-phone field-icon"></i>
-              <input
-                type="tel"
-                disabled={isSubmitting}
-                placeholder="01 XXX XXX XXX"
-                {...register("phone")}
-              />
-            </div>
-            {errors.phone && (
-              <p className="error-message">
-                <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
-
-          {/* المدينة والرمز البريدي */}
-          <div className="row-fields">
-            <div className="form-field">
-              <label>City</label>
-              <div
-                className={`input-group  ${errors.city ? "error-field" : ""}`}
-              >
-                <i className="fa-solid fa-city field-icon"></i>
-                <input
-                  type="text"
-                  disabled={isSubmitting}
-                  placeholder="e.g. Cairo"
-                  {...register("city")}
-                />
-              </div>
-              {errors.city && (
-                <p className="error-message">
-                  <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                  {errors.city.message}
-                </p>
+              {isSubmitting ? (
+                <>
+                  <i className="fa-solid fa-spinner fa-spin"></i> Processing...
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <i className="fa-solid fa-lock"></i> Place Order{" "}
+                </>
               )}
-            </div>
-
-            <div className="form-field">
-              <label>Postal Code</label>
-              <div
-                className={`input-group  ${errors.postalCode ? "error-field" : ""}`}
-              >
-                <i className="fa-solid fa-hashtag field-icon"></i>
-                <input
-                  type="text"
-                  placeholder="12345"
-                  disabled={isSubmitting}
-                  {...register("postalCode")}
-                />
-              </div>
-              {errors.postalCode && (
-                <p className="error-message">
-                  <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                  {errors.postalCode.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* ملخص السعر */}
-          <div className="price-summary">
-            <div className="summary-row">
-              <span>Items in Cart</span>
-              <span>{numOfCartItems} Items</span>
-            </div>
-            <div className="summary-row">
-              <span>Shipping</span>
-              <span>Free</span>
-            </div>
-            <div className="summary-row total-row">
-              <span className="total-price">Total Price</span>
-              <span className="total-price">{totalPrice.toLocaleString()} EGP</span>
-            </div>
-          </div>
-
-          {/* الزر */}
-          <button
-            type="submit"
-            className="place-order-btn"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              "Processing..."
-            ) : (
-              <>
-                <i className="fa-solid fa-lock"></i> Place Order
-              </>
-            )}
-          </button>
-        </form>
+            </button>
+          </form>
+        </fieldset>
 
         <div className="security-footer">
           <i className="fa-solid fa-shield-halved security-icon"></i>
