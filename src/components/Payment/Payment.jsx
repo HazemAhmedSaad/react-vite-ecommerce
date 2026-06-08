@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import "./Payment.css";
 import { useCart } from "../../hooks/useGetCart";
+import { useCallback } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 function PaymentForm() {
   const navigate = useNavigate();
@@ -25,20 +27,72 @@ function PaymentForm() {
     mode: "onTouched",
   });
 
-  const onSubmit = async (data) => {
-    if (!cartId) return;
-    try {
-      await api.post(`/v2/orders/${cartId}`, { shippingAddress: data });
-      toast.success("Order placed successfully");
-      queryClient.setQueryData(["cart"], null);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      reset();
-      navigate("/cart");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    }
-  };
+  const onlinePaymentMutation = useMutation({
+    mutationFn: async (shippingAddress) => {
+      const response = await api.post(
+        `/v1/orders/checkout-session/${cartId}?url=${window.location.origin}`,
+        {
+          shippingAddress,
+        },
+      );
 
+      return response.data;
+    },
+
+    onSuccess: (data) => {
+      window.location.href = data.session.url;
+    },
+
+    onError: (error) => {
+      toast.error(
+        error.response?.data?.message || "Failed to create payment session",
+      );
+    },
+  });
+  const handleOnlinePayment = (formData) => {
+    onlinePaymentMutation.mutate(formData);
+  };
+  const onSubmit = useCallback(
+    async (data) => {
+      if (!cartId) return;
+      if (!cartData?.data?.products?.length) {
+        toast.error("Your cart is empty");
+        return;
+      }
+      try {
+        await api.post(`/v2/orders/${cartId}`, { shippingAddress: data });
+        toast.success("Order placed successfully");
+        queryClient.setQueryData(["cart"], null);
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
+        reset();
+        navigate("/allorders");
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      }
+    },
+    [cartId, navigate, queryClient],
+  );
+
+  if (isLoading) {
+    return (
+      <div className="payment-loading">
+        <i className="fa-solid fa-spinner fa-spin"></i>
+        <p>Loading checkout...</p>
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="payment-error">
+        <i className="fa-solid fa-triangle-exclamation"></i>
+        <p>Failed to load cart data.</p>
+
+        <button onClick={() => navigate("/cart")} className="back-to-cart-btn">
+          Back to Cart
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="payment-form-container">
       <div className="checkout-card">
@@ -165,28 +219,53 @@ function PaymentForm() {
               <div className="summary-row total-row">
                 <span className="total-price">Total Price</span>
                 <span className="total-price">
-                  {totalPrice.toLocaleString()} EGP
+                  {Number(totalPrice).toLocaleString()} EGP
                 </span>
               </div>
             </div>
-
-            {/* الزر */}
-            <button
-              type="submit"
-              className="place-order-btn"
-              disabled={!isValid || !isDirty || isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <i className="fa-solid fa-spinner fa-spin"></i> Processing...
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <i className="fa-solid fa-lock"></i> Place Order{" "}
-                </>
-              )}
-            </button>
+            <div className="payment-actions">
+              {/* الزر */}
+              <button
+                type="submit"
+                className="place-order-btn"
+                disabled={!isValid || !isDirty || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <i className="fa-solid fa-spinner fa-spin"></i>{" "}
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <i className="fa-solid fa-lock"></i> Cash On Delivery{" "}
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                className="online-payment-btn"
+                disabled={
+                  !isValid ||
+                  !isDirty ||
+                  isSubmitting ||
+                  onlinePaymentMutation.isPending
+                }
+                onClick={handleSubmit(handleOnlinePayment)}
+              >
+                {onlinePaymentMutation.isPending ? (
+                  <>
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                    Redirecting...
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-credit-card"></i>
+                    Pay Online
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </fieldset>
 

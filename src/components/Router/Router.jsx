@@ -2,13 +2,13 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import Home from "./../Home/Home";
 import AuthPage from "../authentication/AuthPage";
-import Profile from "../Profile/Profile";
 import Products from "../Products/Products";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AuthRoute from "../ProtectedRoute/AuthRoute";
 import ProductDetails from "./../ProductDetails/ProductDetails";
 import Cart from "../Cart/Cart";
 import PaymentForm from "../Payment/Payment";
+import MyOrders from "../MyOrders/MyOrders";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "profile", element: <Profile /> },
+          { path: "allorders", element: <MyOrders /> },
           { path: "products", element: <Products /> },
           { path: "cart", element: <Cart /> },
           { path: "checkout/:cartId", element: <PaymentForm /> },
