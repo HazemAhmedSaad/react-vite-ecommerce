@@ -18,12 +18,12 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "home", element: <Navigate to="/" replace /> },
       { path: "product/:id", element: <ProductDetails /> },
+      { path: "products", element: <Products /> },
 
       {
         element: <ProtectedRoute />,
         children: [
           { path: "profile", element: <Profile /> },
-          { path: "products", element: <Products /> },
           { path: "cart", element: <Cart /> },
           { path: "checkout/:cartId", element: <PaymentForm /> },
         ],
