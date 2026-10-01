@@ -44,7 +44,7 @@ function NavScrollExample() {
     >
       <Container fluid>
         <Navbar.Brand className="p-0 header-brand" as={NavLink} to="/">
-          Navbar scroll
+          El-Hariri Store
         </Navbar.Brand>
         <div className="d-flex align-items-center">
           <div className="d-lg-none ">
@@ -67,8 +67,8 @@ function NavScrollExample() {
               Shop
             </NavLink>
             {token && (
-              <NavLink className="nav-link header-link" to="/profile">
-                Profile
+              <NavLink className="nav-link header-link" to="/allorders">
+                Orders
               </NavLink>
             )}
           </Nav>

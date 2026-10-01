@@ -2,8 +2,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import Home from "./../Home/Home";
 import AuthPage from "../authentication/AuthPage";
-import Profile from "../Profile/Profile";
 import Products from "../Products/Products";
+import MyOrders from "../MyOrders/MyOrders";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AuthRoute from "../ProtectedRoute/AuthRoute";
 import ProductDetails from "./../ProductDetails/ProductDetails";
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "profile", element: <Profile /> },
+          { path: "allorders", element: <MyOrders /> },
           { path: "cart", element: <Cart /> },
           { path: "checkout/:cartId", element: <PaymentForm /> },
         ],
